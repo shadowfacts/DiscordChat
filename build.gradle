@@ -1,0 +1,77 @@
+buildscript {
+	repositories {
+		mavenCentral()
+		maven {
+			name "forge"
+			url "http://files.minecraftforge.net/maven/"
+		}
+		maven {
+			name "sonatype"
+			url "https://oss.sonatype.org/content/repositories/snapshots"
+		}
+	}
+	dependencies {
+		classpath "net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT"
+	}
+}
+
+apply plugin: "forge"
+apply plugin: "curseforge"
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+version = mc_version + "-" + mod_version
+
+minecraft {
+	version = mc_version + "-" + forge_version
+	runDir = "run"
+}
+
+processResources {
+	inputs.property "version", project.version
+	inputs.property "mcversion", project.minecraft.version
+
+	from (sourceSets.main.resources.srcDirs) {
+		include "mcmod.info"
+		expand "version": project.version, "mcversion": project.minecraft.version
+	}
+	from (sourceSets.main.resources.srcDirs) {
+		exclude "mcmod.info"
+	}
+}
+
+repositories {
+	mavenCentral()
+	maven {
+		name "shadowfacts"
+		url "http://mvn.rx14.co.uk/shadowfacts"
+	}
+}
+
+configurations {
+	shade
+	compile.extendsFrom shade
+}
+
+dependencies {
+	shade group: "net.shadowfacts", name: "ShadowMC", version: mc_version + "-" + shadowmc_version, classifier: "deobf"
+
+	shade group: "net.dv8tion", name: "JDA", version: jda_version
+}
+
+jar {
+	configurations.shade.each { dep ->
+		from (project.zipTree(dep)) {
+			exclude "META-INF", "META-INF/**"
+		}
+	}
+}
+
+// curse {
+// 	projectId = ""
+// 	apiKey = project.hasProperty("curseForgeApiKey") ? project.curseForgeApiKey : ""
+// 	releaseType = "beta"
+// 	addGameVersion "1.7.10"
+// 	addGameVersion "Java 8"
+// }
