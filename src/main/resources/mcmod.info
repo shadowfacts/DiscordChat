@@ -1,0 +1,14 @@
+[
+	{
+	  "modid": "DiscordChat",
+	  "name": "DiscordChat",
+	  "version": "$version",
+	  "mcversion": "$mcversion",
+	  "description": "Relays MC chat to Discord and vice versa",
+	  "credits": "The developers of JDA for making an awesome Java wrapper for the Discord API.",
+	  "url": "https://github.com/shadowfacts/DiscordChat",
+	  "updateUrl": "",
+	  "authorList": [ "shadowfacts" ],
+	  "screenshots": []
+	}
+]
