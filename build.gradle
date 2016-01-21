@@ -26,6 +26,8 @@ version = mc_version + "-" + mod_version
 minecraft {
 	version = mc_version + "-" + forge_version
 	runDir = "run"
+
+	srgExtra "PK: net/shadodwfacts/shadowlib net/shadowfacts/shadowmc/shadowlib"
 }
 
 processResources {
@@ -68,10 +70,10 @@ jar {
 	}
 }
 
-// curse {
-// 	projectId = ""
-// 	apiKey = project.hasProperty("curseForgeApiKey") ? project.curseForgeApiKey : ""
-// 	releaseType = "beta"
-// 	addGameVersion "1.7.10"
-// 	addGameVersion "Java 8"
-// }
+curse {
+	projectId = "240995"
+	apiKey = project.hasProperty("curseForgeApiKey") ? project.curseForgeApiKey : ""
+	releaseType = "release"
+	addGameVersion "1.7.10"
+	addGameVersion "Java 8"
+}
