@@ -18,7 +18,14 @@ import java.util.regex.Pattern;
  */
 public class MiscUtils {
 
-	private static final Pattern discordMessage = Pattern.compile("MC \u00BB .+");
+	public static Pattern discordMessage;
+	public static Pattern mcMessage;
+	public static Pattern deathMessage;
+	public static Pattern achievementMessage;
+	public static Pattern playerJoinMessage;
+	public static Pattern playerLeaveMessage;
+
+//	private static final Pattern discordMessage = Pattern.compile("MC \u00BB .+");
 
 	public static void sendMessage(String text) {
 		sendMessage(new ChatComponentText(text));
@@ -29,11 +36,16 @@ public class MiscUtils {
 	}
 
 	public static String fromDiscordMessage(Message message) {
-		return String.format("#%s \u00BB <%s> %s", message.getJDA().getTextChannelById(message.getChannelId()).getName(), message.getAuthor().getUsername(), message.getContent());
+		return DCConfig.discordToMCFormat
+				.replaceAll("\\$1", message.getJDA().getTextChannelById(message.getChannelId()).getName())
+				.replaceAll("\\$2", message.getAuthor().getUsername())
+				.replaceAll("\\$3", message.getContent());
 	}
 
 	public static String toDiscordMessage(String author, String message) {
-		return String.format("MC \u00BB <%s> %s", author, message);
+		return DCConfig.mcToDiscordFormat
+				.replaceAll("\\$1", author)
+				.replaceAll("\\$2", message);
 	}
 
 	public static boolean isMessageFromMC(Message message) {
@@ -41,7 +53,27 @@ public class MiscUtils {
 	}
 
 	public static boolean isMessageFromMC(String message) {
-		return discordMessage.matcher(message).matches();
+		return discordMessage.matcher(message).matches() || isDeathMessage(message) || isAchievementMessage(message) || isPlayerJoinMessage(message) || isPlayerLeaveMessage(message);
+	}
+
+	private static boolean isDeathMessage(String message) {
+		return deathMessage.matcher(message).matches();
+	}
+
+	private static boolean isAchievementMessage(String message) {
+		return achievementMessage.matcher(message).matches();
+	}
+
+	private static boolean isPlayerJoinMessage(String message) {
+		return playerJoinMessage.matcher(message).matches();
+	}
+
+	private static boolean isPlayerLeaveMessage(String message) {
+		return playerLeaveMessage.matcher(message).matches();
+	}
+
+	public static boolean isMessageFromDiscord(String message) {
+		return mcMessage.matcher(message).matches();
 	}
 
 	public static boolean shouldUseChannel(TextChannel channel) {
@@ -54,21 +86,32 @@ public class MiscUtils {
 	}
 
 	public static String createDiscordDeathMessage(EntityPlayer player) {
-		return "MC \u00BB " + player.func_110142_aN().func_151521_b().getUnformattedText();
+		return DCConfig.deathMessageFormat
+				.replaceAll("\\$1", getName(player))
+				.replaceAll("\\$2", player.func_110142_aN().func_151521_b().getUnformattedText());
 	}
 
 	public static String createAchievementMessage(EntityPlayer player, Achievement achievement) {
 		IChatComponent achievementComponent = achievement.func_150951_e();
 		IChatComponent achievementText = new ChatComponentText("[").appendSibling(achievementComponent).appendText("]");
-		return "MC \u00BB " + I18n.format("chat.type.achievement", ScorePlayerTeam.formatPlayerName(player.getTeam(), player.getDisplayName()), achievementText.getUnformattedText());
+		return DCConfig.achievementMessageFormat
+				.replaceAll("\\$1", getName(player))
+				.replaceAll("\\$2", achievementText.getUnformattedText());
+
 	}
 
 	public static String createLoggedInMessage(EntityPlayer player) {
-		return I18n.format("multiplayer.player.joined", ScorePlayerTeam.formatPlayerName(player.getTeam(), player.getDisplayName()));
+		return DCConfig.playerJoinMessageFormat
+				.replaceAll("\\$1", getName(player));
 	}
 
 	public static String createLoggedOutMessage(EntityPlayer player) {
-		return I18n.format("multiplayer.player.left", ScorePlayerTeam.formatPlayerName(player.getTeam(), player.getDisplayName()));
+		return DCConfig.playerLeaveMessageFormat
+				.replaceAll("\\$1", getName(player));
+	}
+
+	private static String getName(EntityPlayer player) {
+		return ScorePlayerTeam.formatPlayerName(player.getTeam(), player.getDisplayName());
 	}
 
 }
