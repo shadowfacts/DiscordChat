@@ -16,6 +16,15 @@ public class DCConfig {
 	@ConfigProperty(comment = "Enable DiscordChat")
 	public static boolean enabled = true;
 
+	@ConfigProperty(comment = "Send player death messages to Discord")
+	public static boolean sendPlayerDeathMessages = true;
+
+	@ConfigProperty(comment = "Send player achievement messages to Discord")
+	public static boolean sendPlayerAchievementMessages = true;
+
+	@ConfigProperty(comment = "Send player join/leave messages to Discord")
+	public static boolean sendPlayerJoinLeaveMessages = true;
+
 	@ConfigProperty(category = "discord", comment = "The email used to login to Discord.\nRequired")
 	public static String email = "";
 
