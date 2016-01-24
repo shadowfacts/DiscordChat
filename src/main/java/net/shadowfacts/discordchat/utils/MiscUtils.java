@@ -2,7 +2,11 @@ package net.shadowfacts.discordchat.utils;
 
 import net.dv8tion.jda.entities.Message;
 import net.dv8tion.jda.entities.TextChannel;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.stats.Achievement;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 import net.shadowfacts.discordchat.DCConfig;
@@ -14,7 +18,7 @@ import java.util.regex.Pattern;
  */
 public class MiscUtils {
 
-	private static final Pattern discordMessage = Pattern.compile("MC \u00BB <.+> .+");
+	private static final Pattern discordMessage = Pattern.compile("MC \u00BB .+");
 
 	public static void sendMessage(String text) {
 		sendMessage(new ChatComponentText(text));
@@ -48,4 +52,23 @@ public class MiscUtils {
 		}
 		return false;
 	}
+
+	public static String createDiscordDeathMessage(EntityPlayer player) {
+		return "MC \u00BB " + player.func_110142_aN().func_151521_b().getUnformattedText();
+	}
+
+	public static String createAchievementMessage(EntityPlayer player, Achievement achievement) {
+		IChatComponent achievementComponent = achievement.func_150951_e();
+		IChatComponent achievementText = new ChatComponentText("[").appendSibling(achievementComponent).appendText("]");
+		return "MC \u00BB " + I18n.format("chat.type.achievement", ScorePlayerTeam.formatPlayerName(player.getTeam(), player.getDisplayName()), achievementText.getUnformattedText());
+	}
+
+	public static String createLoggedInMessage(EntityPlayer player) {
+		return I18n.format("multiplayer.player.joined", ScorePlayerTeam.formatPlayerName(player.getTeam(), player.getDisplayName()));
+	}
+
+	public static String createLoggedOutMessage(EntityPlayer player) {
+		return I18n.format("multiplayer.player.left", ScorePlayerTeam.formatPlayerName(player.getTeam(), player.getDisplayName()));
+	}
+
 }
