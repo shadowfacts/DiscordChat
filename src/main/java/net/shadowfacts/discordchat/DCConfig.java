@@ -58,8 +58,8 @@ public class DCConfig {
 	public static String[] channels = new String[0];
 
 	public static void init(File configDir) {
-		ConfigManager.instance.configDirPath = configDir.getAbsolutePath();
-		ConfigManager.instance.register(DiscordChat.modId, DCConfig.class);
+		ConfigManager.instance.configDir = configDir;
+		ConfigManager.instance.register(DiscordChat.modId, DCConfig.class, DiscordChat.modId);
 		load();
 	}
 

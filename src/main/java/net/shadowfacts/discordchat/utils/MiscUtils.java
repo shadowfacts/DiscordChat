@@ -2,7 +2,6 @@ package net.shadowfacts.discordchat.utils;
 
 import net.dv8tion.jda.entities.Message;
 import net.dv8tion.jda.entities.TextChannel;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.server.MinecraftServer;
@@ -24,8 +23,6 @@ public class MiscUtils {
 	public static Pattern achievementMessage;
 	public static Pattern playerJoinMessage;
 	public static Pattern playerLeaveMessage;
-
-//	private static final Pattern discordMessage = Pattern.compile("MC \u00BB .+");
 
 	public static void sendMessage(String text) {
 		sendMessage(new ChatComponentText(text));
@@ -88,11 +85,11 @@ public class MiscUtils {
 	public static String createDiscordDeathMessage(EntityPlayer player) {
 		return DCConfig.deathMessageFormat
 				.replaceAll("\\$1", getName(player))
-				.replaceAll("\\$2", player.func_110142_aN().func_151521_b().getUnformattedText());
+				.replaceAll("\\$2", player.getCombatTracker().getDeathMessage().getUnformattedText());
 	}
 
 	public static String createAchievementMessage(EntityPlayer player, Achievement achievement) {
-		IChatComponent achievementComponent = achievement.func_150951_e();
+		IChatComponent achievementComponent = achievement.getStatName();
 		IChatComponent achievementText = new ChatComponentText("[").appendSibling(achievementComponent).appendText("]");
 		return DCConfig.achievementMessageFormat
 				.replaceAll("\\$1", getName(player))
@@ -111,7 +108,7 @@ public class MiscUtils {
 	}
 
 	private static String getName(EntityPlayer player) {
-		return ScorePlayerTeam.formatPlayerName(player.getTeam(), player.getDisplayName());
+		return ScorePlayerTeam.formatPlayerName(player.getTeam(), player.getDisplayName().getUnformattedText());
 	}
 
 }

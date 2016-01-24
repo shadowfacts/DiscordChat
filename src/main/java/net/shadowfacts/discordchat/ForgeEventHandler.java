@@ -1,12 +1,12 @@
 package net.shadowfacts.discordchat;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.AchievementEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.shadowfacts.discordchat.discord.DiscordThread;
 import net.shadowfacts.discordchat.utils.MiscUtils;
 
@@ -35,10 +35,10 @@ public class ForgeEventHandler {
 	public void onPlayerRecieveAchievement(AchievementEvent event) {
 		if (DCConfig.sendPlayerAchievementMessages) {
 			if (event.entityPlayer instanceof EntityPlayerMP) {
-				if (((EntityPlayerMP) event.entityPlayer).func_147099_x().hasAchievementUnlocked(event.achievement)) {
+				if (((EntityPlayerMP) event.entityPlayer).getStatFile().hasAchievementUnlocked(event.achievement)) {
 					return;
 				}
-				if (!((EntityPlayerMP) event.entityPlayer).func_147099_x().canUnlockAchievement(event.achievement)) {
+				if (!((EntityPlayerMP) event.entityPlayer).getStatFile().canUnlockAchievement(event.achievement)) {
 					return;
 				}
 				DiscordThread.instance.sendMessageToAllChannels(MiscUtils.createAchievementMessage(event.entityPlayer, event.achievement));
