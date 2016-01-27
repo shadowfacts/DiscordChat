@@ -61,6 +61,10 @@ shadowJar {
 	classifier = ""
 	dependencies {
 		include(dependency("net.dv8tion:JDA:1.2.1_106"))
+		include(dependency("com.mashape.unirest:unirest-java:1.4.7"))
+		include(dependency("org.apache.commons:commons-lang3:3.4"))
+		include(dependency("org.json:json:20150729"))
+		include(dependency("com.noevisionaries:nv-websocket-client:1.16"))
 	}
 }
 
