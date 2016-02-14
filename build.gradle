@@ -49,6 +49,13 @@ repositories {
 		name "shadowfacts"
 		url "http://mvn.rx14.co.uk/shadowfacts"
 	}
+
+	maven {
+		url "http://lutece.paris.fr/nexus/content/repositories/lutece_third_party/"
+	}
+	maven {
+		url "https://github.com/DV8FromTheWorld/Maven-Repository/raw/master/repo"
+	}
 }
 
 dependencies {
@@ -59,12 +66,11 @@ dependencies {
 
 shadowJar {
 	classifier = ""
+	relocate "org.apache.http", "net.shadowfacts.discordchat.repack.org.apache.http"
 	dependencies {
-		include(dependency("net.dv8tion:JDA:1.2.1_106"))
-		include(dependency("com.mashape.unirest:unirest-java:1.4.7"))
-		include(dependency("org.apache.commons:commons-lang3:3.4"))
-		include(dependency("org.json:json:20150729"))
-		include(dependency("com.noevisionaries:nv-websocket-client:1.16"))
+		exclude(dependency("net.shadowfacts:ShadowMC:1.8.9-3.0.0-SNAPSHOT"))
+		exclude(dependency("net.shadowfacts:ShadowLib:1.6.0-SNAPSHOT"))
+		exclude(dependency("org.projectlombok:lombok:1.16.6"))
 	}
 }
 
