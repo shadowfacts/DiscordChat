@@ -37,27 +37,31 @@ public class DiscordThread implements Runnable {
 	@Override
 	public void run() {
 		try {
-			jda = new JDABuilder(DCConfig.email, DCConfig.password)
-					.addListener(new MainListener())
-					.buildBlocking();
-		} catch (LoginException | IllegalArgumentException e) {
-			DiscordChat.log.error("Invalid login credentials for Discord, disabling DiscordChat");
-			e.printStackTrace();
-			DCConfig.enabled = false;
-			return;
-		} catch (InterruptedException e) {
-			DiscordChat.log.error("Couldn't complete login, disabling DiscordChat");
-			e.printStackTrace();
-			DCConfig.enabled = false;
-			return;
-		}
-		if (jda != null) {
-			Guild server = jda.getGuildById(DCConfig.serverId);
-			if (server == null) {
-				DiscordChat.log.error("Couldn't get the server with the specified ID, please check the config and ensure the ID is correct.");
+			try {
+				jda = new JDABuilder(DCConfig.email, DCConfig.password)
+						.addListener(new MainListener())
+						.buildBlocking();
+			} catch (LoginException | IllegalArgumentException e) {
+				DiscordChat.log.error("Invalid login credentials for Discord, disabling DiscordChat", e);
+				DCConfig.enabled = false;
+				return;
+			} catch (InterruptedException e) {
+				DiscordChat.log.error("Couldn't complete login, disabling DiscordChat");
+				e.printStackTrace();
 				DCConfig.enabled = false;
 				return;
 			}
+			if (jda != null) {
+				Guild server = jda.getGuildById(DCConfig.serverId);
+				if (server == null) {
+					DiscordChat.log.error("Couldn't get the server with the specified ID, please check the config and ensure the ID is correct.");
+					DCConfig.enabled = false;
+					return;
+				}
+			}
+		} catch (Throwable t) {
+			DiscordChat.log.error("Problem starting DiscordChat, disabling", t);
+			DCConfig.enabled = false;
 		}
 
 	}

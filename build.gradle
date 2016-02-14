@@ -67,6 +67,7 @@ dependencies {
 shadowJar {
 	classifier = ""
 	relocate "org.apache.http", "net.shadowfacts.discordchat.repack.org.apache.http"
+	relocate "com.sun.jna", "net.shadowfacts.discordchat.repack.com.sun.jna"
 	dependencies {
 		exclude(dependency("net.shadowfacts:ShadowMC:1.8.9-3.0.0-SNAPSHOT"))
 		exclude(dependency("net.shadowfacts:ShadowLib:1.6.0-SNAPSHOT"))
