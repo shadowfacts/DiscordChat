@@ -28,6 +28,19 @@ minecraft {
 	runDir = "run"
 
 	srgExtra "PK: net/shadodwfacts/shadowlib net/shadowfacts/shadowmc/shadowlib"
+
+	srgExtra "PK: com/mashape/unirest net/shadowfacts/discordchat/repack/com/mashape/unirest"
+	srgExtra "PK: com/neovisionaries/ws/client net/shadowfacts/discordchat/repack/com/neovisionaries/ws/client"
+	srgExtra "PK: com/sun/jna net/shadowfacts/discordchat/repack/com/sun/jna"
+	srgExtra "PK: javax/sound net/shadowfacts/discordchat/repack/javax/sound"
+	srgExtra "PK: javazoom net/shadowfacts/discordchat/repack/javazoom"
+	srgExtra "PK: net/dv8tion/jda net/shadowfacts/discordchat/repack/net/dv8tion/jda"
+	srgExtra "PK: net/sourceforge/jaad net/shadowfacts/discordchat/repack/net/sourceforge/jaad"
+	srgExtra "PK: org/apache net/shadowfacts/discordchat/repack/org/apache"
+	srgExtra "PK: org/json net/shadowfacts/discordchat/repack/org/json"
+	srgExtra "PK: org/kc7bfi/jflac net/shadowfacts/discordchat/repack/orgkc7bfi/jflac"
+	srgExtra "PK: org/tritonus net/shadowfacts/discordchat/repack/org/tritonus"
+	srgExtra "PK: tomp2p/opuswrapper net/shadowfacts/discordchat/repack/tomp2p/opuswrapper"
 }
 
 processResources {
@@ -44,7 +57,6 @@ processResources {
 }
 
 repositories {
-	mavenCentral()
 	maven {
 		name "shadowfacts"
 		url "http://mvn.rx14.co.uk/shadowfacts"
@@ -59,7 +71,7 @@ configurations {
 dependencies {
 	shade group: "net.shadowfacts", name: "ShadowMC", version: mc_version + "-" + shadowmc_version, classifier: "deobf"
 
-	shade group: "net.dv8tion", name: "JDA", version: jda_version
+	shade group: "net.dv8tion", name: "JDA", version: jda_version, classifier: "withDependencies"
 }
 
 jar {
