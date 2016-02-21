@@ -44,34 +44,53 @@ processResources {
 }
 
 repositories {
-	jcenter()
+	/*jcenter()*/
 	maven {
 		name "shadowfacts"
 		url "http://mvn.rx14.co.uk/shadowfacts"
 	}
-
-	maven {
+	/*maven {
 		url "http://lutece.paris.fr/nexus/content/repositories/lutece_third_party/"
-	}
-	maven {
+	}*/
+	/*maven {
 		url "https://github.com/DV8FromTheWorld/Maven-Repository/raw/master/repo"
+	}*/
+	flatDir {
+		dirs "libs"
 	}
 }
 
 dependencies {
 	compile group: "net.shadowfacts", name: "ShadowMC", version: mc_version + "-" + shadowmc_version
 
-	compile group: "net.dv8tion", name: "JDA", version: jda_version
+	compile group: "net.dv8tion", name: "JDA", version: "1.2.2_167", classifier: "withDependencies"
+
+	/*compile group: "net.dv8tion", name: "JDA", version: jda_version*/
 }
 
 shadowJar {
 	classifier = ""
-	relocate "org.apache.http", "net.shadowfacts.discordchat.repack.org.apache.http"
+	relocate "com.mashape.unirest", "net.shadowfacts.discordchat.repack.com.mashape.unirest"
+	relocate "com.neovisionaries.ws.client", "net.shadowfacts.discordchat.repack.com.neovisionaries.ws.client"
 	relocate "com.sun.jna", "net.shadowfacts.discordchat.repack.com.sun.jna"
+	relocate "javax.sound", "net.shadowfacts.discordchat.repack.javax.sound"
+	relocate "javazoom", "net.shadowfacts.discordchat.repack.javazoom"
+	relocate "net.dv8tion.jda", "net.shadowfacts.discordchat.repack.net.dv8tion.jda"
+	relocate "net.sourceforge.jaad", "net.shadowfacts.discordchat.repack.net.sourceforge.jaad"
+	relocate "org.apache", "net.shadowfacts.discordchat.repack.org.apache"
+	relocate "org.json", "net.shadowfacts.discordchat.repack.org.json"
+	relocate "org.kc7bfi.jflac", "net.shadowfacts.discordchat.repack.orgkc7bfi.jflac"
+	relocate "org.tritonus", "net.shadowfacts.discordchat.repack.org.tritonus"
+	relocate "tomp2p.opuswrapper", "net.shadowfacts.discordchat.repack.tomp2p.opuswrapper"
+
+	/*relocate "org.apache.http", "net.shadowfacts.discordchat.repack.org.apache.http"
+	relocate "com.sun.jna", "net.shadowfacts.discordchat.repack.com.sun.jna"
+	relocate "org.apache.commons.logging", "net.shadowfacts.discordchat.repack.org.apache.commons.logging"*/
 	dependencies {
-		exclude(dependency("net.shadowfacts:ShadowMC:1.8.9-3.0.0-SNAPSHOT"))
+		include(dependency("net.dv8tion:JDA:1.2.2_167:withDependencies"))
+		/*exclude(dependency("net.shadowfacts:ShadowMC:1.8.9-3.0.0-SNAPSHOT"))
 		exclude(dependency("net.shadowfacts:ShadowLib:1.6.0-SNAPSHOT"))
-		exclude(dependency("org.projectlombok:lombok:1.16.6"))
+		exclude(dependency("org.projectlombok:lombok:1.16.6"))*/
 	}
 }
 

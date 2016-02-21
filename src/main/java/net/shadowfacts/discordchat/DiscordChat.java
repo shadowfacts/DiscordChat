@@ -1,14 +1,11 @@
 package net.shadowfacts.discordchat;
 
-import com.sun.jna.Platform;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.shadowfacts.discordchat.discord.DiscordThread;
 import net.shadowfacts.shadowmc.util.LogHelper;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * @author shadowfacts
