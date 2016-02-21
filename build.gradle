@@ -61,6 +61,9 @@ repositories {
 		name "shadowfacts"
 		url "http://mvn.rx14.co.uk/shadowfacts"
 	}
+	flatDir {
+		dirs "libs"
+	}
 }
 
 configurations {
@@ -71,7 +74,7 @@ configurations {
 dependencies {
 	shade group: "net.shadowfacts", name: "ShadowMC", version: mc_version + "-" + shadowmc_version, classifier: "deobf"
 
-	shade group: "net.dv8tion", name: "JDA", version: jda_version, classifier: "withDependencies"
+	shade group: "net.dv8tion", name: "JDA", version: "1.2.2_167", classifier: "withDependencies"
 }
 
 jar {
