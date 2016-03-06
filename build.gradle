@@ -83,6 +83,9 @@ shadowJar {
 	relocate "org.kc7bfi.jflac", "net.shadowfacts.discordchat.repack.orgkc7bfi.jflac"
 	relocate "org.tritonus", "net.shadowfacts.discordchat.repack.org.tritonus"
 	relocate "tomp2p.opuswrapper", "net.shadowfacts.discordchat.repack.tomp2p.opuswrapper"
+	
+	relocate "org.apache.http", "net.shadowfacts.discordchat.repack.org.apache.http"
+	relocate "org.apache.commons.logging", "net.shadowfacts.discordchat.repack.org.apache.commons.logging"
 
 	/*relocate "org.apache.http", "net.shadowfacts.discordchat.repack.org.apache.http"
 	relocate "com.sun.jna", "net.shadowfacts.discordchat.repack.com.sun.jna"
