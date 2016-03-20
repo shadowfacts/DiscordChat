@@ -14,7 +14,7 @@ import net.shadowfacts.shadowmc.util.LogHelper;
 public class DiscordChat {
 
 	public static final String modId = "DiscordChat";
-	public static final String version = "0.1.0";
+	public static final String version = "1.1.0";
 
 	public static LogHelper log = new LogHelper(modId);
 
