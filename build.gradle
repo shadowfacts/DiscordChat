@@ -89,8 +89,7 @@ curseforge {
 	project {
 		id = "240995"
 
-		addGameVersion "1.8.8"
-		addGameVersion "1.8.9"
+		addGameVersion "1.9"
 		addGameVersion "Java 8"
 
 		mainArtifact(shadowJar) {
