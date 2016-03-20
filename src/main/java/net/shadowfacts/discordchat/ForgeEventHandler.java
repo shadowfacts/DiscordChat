@@ -17,8 +17,8 @@ public class ForgeEventHandler {
 
 	@SubscribeEvent
 	public void serverChat(ServerChatEvent event) {
-		if (DCConfig.enabled && !MiscUtils.isMessageFromDiscord(event.message)) {
-			DiscordThread.instance.sendMessageToAllChannels(MiscUtils.toDiscordMessage(event.username, event.message));
+		if (DCConfig.enabled && !MiscUtils.isMessageFromDiscord(event.getComponent().getUnformattedText())) {
+			DiscordThread.instance.sendMessageToAllChannels(MiscUtils.toDiscordMessage(event.getUsername(), event.getMessage()));
 		}
 	}
 

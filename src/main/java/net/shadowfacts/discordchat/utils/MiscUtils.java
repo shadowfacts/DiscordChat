@@ -4,10 +4,10 @@ import net.dv8tion.jda.entities.Message;
 import net.dv8tion.jda.entities.TextChannel;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.scoreboard.ScorePlayerTeam;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.stats.Achievement;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.shadowfacts.discordchat.DCConfig;
 
 import java.util.regex.Pattern;
@@ -25,11 +25,11 @@ public class MiscUtils {
 	public static Pattern playerLeaveMessage;
 
 	public static void sendMessage(String text) {
-		sendMessage(new ChatComponentText(text));
+		sendMessage(new TextComponentString(text));
 	}
 
-	public static void sendMessage(IChatComponent chatComponent) {
-		MinecraftServer.getServer().getConfigurationManager().sendChatMsg(chatComponent);
+	public static void sendMessage(ITextComponent chatComponent) {
+		FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().sendChatMsg(chatComponent);
 	}
 
 	public static String fromDiscordMessage(Message message) {
@@ -89,8 +89,8 @@ public class MiscUtils {
 	}
 
 	public static String createAchievementMessage(EntityPlayer player, Achievement achievement) {
-		IChatComponent achievementComponent = achievement.getStatName();
-		IChatComponent achievementText = new ChatComponentText("[").appendSibling(achievementComponent).appendText("]");
+		ITextComponent achievementComponent = achievement.getStatName();
+		ITextComponent achievementText = new TextComponentString("[").appendSibling(achievementComponent).appendText("]");
 		return DCConfig.achievementMessageFormat
 				.replaceAll("\\$1", getName(player))
 				.replaceAll("\\$2", achievementText.getUnformattedText());

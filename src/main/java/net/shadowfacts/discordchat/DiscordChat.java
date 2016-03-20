@@ -10,7 +10,7 @@ import net.shadowfacts.shadowmc.util.LogHelper;
 /**
  * @author shadowfacts
  */
-@Mod(modid = DiscordChat.modId, name = DiscordChat.modId, version = DiscordChat.version, acceptableRemoteVersions = "*", acceptedMinecraftVersions = "[1.8.8,1.8.9]")
+@Mod(modid = DiscordChat.modId, name = DiscordChat.modId, version = DiscordChat.version, acceptableRemoteVersions = "*", acceptedMinecraftVersions = "[1.9]", dependencies = "required-after:shadowmc;")
 public class DiscordChat {
 
 	public static final String modId = "DiscordChat";
