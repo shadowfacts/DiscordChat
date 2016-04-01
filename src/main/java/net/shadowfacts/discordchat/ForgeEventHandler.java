@@ -25,8 +25,8 @@ public class ForgeEventHandler {
 	@SubscribeEvent
 	public void onPlayerDeath(LivingDeathEvent event) {
 		if (DCConfig.sendPlayerDeathMessages) {
-			if (event.entityLiving instanceof EntityPlayer) {
-				DiscordThread.instance.sendMessageToAllChannels(MiscUtils.createDiscordDeathMessage((EntityPlayer)event.entityLiving));
+			if (event.getEntityLiving() instanceof EntityPlayer) {
+				DiscordThread.instance.sendMessageToAllChannels(MiscUtils.createDiscordDeathMessage((EntityPlayer)event.getEntityLiving()));
 			}
 		}
 	}
@@ -34,14 +34,14 @@ public class ForgeEventHandler {
 	@SubscribeEvent
 	public void onPlayerRecieveAchievement(AchievementEvent event) {
 		if (DCConfig.sendPlayerAchievementMessages) {
-			if (event.entityPlayer instanceof EntityPlayerMP) {
-				if (((EntityPlayerMP) event.entityPlayer).getStatFile().hasAchievementUnlocked(event.achievement)) {
+			if (event.getEntityPlayer() instanceof EntityPlayerMP) {
+				if (((EntityPlayerMP) event.getEntityPlayer()).getStatFile().hasAchievementUnlocked(event.getAchievement())) {
 					return;
 				}
-				if (!((EntityPlayerMP) event.entityPlayer).getStatFile().canUnlockAchievement(event.achievement)) {
+				if (!((EntityPlayerMP) event.getEntityPlayer()).getStatFile().canUnlockAchievement(event.getAchievement())) {
 					return;
 				}
-				DiscordThread.instance.sendMessageToAllChannels(MiscUtils.createAchievementMessage(event.entityPlayer, event.achievement));
+				DiscordThread.instance.sendMessageToAllChannels(MiscUtils.createAchievementMessage(event.getEntityPlayer(), event.getAchievement()));
 			}
 		}
 	}
