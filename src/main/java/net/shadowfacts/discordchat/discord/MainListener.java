@@ -15,8 +15,13 @@ public class MainListener extends ListenerAdapter {
 	public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
 		if (event.getMessage().getContent().startsWith("!")) {
 			String msg = event.getMessage().getContent();
-			String commandName = msg.substring(1, msg.indexOf(" "));
-			String[] args = msg.substring(msg.indexOf(" ")).split(" ");
+			String commandName = msg.substring(1);
+			String[] args = {};
+			if(commandName.contains(" " )) {
+				commandName = msg.substring(1, msg.indexOf(" "));
+				args = msg.substring(msg.indexOf(" ")).split(" ");
+			}
+
 			Command command = DCCommands.getInstance().getCommand(commandName);
 			if (command != null) {
 				command.doCommand(event.getChannel().getName(), args);
