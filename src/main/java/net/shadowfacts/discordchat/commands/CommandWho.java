@@ -11,6 +11,6 @@ public class CommandWho extends Command {
 
     @Override
     public void doCommand(String channel, String[] args) {
-        DiscordThread.instance.sendMessageToChannel(channel, MinecraftServer.getServer().getConfigurationManager().func_152609_b(false));
+        DiscordThread.instance.sendMessageToChannel(channel, "===Users Online: " + MinecraftServer.getServer().getCurrentPlayerCount() + "===\n" + MinecraftServer.getServer().getConfigurationManager().func_152609_b(false));
     }
 }
