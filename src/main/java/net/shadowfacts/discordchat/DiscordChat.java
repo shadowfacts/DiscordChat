@@ -4,6 +4,7 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.shadowfacts.discordchat.commands.CommandWho;
 import net.shadowfacts.discordchat.discord.DiscordThread;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,6 +27,8 @@ public class DiscordChat {
 		if (DCConfig.enabled) {
 			MinecraftForge.EVENT_BUS.register(new ForgeEventHandler());
 		}
+
+		DCCommands.getInstance().registerCommand("who", new CommandWho());
 	}
 
 	@Mod.EventHandler
