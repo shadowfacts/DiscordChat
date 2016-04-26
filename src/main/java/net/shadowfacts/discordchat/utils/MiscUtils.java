@@ -10,6 +10,7 @@ import net.minecraft.stats.Achievement;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 import net.shadowfacts.discordchat.DCConfig;
+import net.shadowfacts.discordchat.discord.DiscordThread;
 
 import java.util.regex.Pattern;
 
@@ -114,4 +115,7 @@ public class MiscUtils {
 		return ScorePlayerTeam.formatPlayerName(player.getTeam(), player.getDisplayName());
 	}
 
+	public static boolean isMessageFromBot(Message message) {
+		return DiscordThread.instance.jda.getSelfInfo().getUsername().equals(message.getAuthor().getUsername());
+	}
 }

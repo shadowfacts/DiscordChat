@@ -38,6 +38,8 @@ public class DiscordThread implements Runnable {
 	public void run() {
 		try {
 			jda = new JDABuilder(DCConfig.email, DCConfig.password)
+					.setAudioEnabled(false)
+					.setAutoReconnect(false)
 					.addListener(new MainListener())
 					.buildBlocking();
 		} catch (LoginException | IllegalArgumentException e) {

@@ -66,6 +66,7 @@ repositories {
 	flatDir {
 		dirs "libs"
 	}
+	jcenter()
 }
 
 configurations {
@@ -76,7 +77,7 @@ configurations {
 dependencies {
 	shade group: "net.shadowfacts", name: "ShadowMC", version: mc_version + "-" + shadowmc_version, classifier: "deobf"
 
-	shade group: "net.dv8tion", name: "JDA", version: "1.2.2_167", classifier: "withDependencies"
+	shade group: "net.dv8tion", name: "JDA", version: "1.4.0_238"//, classifier: "withDependencies"
 }
 
 jar {
