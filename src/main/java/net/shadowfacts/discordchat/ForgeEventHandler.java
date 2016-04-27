@@ -48,18 +48,14 @@ public class ForgeEventHandler {
 
 	@SubscribeEvent
 	public void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
-		DiscordChat.log.info("Player Logged In");
 		if (DCConfig.sendPlayerJoinLeaveMessages) {
-			DiscordChat.log.info("->Sending Message");
 			DiscordThread.instance.sendMessageToAllChannels(MiscUtils.createLoggedInMessage(event.player));
 		}
 	}
 
 	@SubscribeEvent
 	public void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
-		DiscordChat.log.info("Player Logged Out");
 		if (DCConfig.sendPlayerJoinLeaveMessages) {
-			DiscordChat.log.info("->Sending Message");
 			DiscordThread.instance.sendMessageToAllChannels(MiscUtils.createLoggedOutMessage(event.player));
 		}
 	}

@@ -9,6 +9,7 @@ import net.shadowfacts.discordchat.utils.MiscUtils;
 
 /**
  * @author shadowfacts
+ * @author allout58
  */
 public class MainListener extends ListenerAdapter {
 
