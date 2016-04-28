@@ -71,6 +71,13 @@ public class DiscordThread implements Runnable {
 		}
 	}
 
+	public void sendMessageToChannel(String name, String message) {
+		Optional<TextChannel> channel = getChannel(name);
+		if(channel.isPresent()) {
+			channel.get().sendMessage(message);
+		}
+	}
+
 	private Optional<TextChannel> getChannel(String name) {
 		return jda.getGuildById(DCConfig.serverId).getTextChannels().stream()
 				.filter(channel -> channel.getName().equalsIgnoreCase(name))
