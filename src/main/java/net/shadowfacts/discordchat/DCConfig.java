@@ -45,11 +45,8 @@ public class DCConfig {
 	@ConfigProperty(category = "general.format", comment = "Format for a player leave message from MC to Discord.\n$1 will be replaced with the player's username")
 	public static String playerLeaveMessageFormat = "MC \u00BB $1 left the game";
 
-	@ConfigProperty(category = "discord", comment = "The email used to login to Discord.\nRequired")
-	public static String email = "";
-
-	@ConfigProperty(category = "discord", comment = "The password used to login to Discord.\nRequired")
-	public static String password = "";
+	@ConfigProperty(category = "discord", comment = "The token used to identify your bot to Discord.\nRequired")
+	public static String bottoken = "";
 
 	@ConfigProperty(category = "discord", comment = "The server ID to connect to.")
 	public static String serverId = "";
@@ -65,7 +62,7 @@ public class DCConfig {
 
 	public static void load() {
 		ConfigManager.instance.load(DiscordChat.modId);
-		if (email.isEmpty() || password.isEmpty() || serverId.isEmpty() || Arrays.equals(channels, new String[0])) {
+		if (bottoken.isEmpty() || serverId.isEmpty() || Arrays.equals(channels, new String[0])) {
 			DiscordChat.log.warn("Missing required information, disabling DiscordChat");
 			DiscordChat.log.warn("Please go to config/shadowfacts/DiscordChat.cfg and fill out the required fields and restart Minecraft to enable DiscordChat");
 			enabled = false;
