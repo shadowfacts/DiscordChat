@@ -51,14 +51,12 @@ repositories {
 	flatDir {
 		dirs "libs"
 	}
-
-	jcenter()
 }
 
 dependencies {
 	compile group: "net.shadowfacts", name: "ShadowMC", version: mc_version + "-" + shadowmc_version
 
-	shade 'net.dv8tion:JDA:2.0.0_242'
+	compile group: "net.dv8tion", name: "JDA", version: "2.0.0_242", classifier: "withDependencies"
 }
 
 shadowJar {
