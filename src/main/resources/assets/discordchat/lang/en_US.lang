@@ -1,0 +1,5 @@
+dc.gui.setup.skip=Skip (already setup)
+dc.gui.setup.finished=Finished
+dc.gui.setup.instructions=Instructions
+dc.gui.setup.line1=Follow the instructions linked below,
+dc.gui.setup.line2=then click Finished.

@@ -39,7 +39,7 @@ public class DiscordThread implements Runnable {
 		try {
 			try {
 				jda = new JDABuilder()
-						.setBotToken(DCConfig.bottoken)
+						.setBotToken(DCConfig.botToken)
 						.addListener(new MainListener())
 						.buildBlocking();
 			} catch (LoginException | IllegalArgumentException e) {
