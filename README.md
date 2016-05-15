@@ -6,8 +6,7 @@ Discord chat is a simple server-side mod that connects Minecraft communication w
 
 An example configuration file is seen above. You can copy the example into `config/shadowfacts/DiscordChat.cfg` on your server and then alter the following required values:
 
-  - email: The email of the user you wish to use for connecting to Discord (you can use your own account, normal Discord activity is not affected)
-  - password: The password belonging to the account you wish to use for connecting (you can use your own account, normal Discord activity is not affected)
+  - botToken: The token of the bot you wish to use for connecting to Discord
   - channels: A return separated list of channels you want to be relayed to MC and MC chat should be relayed to
   - serverId: The ID number of the Discord server
 
