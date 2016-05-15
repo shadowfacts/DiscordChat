@@ -37,7 +37,8 @@ public class DiscordThread implements Runnable {
 	@Override
 	public void run() {
 		try {
-			jda = new JDABuilder(DCConfig.email, DCConfig.password)
+			jda = new JDABuilder()
+                    .setBotToken(DCConfig.bottoken)
 					.addListener(new MainListener())
 					.buildBlocking();
 		} catch (LoginException | IllegalArgumentException e) {
