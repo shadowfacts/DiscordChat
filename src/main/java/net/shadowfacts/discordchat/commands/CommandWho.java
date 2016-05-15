@@ -1,7 +1,6 @@
 package net.shadowfacts.discordchat.commands;
 
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.management.PlayerManager;
 import net.shadowfacts.discordchat.discord.DiscordThread;
 
 /**

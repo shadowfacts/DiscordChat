@@ -5,7 +5,9 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.event.FMLServerStoppingEvent;
+import cpw.mods.fml.relauncher.Side;
 import net.minecraftforge.common.MinecraftForge;
+import net.shadowfacts.discordchat.client.ClientSetupHandler;
 import net.shadowfacts.discordchat.commands.CommandWho;
 import net.shadowfacts.discordchat.discord.DiscordThread;
 import org.apache.logging.log4j.LogManager;
@@ -26,11 +28,16 @@ public class DiscordChat {
 	public void preInit(FMLPreInitializationEvent event) {
 		DCConfig.init(event.getModConfigurationDirectory());
 
+		DCPrivateProps.init(event.getModConfigurationDirectory());
+
 		if (DCConfig.enabled) {
 			ForgeEventHandler feh = new ForgeEventHandler();
 			MinecraftForge.EVENT_BUS.register(feh);
 			FMLCommonHandler.instance().bus().register(feh);
 
+			if (!DCPrivateProps.setup && event.getSide() == Side.CLIENT) {
+				MinecraftForge.EVENT_BUS.register(new ClientSetupHandler());
+			}
 		}
 
 		DCCommands.getInstance().registerCommand("who", new CommandWho());
@@ -38,8 +45,14 @@ public class DiscordChat {
 
 	@Mod.EventHandler
 	public void serverStarting(FMLServerStartingEvent event) {
-		log.info("Connecting to the Discord server...");
-		DiscordThread.runThread();
+		if (DCPrivateProps.setup) {
+			log.info("Connecting to the Discord server...");
+
+			DiscordThread.runThread();
+		} else {
+			log.fatal("DiscordChat has not been setup. Follow the instructions (https://git.io/vrGte) and change setup to true in config/shadowfacts/private.properties");
+			DCConfig.enabled = false;
+		}
 	}
 
 	@Mod.EventHandler
