@@ -79,7 +79,7 @@ shadowJar {
 	relocate "org.apache.commons.logging", "net.shadowfacts.discordchat.repack.org.apache.commons.logging"
 
 	dependencies {
-		include(dependency("net.dv8tion:JDA:1.2.2_167:withDependencies"))
+		include(dependency("net.dv8tion:JDA:2.0.0_242:withDependencies"))
 	}
 }
 
