@@ -65,6 +65,8 @@ public class DCConfig {
 
 		ConfigManager.load(DCConfig.class, Configuration.class, config);
 
+		if (config.hasChanged()) config.save();
+
 		if (botToken.isEmpty() || serverId.isEmpty() || Arrays.equals(channels, new String[0])) {
 			DiscordChat.log.warn("Missing required information, disabling DiscordChat");
 			DiscordChat.log.warn("Please go to config/shadowfacts/DiscordChat.cfg and fill out the required fields and restart Minecraft to enable DiscordChat");
