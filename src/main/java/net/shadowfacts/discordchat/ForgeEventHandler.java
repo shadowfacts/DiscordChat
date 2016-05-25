@@ -24,7 +24,7 @@ public class ForgeEventHandler {
 
 	@SubscribeEvent
 	public void onPlayerDeath(LivingDeathEvent event) {
-		if (DCConfig.sendPlayerDeathMessages) {
+		if (DCConfig.enabled && DCConfig.sendPlayerDeathMessages) {
 			if (event.getEntityLiving() instanceof EntityPlayer) {
 				DiscordThread.instance.sendMessageToAllChannels(MiscUtils.createDiscordDeathMessage((EntityPlayer)event.getEntityLiving()));
 			}
@@ -33,7 +33,7 @@ public class ForgeEventHandler {
 
 	@SubscribeEvent
 	public void onPlayerRecieveAchievement(AchievementEvent event) {
-		if (DCConfig.sendPlayerAchievementMessages) {
+		if (DCConfig.enabled && DCConfig.sendPlayerAchievementMessages) {
 			if (event.getEntityPlayer() instanceof EntityPlayerMP) {
 				if (((EntityPlayerMP) event.getEntityPlayer()).getStatFile().hasAchievementUnlocked(event.getAchievement())) {
 					return;
@@ -48,14 +48,14 @@ public class ForgeEventHandler {
 
 	@SubscribeEvent
 	public void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
-		if (DCConfig.sendPlayerJoinLeaveMessages) {
+		if (DCConfig.enabled && DCConfig.sendPlayerJoinLeaveMessages) {
 			DiscordThread.instance.sendMessageToAllChannels(MiscUtils.createLoggedInMessage(event.player));
 		}
 	}
 
 	@SubscribeEvent
 	public void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
-		if (DCConfig.sendPlayerJoinLeaveMessages) {
+		if (DCConfig.enabled && DCConfig.sendPlayerJoinLeaveMessages) {
 			DiscordThread.instance.sendMessageToAllChannels(MiscUtils.createLoggedOutMessage(event.player));
 		}
 	}

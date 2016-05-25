@@ -17,7 +17,7 @@ import org.apache.logging.log4j.Logger;
 public class DiscordChat {
 
 	public static final String modId = "DiscordChat";
-	public static final String version = "1.2.0";
+	public static final String version = "1.2.1";
 
 	public static Logger log = LogManager.getLogger(modId);
 
