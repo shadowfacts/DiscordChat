@@ -28,6 +28,9 @@ minecraft {
 	runDir = "run"
 
 	mappings = mcp_mappings
+
+	replaceIn "DiscordChat.java"
+	replace "@VERSION@", mod_version
 }
 
 processResources {
@@ -54,9 +57,9 @@ repositories {
 }
 
 dependencies {
-	compile group: "net.shadowfacts", name: "ShadowMC", version: mc_version + "-" + shadowmc_version
+	deobfCompile group: "net.shadowfacts", name: "ShadowMC", version: mc_version + "-" + shadowmc_version
 
-	compile group: "net.dv8tion", name: "JDA", version: "2.0.0_242", classifier: "withDependencies"
+	compile group: "net.dv8tion", name: "JDA", version: "2.1.3_327", classifier: "withDependencies"
 }
 
 shadowJar {
@@ -79,7 +82,7 @@ shadowJar {
 	relocate "org.apache.commons.logging", "net.shadowfacts.discordchat.repack.org.apache.commons.logging"
 
 	dependencies {
-		include(dependency("net.dv8tion:JDA:2.0.0_242:withDependencies"))
+		include(dependency("net.dv8tion:JDA:2.1.3_327:withDependencies"))
 	}
 }
 
@@ -89,7 +92,7 @@ curseforge {
 	project {
 		id = "240995"
 
-		addGameVersion "1.9"
+		addGameVersion "1.10.2"
 		addGameVersion "Java 8"
 
 		mainArtifact(shadowJar) {

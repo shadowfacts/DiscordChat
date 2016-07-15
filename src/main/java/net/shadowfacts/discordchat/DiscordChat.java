@@ -13,11 +13,11 @@ import org.apache.logging.log4j.Logger;
 /**
  * @author shadowfacts
  */
-@Mod(modid = DiscordChat.modId, name = DiscordChat.modId, version = DiscordChat.version, acceptableRemoteVersions = "*", acceptedMinecraftVersions = "[1.9.4]", dependencies = "required-after:shadowmc;")
+@Mod(modid = DiscordChat.modId, name = DiscordChat.modId, version = DiscordChat.version, acceptableRemoteVersions = "*", acceptedMinecraftVersions = "[1.10.2]", dependencies = "required-after:shadowmc;")
 public class DiscordChat {
 
 	public static final String modId = "DiscordChat";
-	public static final String version = "1.2.1";
+	public static final String version = "@VERSION@";
 
 	public static Logger log = LogManager.getLogger(modId);
 

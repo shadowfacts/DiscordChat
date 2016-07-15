@@ -1,0 +1,5 @@
+#setup {
+	vertical-layout: top
+	margin-top: 10
+	stack-spacing: 10
+}
