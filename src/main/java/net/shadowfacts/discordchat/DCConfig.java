@@ -50,11 +50,17 @@ public class DCConfig {
 	@Config.Prop(category = "discord", description = "The token used to identify your bot to Discord.\nRequired")
 	public static String botToken = "";
 
+	@Config.Prop(category = "discord", description = "Your bot's ID.\nRequired")
+	public static String botId = "";
+
 	@Config.Prop(category = "discord", description = "The server ID to connect to.")
 	public static String serverId = "";
 
 	@Config.Prop(category = "discord", description = "Channels that should be forwarded to MC/MC be forwarded to.\n(Without the # at the beginning)")
 	public static String[] channels = new String[0];
+
+	@Config.Prop(description = "Prefix for chat commands")
+	public static char chatCommandPrefix = '!';
 
 	public static void init(File configDir) {
 		config = new Configuration(new File(configDir, "shadowfacts/DiscordChat.cfg"));
@@ -67,7 +73,7 @@ public class DCConfig {
 
 		if (config.hasChanged()) config.save();
 
-		if (botToken.isEmpty() || serverId.isEmpty() || Arrays.equals(channels, new String[0])) {
+		if (botToken.isEmpty() || botId.isEmpty() || serverId.isEmpty() || Arrays.equals(channels, new String[0])) {
 			DiscordChat.log.warn("Missing required information, disabling DiscordChat");
 			DiscordChat.log.warn("Please go to config/shadowfacts/DiscordChat.cfg and fill out the required fields and restart Minecraft to enable DiscordChat");
 			enabled = false;

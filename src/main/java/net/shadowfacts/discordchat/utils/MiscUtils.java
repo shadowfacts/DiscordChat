@@ -12,6 +12,8 @@ import net.shadowfacts.discordchat.DCConfig;
 
 import java.util.regex.Pattern;
 
+import static net.shadowfacts.discordchat.DCConfig.botId;
+
 /**
  * @author shadowfacts
  */
@@ -46,11 +48,7 @@ public class MiscUtils {
 	}
 
 	public static boolean isMessageFromMC(Message message) {
-		return isMessageFromMC(message.getContent());
-	}
-
-	public static boolean isMessageFromMC(String message) {
-		return discordMessage.matcher(message).matches() || isDeathMessage(message) || isAchievementMessage(message) || isPlayerJoinMessage(message) || isPlayerLeaveMessage(message);
+		return message.getAuthor().getId().equals(botId);
 	}
 
 	private static boolean isDeathMessage(String message) {
