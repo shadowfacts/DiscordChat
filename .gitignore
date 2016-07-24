@@ -24,3 +24,6 @@
 /*.iml
 /*.ipr
 /*.iws
+*.iml
+
+*.hprof
