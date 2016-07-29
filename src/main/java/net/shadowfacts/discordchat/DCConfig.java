@@ -29,6 +29,9 @@ public class DCConfig {
 	@Config.Prop(description = "Send player join/leave messages to Discord")
 	public static boolean sendPlayerJoinLeaveMessages = true;
 
+	@Config.Prop(description = "The string to use as a prefix for commands")
+	public static String commandPrefix = "!";
+
 	@Config.Prop(category = "general.format", description = "Format for a normal message from MC to Discord.\n$1 will be replaced with the sender's username and $2 will be replaced with the message")
 	public static String mcToDiscordFormat = "MC \u00BB <$1> $2";
 
