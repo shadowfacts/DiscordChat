@@ -17,12 +17,7 @@ import java.util.regex.Pattern;
  */
 public class MiscUtils {
 
-	public static Pattern discordMessage;
 	public static Pattern mcMessage;
-	public static Pattern deathMessage;
-	public static Pattern achievementMessage;
-	public static Pattern playerJoinMessage;
-	public static Pattern playerLeaveMessage;
 
 	public static void sendMessage(String text) {
 		sendMessage(new TextComponentString(text));
@@ -46,27 +41,7 @@ public class MiscUtils {
 	}
 
 	public static boolean isMessageFromMC(Message message) {
-		return isMessageFromMC(message.getContent());
-	}
-
-	public static boolean isMessageFromMC(String message) {
-		return discordMessage.matcher(message).matches() || isDeathMessage(message) || isAchievementMessage(message) || isPlayerJoinMessage(message) || isPlayerLeaveMessage(message);
-	}
-
-	private static boolean isDeathMessage(String message) {
-		return deathMessage.matcher(message).matches();
-	}
-
-	private static boolean isAchievementMessage(String message) {
-		return achievementMessage.matcher(message).matches();
-	}
-
-	private static boolean isPlayerJoinMessage(String message) {
-		return playerJoinMessage.matcher(message).matches();
-	}
-
-	private static boolean isPlayerLeaveMessage(String message) {
-		return playerLeaveMessage.matcher(message).matches();
+		return message.getAuthor().getId().equals(DCConfig.botId);
 	}
 
 	public static boolean isMessageFromDiscord(String message) {
@@ -84,7 +59,7 @@ public class MiscUtils {
 
 	public static String createDiscordDeathMessage(EntityPlayer player) {
 		return DCConfig.deathMessageFormat
-				.replaceAll("\\$1", getName(player))
+				.replaceAll("\\$1", player.getName())
 				.replaceAll("\\$2", player.getCombatTracker().getDeathMessage().getUnformattedText());
 	}
 
@@ -92,23 +67,19 @@ public class MiscUtils {
 		ITextComponent achievementComponent = achievement.getStatName();
 		ITextComponent achievementText = new TextComponentString("[").appendSibling(achievementComponent).appendText("]");
 		return DCConfig.achievementMessageFormat
-				.replaceAll("\\$1", getName(player))
+				.replaceAll("\\$1", player.getName())
 				.replaceAll("\\$2", achievementText.getUnformattedText());
 
 	}
 
 	public static String createLoggedInMessage(EntityPlayer player) {
 		return DCConfig.playerJoinMessageFormat
-				.replaceAll("\\$1", getName(player));
+				.replaceAll("\\$1", player.getName());
 	}
 
 	public static String createLoggedOutMessage(EntityPlayer player) {
 		return DCConfig.playerLeaveMessageFormat
-				.replaceAll("\\$1", getName(player));
-	}
-
-	private static String getName(EntityPlayer player) {
-		return ScorePlayerTeam.formatPlayerName(player.getTeam(), player.getDisplayName().getUnformattedText());
+				.replaceAll("\\$1", player.getName());
 	}
 
 }

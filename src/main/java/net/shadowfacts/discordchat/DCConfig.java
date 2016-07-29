@@ -53,6 +53,9 @@ public class DCConfig {
 	@Config.Prop(category = "discord", description = "The token used to identify your bot to Discord.\nRequired")
 	public static String botToken = "";
 
+	@Config.Prop(category = "discord", description = "The bot's ID.\nRequired")
+	public static String botId = "";
+
 	@Config.Prop(category = "discord", description = "The server ID to connect to.")
 	public static String serverId = "";
 
@@ -70,17 +73,12 @@ public class DCConfig {
 
 		if (config.hasChanged()) config.save();
 
-		if (botToken.isEmpty() || serverId.isEmpty() || Arrays.equals(channels, new String[0])) {
+		if (botToken.isEmpty() || botId.isEmpty() || serverId.isEmpty() || Arrays.equals(channels, new String[0])) {
 			DiscordChat.log.warn("Missing required information, disabling DiscordChat");
 			DiscordChat.log.warn("Please go to config/shadowfacts/DiscordChat.cfg and fill out the required fields and restart Minecraft to enable DiscordChat");
 			enabled = false;
 		} else {
-			MiscUtils.discordMessage = Pattern.compile(Pattern.quote(mcToDiscordFormat).replaceAll("\\$\\d", "\\\\E.+\\\\Q"));
 			MiscUtils.mcMessage = Pattern.compile(Pattern.quote(discordToMCFormat).replaceAll("\\$\\d", "\\\\E.+\\\\Q"));
-			MiscUtils.deathMessage = Pattern.compile(Pattern.quote(deathMessageFormat).replaceAll("\\$\\d", "\\\\E.+\\\\Q"));
-			MiscUtils.achievementMessage = Pattern.compile(Pattern.quote(achievementMessageFormat).replaceAll("\\$\\d", "\\\\E.+\\\\Q"));
-			MiscUtils.playerJoinMessage = Pattern.compile(Pattern.quote(playerJoinMessageFormat).replaceAll("\\$\\d", "\\\\E.+\\\\Q"));
-			MiscUtils.playerLeaveMessage = Pattern.compile(Pattern.quote(playerLeaveMessageFormat).replaceAll("\\$\\d", "\\\\E.+\\\\Q"));
 		}
 	}
 
