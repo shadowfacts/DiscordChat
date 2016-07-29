@@ -59,7 +59,7 @@ repositories {
 dependencies {
 	deobfCompile group: "net.shadowfacts", name: "ShadowMC", version: mc_version + "-" + shadowmc_version
 
-	compile group: "net.dv8tion", name: "JDA", version: "2.1.3_327", classifier: "withDependencies"
+	compile group: "net.dv8tion", name: "JDA", version: "2.2.0_334", classifier: "withDependencies"
 }
 
 shadowJar {
@@ -82,7 +82,7 @@ shadowJar {
 	relocate "org.apache.commons.logging", "net.shadowfacts.discordchat.repack.org.apache.commons.logging"
 
 	dependencies {
-		include(dependency("net.dv8tion:JDA:2.1.3_327:withDependencies"))
+		include(dependency("net.dv8tion:JDA:2.2.0_334:withDependencies"))
 	}
 }
 
