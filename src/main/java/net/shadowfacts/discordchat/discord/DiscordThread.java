@@ -24,7 +24,7 @@ public class DiscordThread implements Runnable {
 	public static void runThread() {
 		if (thread == null) {
 			thread = new Thread(new DiscordThread());
-			thread.run();
+			thread.start();
 		} else {
 			DiscordChat.log.error("JDA thread is already running!");
 		}
@@ -39,6 +39,7 @@ public class DiscordThread implements Runnable {
 		try {
 			try {
 				jda = new JDABuilder()
+						.setBulkDeleteSplittingEnabled(false)
 						.setBotToken(DCConfig.botToken)
 						.addListener(new MainListener())
 						.buildBlocking();
@@ -77,8 +78,10 @@ public class DiscordThread implements Runnable {
 	}
 
 	private Optional<TextChannel> getChannel(String name) {
+		if (jda == null) return Optional.empty();
 		return jda.getGuildById(DCConfig.serverId).getTextChannels().stream()
 				.filter(channel -> channel.getName().equalsIgnoreCase(name))
 				.findFirst();
 	}
+
 }
