@@ -72,7 +72,15 @@ public class DiscordThread implements Runnable {
 		for (String name : DCConfig.channels) {
 			Optional<TextChannel> channel = getChannel(name);
 			if (channel.isPresent()) {
-				channel.get().sendMessage(message);
+				try {
+					channel.get().sendMessage(message);
+				} catch (RateLimitException e) {
+					DiscordChat.log.warn("The ratelimit for messages in the channel with the ID <" + channel.get.getId() + "> is being hit!");
+				} catch (PermissionException e) {
+					DiscordChat.log.warn("Bot doesn't have \"Write\" permissions in the channel with the ID <" + channel.get().getId() + ">!");
+				} catch (VerificationLevelException e) {
+					DiscordChat.log.warn("Bot doesn't meet the verification level in the channel with the ID <" + channel.get().getId() + ">!");
+				}
 			}
 		}
 	}
