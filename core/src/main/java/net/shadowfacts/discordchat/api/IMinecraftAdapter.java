@@ -9,7 +9,12 @@ public interface IMinecraftAdapter {
 
 	void sendMessage(String message);
 
-	float getTPS(int dimension);
+	int[] getAllDimensions();
+
+	double getTPS(int dimension);
 
 	Set<String> getOnlinePlayers();
+
+	void executeCommand(String command);
+
 }

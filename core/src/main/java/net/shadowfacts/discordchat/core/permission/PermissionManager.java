@@ -1,10 +1,12 @@
 package net.shadowfacts.discordchat.core.permission;
 
 import net.dv8tion.jda.core.entities.User;
+import net.shadowfacts.discordchat.api.IConfig;
 import net.shadowfacts.discordchat.api.IDiscordChat;
 import net.shadowfacts.discordchat.api.permission.IPermissionManager;
 import net.shadowfacts.discordchat.api.permission.Permission;
 
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -12,10 +14,12 @@ import java.util.Map;
  */
 public class PermissionManager implements IPermissionManager {
 
+	private IConfig config;
 	private Map<String, Permission> permissions;
 
 	public PermissionManager(IDiscordChat discordChat) {
-		permissions = discordChat.getConfig().getPermissions();
+		config = discordChat.getConfig();
+		permissions = config.getPermissions();
 	}
 
 	@Override
@@ -26,6 +30,12 @@ public class PermissionManager implements IPermissionManager {
 	@Override
 	public void set(User user, Permission permission) {
 		permissions.put(user.getId(), permission);
+	}
+
+	@Override
+	public void save() throws IOException {
+		config.setPermissions(permissions);
+		config.save();
 	}
 
 }

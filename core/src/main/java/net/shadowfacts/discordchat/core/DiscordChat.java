@@ -7,16 +7,14 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
 import net.dv8tion.jda.core.requests.RestAction;
-import net.shadowfacts.discordchat.api.IConfig;
-import net.shadowfacts.discordchat.api.IDiscordChat;
-import net.shadowfacts.discordchat.api.ILogger;
-import net.shadowfacts.discordchat.api.IMinecraftAdapter;
+import net.shadowfacts.discordchat.api.*;
 import net.shadowfacts.discordchat.api.command.ICommandManager;
 import net.shadowfacts.discordchat.api.permission.IPermissionManager;
 import net.shadowfacts.discordchat.core.command.CommandManager;
 import net.shadowfacts.discordchat.core.command.impl.meta.CommandCommands;
 import net.shadowfacts.discordchat.core.command.impl.meta.CommandHelp;
 import net.shadowfacts.discordchat.core.command.impl.minecraft.CommandOnline;
+import net.shadowfacts.discordchat.core.command.impl.minecraft.CommandTPS;
 import net.shadowfacts.discordchat.core.command.impl.permissions.CommandPermission;
 import net.shadowfacts.discordchat.core.command.impl.permissions.CommandSetPermission;
 import net.shadowfacts.discordchat.core.permission.PermissionManager;
@@ -35,6 +33,7 @@ public class DiscordChat implements IDiscordChat {
 	private IConfig config;
 	private PermissionManager permissionManager;
 	private CommandManager commandManager;
+	private MessageFormatter formatter;
 
 	private JDA jda;
 
@@ -46,10 +45,12 @@ public class DiscordChat implements IDiscordChat {
 		this.config = config;
 		permissionManager = new PermissionManager(this);
 		commandManager = new CommandManager(this);
+		formatter = new MessageFormatter(this);
 
 		commandManager.register(new CommandHelp(this));
 		commandManager.register(new CommandCommands(this));
 		commandManager.register(new CommandOnline(this));
+		commandManager.register(new CommandTPS(this));
 		commandManager.register(new CommandPermission(this));
 		commandManager.register(new CommandSetPermission(this));
 
@@ -95,6 +96,11 @@ public class DiscordChat implements IDiscordChat {
 	@Override
 	public IPermissionManager getPermissionManager() {
 		return permissionManager;
+	}
+
+	@Override
+	public IMessageFormatter getFormatter() {
+		return formatter;
 	}
 
 	@Override

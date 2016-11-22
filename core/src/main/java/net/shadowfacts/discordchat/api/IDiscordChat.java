@@ -18,6 +18,8 @@ public interface IDiscordChat {
 
 	IPermissionManager getPermissionManager();
 
+	IMessageFormatter getFormatter();
+
 	JDA getJDA();
 
 	IMinecraftAdapter getMinecraftAdapter();

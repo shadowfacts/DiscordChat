@@ -2,6 +2,8 @@ package net.shadowfacts.discordchat.api.permission;
 
 import net.dv8tion.jda.core.entities.User;
 
+import java.io.IOException;
+
 /**
  * @author shadowfacts
  */
@@ -14,5 +16,7 @@ public interface IPermissionManager {
 	default boolean has(User user, Permission permission) {
 		return get(user).has(permission);
 	}
+
+	void save() throws IOException;
 
 }
