@@ -27,11 +27,12 @@ public class OneElevenMod {
 	public static IMinecraftAdapter minecraftAdapter = new OneElevenAdapter();
 	public static ILogger logger = new Logger();
 	public static Config config = new Config();
-	public static IDiscordChat discordChat = new DiscordChat(minecraftAdapter, logger, config);
+	public static IDiscordChat discordChat;
 
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) throws IOException {
 		config.init(new File(event.getModConfigurationDirectory(), "shadowfacts/DiscordChat.conf"));
+		discordChat = new DiscordChat(minecraftAdapter, logger, config);
 
 		MinecraftForge.EVENT_BUS.register(new ForgeEventHandler());
 	}

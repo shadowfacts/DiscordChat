@@ -26,7 +26,7 @@ public interface ICommand {
 
 	String getUsage();
 
-	default List<String> handleHelp(User sender, TextChannel channel) {
+	default List<String> handleHelp(User sender, MessageChannel channel) {
 		List<String> list = new ArrayList<>();
 		list.add(getName() + ": " + getDescription());
 		list.add("Usage: " + getName() + " " + getUsage());

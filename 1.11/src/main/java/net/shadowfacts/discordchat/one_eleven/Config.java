@@ -19,7 +19,7 @@ import java.util.Map;
 public class Config implements IConfig {
 
 	private File file;
-	private com.typesafe.config.Config config;
+	private com.typesafe.config.Config config = ConfigFactory.load("/assets/discordchat/default.conf");
 
 	public void init(File file) throws IOException {
 		this.file = file;
@@ -31,6 +31,9 @@ public class Config implements IConfig {
 	@Override
 	public void save() throws IOException {
 		if (!file.exists()) {
+			if (!file.getParentFile().exists()) {
+				file.getParentFile().mkdirs();
+			}
 			file.createNewFile();
 		}
 

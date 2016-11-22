@@ -20,7 +20,7 @@
 /bin
 
 # intellij
-/out
+/classes
 /.idea
 /*.iml
 /*.ipr
