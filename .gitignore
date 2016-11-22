@@ -4,7 +4,7 @@
 /eclipseBin
 
 # gradle
-**/.gradle
+**/.gradle/
 **/build
 !**/build.gradle
 
