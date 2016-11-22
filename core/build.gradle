@@ -1,0 +1,13 @@
+plugins {
+	id "java"
+}
+
+repositories {
+    flatDir {
+    	dirs "libs"
+    }
+}
+
+dependencies {
+     compile "JDA:JDA:${jda_version}:withDependencies"
+}
