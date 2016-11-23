@@ -28,7 +28,7 @@ minecraft {
 
 	mappings = mcp_mappings
 
-	replaceIn "IDiscordChat.java"
+	replaceIn "OneTenTwoMod.java"
 	replace "@VERSION@", mod_version
 }
 
