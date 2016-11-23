@@ -81,7 +81,7 @@ public class DiscordChat implements IDiscordChat {
 			while (true) {
 				if (jda != null && sendQueue.peek() != null) {
 					try {
-						RestAction<Message> result = sendQueue.element().send();
+						RestAction<Message> result = sendQueue.peek().send();
 						result.block();
 						sendQueue.remove();
 					} catch (RateLimitedException e) {
@@ -138,11 +138,7 @@ public class DiscordChat implements IDiscordChat {
 			throw new NullPointerException("channel cannot be null");
 		}
 		if (message == null || message.isEmpty()) return;
-		try {
-			sendQueue.put(new QueuedMessage(message, channel));
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		sendQueue.add(new QueuedMessage(message, channel));
 	}
 
 	@Override

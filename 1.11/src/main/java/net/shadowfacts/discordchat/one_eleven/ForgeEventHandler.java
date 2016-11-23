@@ -18,7 +18,7 @@ public class ForgeEventHandler {
 
 	@SubscribeEvent
 	public void onServerChat(ServerChatEvent event) {
-		OneElevenMod.discordChat.sendMessage(OneElevenMod.discordChat.getFormatter().message(event.getPlayer().getName(), event.getMessage()));
+		OneElevenMod.discordChat.sendMessage(OneElevenMod.discordChat.getFormatter().fromMC(event.getPlayer().getName(), event.getMessage()));
 	}
 
 	@SubscribeEvent

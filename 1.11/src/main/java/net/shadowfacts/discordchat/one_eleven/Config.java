@@ -103,4 +103,34 @@ public class Config implements IConfig {
 		return config.getBoolean("discordchat.relay.joinleave");
 	}
 
+	@Override
+	public String getFromMCFormat() {
+		return config.getString("discordchat.format.fromMC");
+	}
+
+	@Override
+	public String getFromDiscordFormat() {
+		return config.getString("discordchat.format.fromDiscord");
+	}
+
+	@Override
+	public String getDeathFormat() {
+		return config.getString("discordchat.format.death");
+	}
+
+	@Override
+	public String getAchievementFormat() {
+		return config.getString("discordchat.format.achievement");
+	}
+
+	@Override
+	public String getJoinFormat() {
+		return config.getString("discordchat.format.join");
+	}
+
+	@Override
+	public String getLeaveFormat() {
+		return config.getString("discordchat.format.leave");
+	}
+
 }

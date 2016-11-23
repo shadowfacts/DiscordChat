@@ -13,32 +13,47 @@ public class MessageFormatter implements IMessageFormatter {
 
 	public MessageFormatter(IDiscordChat discordChat) {
 		this.config = discordChat.getConfig();
-//		TODO: configurable
 	}
 
 	@Override
-	public String message(String sender, String message) {
-		return sender + ": " + message;
+	public String fromMC(String sender, String message) {
+		return config.getFromMCFormat()
+				.replaceAll("\\$1", sender)
+				.replaceAll("\\$2", message);
 	}
 
 	@Override
-	public String death(String player, String cause) {
-		return player + " died from " + cause;
+	public String fromDiscord(String channel, String sender, String message) {
+		return config.getFromDiscordFormat()
+				.replaceAll("\\$1", channel)
+				.replaceAll("\\$2", sender)
+				.replaceAll("\\$3", message);
+	}
+
+	@Override
+	public String death(String player, String message) {
+		return config.getDeathFormat()
+				.replaceAll("\\$1", player)
+				.replaceAll("\\$2", message);
 	}
 
 	@Override
 	public String achievement(String player, String achievement) {
-		return player + " got achievement " + achievement;
+		return config.getAchievementFormat()
+				.replaceAll("\\$1", player)
+				.replaceAll("\\$2", achievement);
 	}
 
 	@Override
 	public String join(String player) {
-		return player + " joined";
+		return config.getJoinFormat()
+				.replaceAll("\\$1", player);
 	}
 
 	@Override
 	public String leave(String player) {
-		return player + " left";
+		return config.getLeaveFormat()
+				.replaceAll("\\$1", player);
 	}
 
 }

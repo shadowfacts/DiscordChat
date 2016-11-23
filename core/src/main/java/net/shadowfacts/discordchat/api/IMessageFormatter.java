@@ -5,9 +5,11 @@ package net.shadowfacts.discordchat.api;
  */
 public interface IMessageFormatter {
 
-	String message(String sender, String message);
+	String fromMC(String sender, String message);
 
-	String death(String player, String cause);
+	String fromDiscord(String channel, String sender, String message);
+
+	String death(String player, String message);
 
 	String achievement(String player, String achievement);
 

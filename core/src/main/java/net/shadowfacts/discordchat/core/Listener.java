@@ -4,6 +4,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import net.shadowfacts.discordchat.api.IConfig;
 import net.shadowfacts.discordchat.api.IDiscordChat;
+import net.shadowfacts.discordchat.api.IMessageFormatter;
 import net.shadowfacts.discordchat.api.IMinecraftAdapter;
 import net.shadowfacts.discordchat.api.command.ICommandManager;
 
@@ -14,11 +15,13 @@ public class Listener extends ListenerAdapter {
 
 	private IConfig config;
 	private ICommandManager commandManager;
+	private IMessageFormatter formatter;
 	private IMinecraftAdapter minecraftAdapter;
 
 	public Listener(IDiscordChat discordChat) {
 		config = discordChat.getConfig();
 		commandManager = discordChat.getCommandManager();
+		formatter = discordChat.getFormatter();
 		minecraftAdapter = discordChat.getMinecraftAdapter();
 	}
 
@@ -31,7 +34,7 @@ public class Listener extends ListenerAdapter {
 		if (raw.startsWith(config.getCommandPrefix())) {
 			commandManager.execute(raw.substring(config.getCommandPrefix().length()), event.getAuthor(), event.getChannel());
 		} else {
-			minecraftAdapter.sendMessage(event.getMessage().getContent());
+			minecraftAdapter.sendMessage(formatter.fromDiscord(event.getChannel().getName(), event.getAuthor().getName(), event.getMessage().getContent()));
 		}
 	}
 

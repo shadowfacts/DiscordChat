@@ -30,4 +30,16 @@ public interface IConfig {
 
 	boolean sendJoinLeaveMessages();
 
+	String getFromMCFormat();
+
+	String getFromDiscordFormat();
+
+	String getDeathFormat();
+
+	String getAchievementFormat();
+
+	String getJoinFormat();
+
+	String getLeaveFormat();
+
 }
