@@ -1,16 +1,13 @@
-package net.shadowfacts.discordchat.one_eleven;
+package net.shadowfacts.discordchat.one_ten_two;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
 import net.shadowfacts.discordchat.api.IConfig;
 import net.shadowfacts.discordchat.api.IDiscordChat;
 import net.shadowfacts.discordchat.api.IMinecraftAdapter;
-import net.shadowfacts.discordchat.core.Config;
 import net.shadowfacts.discordchat.core.DiscordChat;
-import net.shadowfacts.discordchat.core.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,14 +15,14 @@ import java.io.IOException;
 /**
  * @author shadowfacts
  */
-@Mod(modid = OneElevenMod.MOD_ID, name = OneElevenMod.NAME, version = OneElevenMod.VERSION, acceptableRemoteVersions = "*")
-public class OneElevenMod {
+@Mod(modid = OneTenTwoMod.MOD_ID, name = OneTenTwoMod.NAME, version = OneTenTwoMod.VERSION, acceptableRemoteVersions = "*")
+public class OneTenTwoMod {
 
 	public static final String MOD_ID = "discordchat";
 	public static final String NAME = "Discord Chat";
 	public static final String VERSION = "@VERSION@";
 
-	public static IMinecraftAdapter minecraftAdapter = new OneElevenAdapter();
+	public static IMinecraftAdapter minecraftAdapter = new OneTenTwoAdapter();
 	public static IConfig config;
 	public static IDiscordChat discordChat;
 
