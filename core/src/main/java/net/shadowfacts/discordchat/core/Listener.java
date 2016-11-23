@@ -1,5 +1,6 @@
 package net.shadowfacts.discordchat.core;
 
+import com.vdurmont.emoji.EmojiParser;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import net.shadowfacts.discordchat.api.IConfig;
@@ -34,7 +35,10 @@ public class Listener extends ListenerAdapter {
 		if (raw.startsWith(config.getCommandPrefix())) {
 			commandManager.execute(raw.substring(config.getCommandPrefix().length()), event.getAuthor(), event.getChannel());
 		} else {
-			minecraftAdapter.sendMessage(formatter.fromDiscord(event.getChannel().getName(), event.getAuthor().getName(), event.getMessage().getContent()));
+			String channel = event.getChannel().getName();
+			String author = event.getAuthor().getName();
+			String message = EmojiParser.parseToAliases(event.getMessage().getContent());
+			minecraftAdapter.sendMessage(formatter.fromDiscord(channel, author, message));
 		}
 	}
 

@@ -3,11 +3,13 @@ plugins {
 }
 
 repositories {
+	jcenter()
     flatDir {
     	dirs "libs"
     }
 }
 
 dependencies {
-     compile "JDA:JDA:${jda_version}:withDependencies"
+     compile group: "JDA", name: "JDA", version: jda_version, classifier: "withDependencies"
+     compile group: "com.vdurmont", name: "emoji-java", version: emoji_version
 }
