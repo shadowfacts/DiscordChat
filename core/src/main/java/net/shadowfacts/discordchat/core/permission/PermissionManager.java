@@ -19,7 +19,6 @@ public class PermissionManager implements IPermissionManager {
 
 	public PermissionManager(IDiscordChat discordChat) {
 		config = discordChat.getConfig();
-		permissions = config.getPermissions();
 	}
 
 	@Override
@@ -30,6 +29,11 @@ public class PermissionManager implements IPermissionManager {
 	@Override
 	public void set(User user, Permission permission) {
 		permissions.put(user.getId(), permission);
+	}
+
+	@Override
+	public void load() {
+		permissions = config.getPermissions();
 	}
 
 	@Override

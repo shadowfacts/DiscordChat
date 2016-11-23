@@ -34,6 +34,7 @@ public class OneElevenMod {
 		discordChat = new DiscordChat(minecraftAdapter);
 		config = discordChat.getConfig();
 		config.init(new File(event.getModConfigurationDirectory(), "shadowfacts/DiscordChat.conf"));
+		discordChat.connect();
 
 		MinecraftForge.EVENT_BUS.register(new ForgeEventHandler());
 	}

@@ -38,6 +38,8 @@ public class DiscordChat implements IDiscordChat {
 	private CommandManager commandManager;
 	private MessageFormatter formatter;
 
+	private boolean enabled = true;
+
 	private JDA jda;
 
 	private final LinkedBlockingQueue<QueuedMessage> sendQueue = new LinkedBlockingQueue<>();
@@ -58,7 +60,10 @@ public class DiscordChat implements IDiscordChat {
 		commandManager.register(new CommandExecute(this));
 		commandManager.register(new CommandPermission(this));
 		commandManager.register(new CommandSetPermission(this));
+	}
 
+	@Override
+	public void connect() {
 		new Thread(() -> {
 			try {
 				jda = new JDABuilder(AccountType.BOT)
@@ -67,30 +72,35 @@ public class DiscordChat implements IDiscordChat {
 						.buildBlocking();
 			} catch (Exception e) {
 				logger.warn(e, "Unable to connect to discord");
+				enabled = false;
 			}
 		}, "DiscordChat-initializer").start();
 	}
 
 	@Override
 	public void start() {
-		new Thread(() -> {
-			while (true) {
-				if (jda != null && sendQueue.peek() != null) {
-					try {
-						RestAction<Message> result = sendQueue.peek().send();
-						result.block();
-						sendQueue.remove();
-					} catch (RateLimitedException e) {
-						logger.debug("Message was rate limited, will try again in " + e.getRetryAfter());
+		if (enabled) {
+			permissionManager.load();
+
+			new Thread(() -> {
+				while (true) {
+					if (jda != null && sendQueue.peek() != null) {
 						try {
-							Thread.sleep(e.getRetryAfter());
-						} catch (InterruptedException ex) {
-							ex.printStackTrace();
+							RestAction<Message> result = sendQueue.peek().send();
+							result.block();
+							sendQueue.remove();
+						} catch (RateLimitedException e) {
+							logger.debug("Message was rate limited, will try again in " + e.getRetryAfter());
+							try {
+								Thread.sleep(e.getRetryAfter());
+							} catch (InterruptedException ex) {
+								ex.printStackTrace();
+							}
 						}
 					}
 				}
-			}
-		}, "DiscordChat-send-queue").start();
+			}, "DiscordChat-send-queue").start();
+		}
 	}
 
 	@Override
@@ -133,6 +143,7 @@ public class DiscordChat implements IDiscordChat {
 		if (channel == null) {
 			throw new NullPointerException("channel cannot be null");
 		}
+		if (!enabled) return;
 		if (message == null || message.isEmpty()) return;
 		sendQueue.add(new QueuedMessage(message, channel));
 	}

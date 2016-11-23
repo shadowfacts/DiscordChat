@@ -17,6 +17,8 @@ public interface IPermissionManager {
 		return get(user).has(permission);
 	}
 
+	void load();
+
 	void save() throws IOException;
 
 }

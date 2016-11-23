@@ -24,6 +24,8 @@ public interface IDiscordChat {
 
 	IMinecraftAdapter getMinecraftAdapter();
 
+	void connect();
+
 	void start();
 
 	void sendMessage(String message, MessageChannel channel);
