@@ -12,9 +12,11 @@ import net.shadowfacts.discordchat.api.command.exception.CommandException;
  */
 public class CommandTPS implements ICommand {
 
+	private IDiscordChat discordChat;
 	private IMinecraftAdapter minecraftAdapter;
 
 	public CommandTPS(IDiscordChat discordChat) {
+		this.discordChat = discordChat;
 		minecraftAdapter = discordChat.getMinecraftAdapter();
 	}
 
@@ -27,8 +29,9 @@ public class CommandTPS implements ICommand {
 	public void execute(String[] args, User sender, MessageChannel channel) throws CommandException {
 		if (args.length == 0) {
 			for (int dim : minecraftAdapter.getAllDimensions()) {
-				double tps = minecraftAdapter.getTPS(dim);
-				channel.sendMessage(String.format("TPS in dimension %d: %.0f", dim, tps));
+				double tickTime = minecraftAdapter.getTickTime(dim);
+				double tps = Math.min(tickTime / 1000, 20);
+				discordChat.sendMessage(String.format("Dimension %d: Tick time: %.3fms TPS: %.0f", dim, tickTime, tps), channel);
 			}
 		} else {
 			int dim;
@@ -37,8 +40,9 @@ public class CommandTPS implements ICommand {
 			} catch (NumberFormatException e) {
 				throw new CommandException(e);
 			}
-			double tps = minecraftAdapter.getTPS(dim);
-			channel.sendMessage(String.format("TPS in dimension %d: %.0f", dim, tps));
+			double tickTime = minecraftAdapter.getTickTime(dim);
+			double tps = Math.min(tickTime / 1000, 20);
+			discordChat.sendMessage(String.format("Dimension %d: Tick time: %.3fms TPS: %.0f", dim, tickTime, tps), channel);
 		}
 	}
 

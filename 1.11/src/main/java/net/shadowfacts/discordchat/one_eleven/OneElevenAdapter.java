@@ -31,15 +31,14 @@ public class OneElevenAdapter implements IMinecraftAdapter {
 	}
 
 	@Override
-	public double getTPS(int dimension) {
+	public double getTickTime(int dimension) {
 		MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
 		long[] tickTimes = server.worldTickTimes.get(dimension);
 		long sum = 0;
 		for (int i = 0; i < tickTimes.length; i++) {
 			sum += tickTimes[i];
 		}
-		double mean = sum / tickTimes.length * 1.0E-6D;
-		return Math.min(1000 / mean, 20);
+		return sum / tickTimes.length * 1.0E-6D;
 	}
 
 	@Override
@@ -51,7 +50,10 @@ public class OneElevenAdapter implements IMinecraftAdapter {
 
 	@Override
 	public void executeCommand(String command) {
-		FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager().executeCommand(DummySender.INSTANCE, command);
+		FMLCommonHandler.instance().getMinecraftServerInstance().callFromMainThread(() -> {
+			FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager().executeCommand(DummySender.INSTANCE, command);
+			return null;
+		});
 	}
 
 }

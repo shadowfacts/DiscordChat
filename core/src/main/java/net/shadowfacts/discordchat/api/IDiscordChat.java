@@ -24,10 +24,10 @@ public interface IDiscordChat {
 
 	IMinecraftAdapter getMinecraftAdapter();
 
+	void start();
+
 	void sendMessage(String message, MessageChannel channel);
 
-	default void sendMessage(String message) {
-		sendMessage(message, getJDA().getTextChannelById(getConfig().getChannelID()));
-	}
+	void sendMessage(String message);
 
 }

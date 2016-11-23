@@ -11,7 +11,7 @@ public interface IMinecraftAdapter {
 
 	int[] getAllDimensions();
 
-	double getTPS(int dimension);
+	double getTickTime(int dimension);
 
 	Set<String> getOnlinePlayers();
 

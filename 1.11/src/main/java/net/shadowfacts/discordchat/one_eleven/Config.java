@@ -19,7 +19,7 @@ import java.util.Map;
 public class Config implements IConfig {
 
 	private File file;
-	private com.typesafe.config.Config config = ConfigFactory.load("/assets/discordchat/default.conf");
+	private com.typesafe.config.Config config = ConfigFactory.load("assets/discordchat/default.conf");
 
 	public void init(File file) throws IOException {
 		this.file = file;
@@ -53,7 +53,7 @@ public class Config implements IConfig {
 	}
 
 	@Override
-	public String getChannelID() {
+	public String getChannel() {
 		return config.getString("discordchat.discord.channel");
 	}
 

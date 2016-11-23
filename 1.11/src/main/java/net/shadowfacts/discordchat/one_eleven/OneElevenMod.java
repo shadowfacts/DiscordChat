@@ -3,6 +3,7 @@ package net.shadowfacts.discordchat.one_eleven;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
 import net.shadowfacts.discordchat.api.IDiscordChat;
 import net.shadowfacts.discordchat.api.ILogger;
 import net.shadowfacts.discordchat.api.IMinecraftAdapter;
@@ -35,6 +36,11 @@ public class OneElevenMod {
 		discordChat = new DiscordChat(minecraftAdapter, logger, config);
 
 		MinecraftForge.EVENT_BUS.register(new ForgeEventHandler());
+	}
+
+	@Mod.EventHandler
+	public void serverStarted(FMLServerStartedEvent event) {
+		discordChat.start();
 	}
 
 }

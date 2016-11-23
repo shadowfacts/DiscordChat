@@ -27,7 +27,7 @@ public class CommandPermission implements ICommand {
 
 	@Override
 	public void execute(String[] args, User sender, MessageChannel channel) throws CommandException {
-		discordChat.sendMessage("Your permission level: " + permissionManager.get(sender), sender.getPrivateChannel());
+		discordChat.sendMessage("Permission level for " + sender.getName() + ": " + permissionManager.get(sender), channel);
 	}
 
 	@Override

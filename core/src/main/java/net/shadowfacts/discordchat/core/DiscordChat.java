@@ -5,6 +5,7 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
+import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
 import net.dv8tion.jda.core.requests.RestAction;
 import net.shadowfacts.discordchat.api.*;
@@ -13,6 +14,7 @@ import net.shadowfacts.discordchat.api.permission.IPermissionManager;
 import net.shadowfacts.discordchat.core.command.CommandManager;
 import net.shadowfacts.discordchat.core.command.impl.meta.CommandCommands;
 import net.shadowfacts.discordchat.core.command.impl.meta.CommandHelp;
+import net.shadowfacts.discordchat.core.command.impl.minecraft.CommandExecute;
 import net.shadowfacts.discordchat.core.command.impl.minecraft.CommandOnline;
 import net.shadowfacts.discordchat.core.command.impl.minecraft.CommandTPS;
 import net.shadowfacts.discordchat.core.command.impl.permissions.CommandPermission;
@@ -20,6 +22,7 @@ import net.shadowfacts.discordchat.core.command.impl.permissions.CommandSetPermi
 import net.shadowfacts.discordchat.core.permission.PermissionManager;
 import net.shadowfacts.discordchat.core.util.QueuedMessage;
 
+import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
@@ -37,7 +40,8 @@ public class DiscordChat implements IDiscordChat {
 
 	private JDA jda;
 
-	private LinkedBlockingQueue<QueuedMessage> sendQueue = new LinkedBlockingQueue<>();
+	private final LinkedBlockingQueue<QueuedMessage> sendQueue = new LinkedBlockingQueue<>();
+	private TextChannel channel;
 
 	public DiscordChat(IMinecraftAdapter minecraftAdapter, ILogger logger, IConfig config) {
 		this.minecraftAdapter = minecraftAdapter;
@@ -51,6 +55,7 @@ public class DiscordChat implements IDiscordChat {
 		commandManager.register(new CommandCommands(this));
 		commandManager.register(new CommandOnline(this));
 		commandManager.register(new CommandTPS(this));
+		commandManager.register(new CommandExecute(this));
 		commandManager.register(new CommandPermission(this));
 		commandManager.register(new CommandSetPermission(this));
 
@@ -64,18 +69,32 @@ public class DiscordChat implements IDiscordChat {
 						.setToken(config.getToken())
 						.addListener(new Listener(this))
 						.buildBlocking();
-
-				Thread.currentThread().setName("DiscordChat-sending-thread");
-
-				while (true) {
-					if (!sendQueue.isEmpty()) {
-						sendFirst();
-					}
-				}
 			} catch (Exception e) {
-				throw new RuntimeException("Unable to connect to Discord", e);
+				logger.warn(e, "Unable to connect to discord");
 			}
 		}, "DiscordChat-initializer").start();
+	}
+
+	@Override
+	public void start() {
+		new Thread(() -> {
+			while (true) {
+				if (jda != null && sendQueue.peek() != null) {
+					try {
+						RestAction<Message> result = sendQueue.element().send();
+						result.block();
+						sendQueue.remove();
+					} catch (RateLimitedException e) {
+						logger.debug("Message was rate limited, will try again in " + e.getRetryAfter());
+						try {
+							Thread.sleep(e.getRetryAfter());
+						} catch (InterruptedException ex) {
+							ex.printStackTrace();
+						}
+					}
+				}
+			}
+		}, "DiscordChat-send-queue").start();
 	}
 
 	@Override
@@ -115,22 +134,28 @@ public class DiscordChat implements IDiscordChat {
 
 	@Override
 	public void sendMessage(String message, MessageChannel channel) {
-		sendQueue.add(new QueuedMessage(message, channel));
+		if (channel == null) {
+			throw new NullPointerException("channel cannot be null");
+		}
+		if (message == null || message.isEmpty()) return;
+		try {
+			sendQueue.put(new QueuedMessage(message, channel));
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
-	private void sendFirst() {
-		RestAction<Message> result = sendQueue.peek().send();
-		try {
-			result.block();
-			sendQueue.remove();
-		} catch (RateLimitedException e) {
-			logger.debug("Message was rate limited, will try again in " + e.getRetryAfter());
-			try {
-				Thread.sleep(e.getRetryAfter());
-			} catch (InterruptedException ex) {
-				logger.warn(ex, "Sending thread sleep interrupted");
+	@Override
+	public void sendMessage(String message) {
+		if (channel == null) {
+			List<TextChannel> channels = jda.getTextChannelsByName(config.getChannel(), false);
+			if (channels.size() < 1) {
+				throw new RuntimeException("No such channel: " + config.getChannel());
+			} else {
+				channel = channels.get(0);
 			}
 		}
+		sendMessage(message, channel);
 	}
 
 }

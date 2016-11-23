@@ -33,8 +33,7 @@ public class CommandCommands implements ICommand {
 
 	@Override
 	public void execute(String[] args, User author, MessageChannel channel) throws CommandException {
-		MessageChannel privateChannel = author.getPrivateChannel();
-		discordChat.sendMessage("Commands (you have permission for **bolded** ones): ", privateChannel);
+		discordChat.sendMessage("Commands (you have permission for **bolded** ones): ", channel);
 		discordChat.sendMessage(String.join(", ", commandManager.getCommands().stream()
 				.map(cmd -> {
 					Permission min = cmd.getMinimumPermission();
@@ -44,7 +43,7 @@ public class CommandCommands implements ICommand {
 						return cmd.getName();
 					}
 				})
-				.collect(Collectors.toList())), privateChannel);
+				.collect(Collectors.toList())), channel);
 	}
 
 	@Override

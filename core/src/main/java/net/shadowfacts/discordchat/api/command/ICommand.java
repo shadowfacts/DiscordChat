@@ -1,7 +1,6 @@
 package net.shadowfacts.discordchat.api.command;
 
 import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.shadowfacts.discordchat.api.command.exception.CommandException;
 import net.shadowfacts.discordchat.api.permission.Permission;

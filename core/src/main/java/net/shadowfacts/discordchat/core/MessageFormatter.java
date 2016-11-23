@@ -18,7 +18,7 @@ public class MessageFormatter implements IMessageFormatter {
 
 	@Override
 	public String message(String sender, String message) {
-		return message + ": " + message;
+		return sender + ": " + message;
 	}
 
 	@Override

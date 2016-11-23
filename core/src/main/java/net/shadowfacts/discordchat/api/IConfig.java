@@ -16,7 +16,7 @@ public interface IConfig {
 
 	String getServerID();
 
-	String getChannelID();
+	String getChannel();
 
 	String getCommandPrefix();
 
