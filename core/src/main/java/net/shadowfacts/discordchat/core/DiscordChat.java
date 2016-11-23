@@ -32,7 +32,7 @@ public class DiscordChat implements IDiscordChat {
 
 	private IMinecraftAdapter minecraftAdapter;
 
-	private ILogger logger;
+	private Logger logger;
 	private IConfig config;
 	private PermissionManager permissionManager;
 	private CommandManager commandManager;
@@ -43,10 +43,10 @@ public class DiscordChat implements IDiscordChat {
 	private final LinkedBlockingQueue<QueuedMessage> sendQueue = new LinkedBlockingQueue<>();
 	private TextChannel channel;
 
-	public DiscordChat(IMinecraftAdapter minecraftAdapter, ILogger logger, IConfig config) {
+	public DiscordChat(IMinecraftAdapter minecraftAdapter) {
+		this.logger = new Logger();
 		this.minecraftAdapter = minecraftAdapter;
-		this.logger = logger;
-		this.config = config;
+		this.config = new Config(this);
 		permissionManager = new PermissionManager(this);
 		commandManager = new CommandManager(this);
 		formatter = new MessageFormatter(this);
@@ -59,10 +59,6 @@ public class DiscordChat implements IDiscordChat {
 		commandManager.register(new CommandPermission(this));
 		commandManager.register(new CommandSetPermission(this));
 
-		initializeJDA();
-	}
-
-	private void initializeJDA() {
 		new Thread(() -> {
 			try {
 				jda = new JDABuilder(AccountType.BOT)

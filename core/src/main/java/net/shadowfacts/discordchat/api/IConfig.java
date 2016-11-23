@@ -2,6 +2,7 @@ package net.shadowfacts.discordchat.api;
 
 import net.shadowfacts.discordchat.api.permission.Permission;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
@@ -9,6 +10,8 @@ import java.util.Map;
  * @author shadowfacts
  */
 public interface IConfig {
+
+	void init(File file) throws IOException;
 
 	void save() throws IOException;
 

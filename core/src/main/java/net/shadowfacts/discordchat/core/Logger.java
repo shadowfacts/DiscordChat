@@ -1,4 +1,4 @@
-package net.shadowfacts.discordchat.one_eleven;
+package net.shadowfacts.discordchat.core;
 
 import net.shadowfacts.discordchat.api.ILogger;
 import org.apache.logging.log4j.LogManager;
@@ -8,7 +8,7 @@ import org.apache.logging.log4j.LogManager;
  */
 public class Logger implements ILogger {
 
-	private org.apache.logging.log4j.Logger logger = LogManager.getFormatterLogger(OneElevenMod.MOD_ID);
+	private org.apache.logging.log4j.Logger logger = LogManager.getFormatterLogger("discordchat");
 
 	@Override
 	public void debug(String msg, Object... args) {

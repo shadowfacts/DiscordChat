@@ -1,15 +1,16 @@
-package net.shadowfacts.discordchat.one_eleven;
+package net.shadowfacts.discordchat.core;
 
 import com.typesafe.config.ConfigFactory;
 import com.typesafe.config.ConfigObject;
 import com.typesafe.config.ConfigRenderOptions;
 import com.typesafe.config.ConfigValueFactory;
 import net.shadowfacts.discordchat.api.IConfig;
+import net.shadowfacts.discordchat.api.IDiscordChat;
+import net.shadowfacts.discordchat.api.ILogger;
 import net.shadowfacts.discordchat.api.permission.Permission;
-import org.apache.commons.io.FileUtils;
+import net.shadowfacts.shadowlib.util.IOUtils;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,9 +19,16 @@ import java.util.Map;
  */
 public class Config implements IConfig {
 
+	private ILogger logger;
+
 	private File file;
 	private com.typesafe.config.Config config = ConfigFactory.load("assets/discordchat/default.conf");
 
+	public Config(IDiscordChat discordChat) {
+		logger = discordChat.getLogger();
+	}
+
+	@Override
 	public void init(File file) throws IOException {
 		this.file = file;
 
@@ -39,7 +47,12 @@ public class Config implements IConfig {
 
 		ConfigObject toRender = config.root().withOnlyKey("discordchat");
 		String s = toRender.render(ConfigRenderOptions.defaults().setOriginComments(false).setJson(false));
-		FileUtils.write(file, s);
+		InputStream in = new ByteArrayInputStream(s.getBytes());
+		OutputStream out = new FileOutputStream(file);
+		IOUtils.copy(in, out);
+		in.close();
+		out.close();
+
 	}
 
 	@Override
@@ -71,7 +84,7 @@ public class Config implements IConfig {
 			try {
 				value = Permission.valueOf(config.getString(key));
 			} catch (IllegalArgumentException e) {
-				OneElevenMod.logger.warn(e, "Invalid permission '" + config.getString(key) + "' for user '" + key + "'");
+				logger.warn(e, "Invalid permission '" + config.getString(key) + "' for user '" + key + "'");
 				return;
 			}
 			map.put(key, value);
