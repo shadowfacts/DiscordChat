@@ -82,7 +82,7 @@ public class DiscordChat implements IDiscordChat {
 		if (enabled) {
 			permissionManager.load();
 
-			new Thread(() -> {
+			Thread thread = new Thread(() -> {
 				while (true) {
 					if (jda != null && sendQueue.peek() != null) {
 						try {
@@ -99,7 +99,11 @@ public class DiscordChat implements IDiscordChat {
 						}
 					}
 				}
-			}, "DiscordChat-send-queue").start();
+			}, "DiscordChat-send-queue");
+			thread.setUncaughtExceptionHandler((thrd, t) -> {
+				logger.error(t, "Uncaught exception in DiscordChat-send-queue thread");
+			});
+			thread.start();
 		}
 	}
 

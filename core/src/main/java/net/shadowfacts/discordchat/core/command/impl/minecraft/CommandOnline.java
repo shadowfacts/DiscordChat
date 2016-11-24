@@ -7,6 +7,8 @@ import net.shadowfacts.discordchat.api.IMinecraftAdapter;
 import net.shadowfacts.discordchat.api.command.ICommand;
 import net.shadowfacts.discordchat.api.command.exception.CommandException;
 
+import java.util.Set;
+
 /**
  * @author shadowfacts
  */
@@ -27,7 +29,10 @@ public class CommandOnline implements ICommand {
 
 	@Override
 	public void execute(String[] args, User sender, MessageChannel channel) throws CommandException {
-		discordChat.sendMessage("Player(s) online: " + String.join(", ", minecraftAdapter.getOnlinePlayers()), channel);
+		Set<String> players = minecraftAdapter.getOnlinePlayers();
+		int count = players.size();
+		String s = count == 1 ? "player" : "players";
+		discordChat.sendMessage(count + " " + s + " online: " + String.join(", ", players), channel);
 	}
 
 	@Override

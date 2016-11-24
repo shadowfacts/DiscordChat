@@ -17,7 +17,6 @@ dependencies {
     compile group: "JDA", name: "JDA", version: jda_version, classifier: "withDependencies"
     compile group: "com.vdurmont", name: "emoji-java", version: emoji_version
     compile group: "org.apache.logging.log4j", name: "log4j-api", version: log4j_version
-    compile group: "org.apache.logging.log4j", name: "log4j-core", version: log4j_version
     compile group: "com.typesafe", name: "config", version: config_version
     compile group: "net.shadowfacts", name: "ShadowLib", version: shadowlib_version
 }
