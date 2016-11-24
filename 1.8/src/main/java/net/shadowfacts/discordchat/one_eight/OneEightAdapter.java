@@ -1,10 +1,9 @@
-package net.shadowfacts.discordchat.one_eight_nine;
+package net.shadowfacts.discordchat.one_eight;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.common.DimensionManager;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.shadowfacts.discordchat.api.IMinecraftAdapter;
 
 import java.util.Set;
@@ -13,7 +12,7 @@ import java.util.stream.Collectors;
 /**
  * @author shadowfacts
  */
-public class OneEightNineAdapter implements IMinecraftAdapter {
+public class OneEightAdapter implements IMinecraftAdapter {
 
 	@Override
 	public void sendMessage(String message) {
@@ -42,9 +41,10 @@ public class OneEightNineAdapter implements IMinecraftAdapter {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public Set<String> getOnlinePlayers() {
-		return MinecraftServer.getServer().getConfigurationManager().getPlayerList().stream()
-				.map(EntityPlayer::getName)
+		return (Set<String>)MinecraftServer.getServer().getConfigurationManager().playerEntityList.stream()
+				.map(it -> ((EntityPlayer)it).getDisplayNameString())
 				.collect(Collectors.toSet());
 	}
 

@@ -27,7 +27,7 @@ public class CommandOnline implements ICommand {
 
 	@Override
 	public void execute(String[] args, User sender, MessageChannel channel) throws CommandException {
-		discordChat.sendMessage(String.join(", ", minecraftAdapter.getOnlinePlayers()), channel);
+		discordChat.sendMessage("Player(s) online: " + String.join(", ", minecraftAdapter.getOnlinePlayers()), channel);
 	}
 
 	@Override
