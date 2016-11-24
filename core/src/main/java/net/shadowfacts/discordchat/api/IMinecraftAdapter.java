@@ -17,4 +17,6 @@ public interface IMinecraftAdapter {
 
 	void executeCommand(String command);
 
+	String teleportPlayerToSpawn(String username);
+
 }
