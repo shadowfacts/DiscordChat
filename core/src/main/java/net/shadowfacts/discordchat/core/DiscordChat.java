@@ -3,9 +3,7 @@ package net.shadowfacts.discordchat.core;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
 import net.dv8tion.jda.core.requests.RestAction;
 import net.shadowfacts.discordchat.api.*;
@@ -23,8 +21,10 @@ import net.shadowfacts.discordchat.core.command.impl.permissions.CommandSetPermi
 import net.shadowfacts.discordchat.core.permission.PermissionManager;
 import net.shadowfacts.discordchat.core.util.QueuedMessage;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.stream.Collectors;
 
 /**
  * @author shadowfacts
@@ -157,6 +157,17 @@ public class DiscordChat implements IDiscordChat {
 		}
 		if (!enabled) return;
 		if (message == null || message.isEmpty()) return;
+
+
+		List<User> users = jda.getGuildById(config.getServerID()).getMembers().stream()
+				.map(Member::getUser)
+				.collect(Collectors.toList());
+		String temp = message.toLowerCase();
+		for (User user : users) {
+			if (temp.contains("@" + user.getName().toLowerCase())) {
+				message = message.replaceAll("(?i)@" + user.getName(), user.getAsMention());
+			}
+		}
 
 		sendQueue.add(new QueuedMessage(message, channel));
 	}
