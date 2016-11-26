@@ -39,6 +39,9 @@ public class Listener extends ListenerAdapter {
 			String author = event.getAuthor().getName();
 			String message = EmojiParser.parseToAliases(event.getMessage().getContent());
 			minecraftAdapter.sendMessage(formatter.fromDiscord(channel, author, message));
+			event.getMessage().getAttachments().forEach(it -> {
+				minecraftAdapter.sendMessage("Attachment: " + it.getUrl());
+			});
 		}
 	}
 
