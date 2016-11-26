@@ -28,6 +28,8 @@ public interface IDiscordChat {
 
 	void start();
 
+	void stop();
+
 	void sendMessage(String message, MessageChannel channel);
 
 	void sendMessage(String message);

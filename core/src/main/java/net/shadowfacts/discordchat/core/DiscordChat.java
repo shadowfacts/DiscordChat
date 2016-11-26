@@ -110,6 +110,12 @@ public class DiscordChat implements IDiscordChat {
 	}
 
 	@Override
+	public void stop() {
+		while (sendQueue.peek() != null) {}
+		jda.shutdown();
+	}
+
+	@Override
 	public ILogger getLogger() {
 		return logger;
 	}
@@ -151,6 +157,7 @@ public class DiscordChat implements IDiscordChat {
 		}
 		if (!enabled) return;
 		if (message == null || message.isEmpty()) return;
+
 		sendQueue.add(new QueuedMessage(message, channel));
 	}
 

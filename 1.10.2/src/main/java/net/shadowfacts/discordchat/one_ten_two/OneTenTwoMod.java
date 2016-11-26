@@ -46,6 +46,7 @@ public class OneTenTwoMod {
 	@Mod.EventHandler
 	public void serverStopped(FMLServerStoppedEvent event) {
 		discordChat.sendMessage("Server is offline");
+		discordChat.stop();
 	}
 
 }
