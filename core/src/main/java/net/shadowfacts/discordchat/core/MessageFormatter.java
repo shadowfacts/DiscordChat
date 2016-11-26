@@ -19,7 +19,7 @@ public class MessageFormatter implements IMessageFormatter {
 	public String fromMC(String sender, String message) {
 		return config.getFromMCFormat()
 				.replaceAll("\\$1", sender)
-				.replaceAll("\\$2", message);
+				.replaceAll("\\$2", message.replaceAll("\\$", "\\\\\\$"));
 	}
 
 	@Override
@@ -27,7 +27,7 @@ public class MessageFormatter implements IMessageFormatter {
 		return config.getFromDiscordFormat()
 				.replaceAll("\\$1", channel)
 				.replaceAll("\\$2", sender)
-				.replaceAll("\\$3", message);
+				.replaceAll("\\$3", message.replaceAll("\\$", "\\\\\\$"));
 	}
 
 	@Override
