@@ -5,6 +5,7 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
+import net.dv8tion.jda.core.hooks.IEventManager;
 import net.dv8tion.jda.core.requests.RestAction;
 import net.shadowfacts.discordchat.api.*;
 import net.shadowfacts.discordchat.api.command.ICommandManager;
@@ -12,6 +13,8 @@ import net.shadowfacts.discordchat.api.permission.IPermissionManager;
 import net.shadowfacts.discordchat.core.command.CommandManager;
 import net.shadowfacts.discordchat.core.command.impl.meta.CommandCommands;
 import net.shadowfacts.discordchat.core.command.impl.meta.CommandHelp;
+import net.shadowfacts.discordchat.core.command.impl.meta.CommandReload;
+import net.shadowfacts.discordchat.core.command.impl.meta.CommandRoleID;
 import net.shadowfacts.discordchat.core.command.impl.minecraft.CommandExecute;
 import net.shadowfacts.discordchat.core.command.impl.minecraft.CommandOnline;
 import net.shadowfacts.discordchat.core.command.impl.minecraft.CommandTPS;
@@ -21,6 +24,8 @@ import net.shadowfacts.discordchat.core.command.impl.permissions.CommandSetPermi
 import net.shadowfacts.discordchat.core.permission.PermissionManager;
 import net.shadowfacts.discordchat.core.util.QueuedMessage;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -46,16 +51,24 @@ public class DiscordChat implements IDiscordChat {
 	private final LinkedBlockingQueue<QueuedMessage> sendQueue = new LinkedBlockingQueue<>();
 	private TextChannel channel;
 
-	public DiscordChat(IMinecraftAdapter minecraftAdapter) {
-		this.logger = new Logger();
+	public DiscordChat(File dcDir, IMinecraftAdapter minecraftAdapter) throws IOException {
 		this.minecraftAdapter = minecraftAdapter;
-		this.config = new Config(this);
-		permissionManager = new PermissionManager(this);
+
+		if (!dcDir.exists()) {
+			dcDir.mkdirs();
+		}
+
+		logger = new Logger();
+
+		config = new Config(new File(dcDir, "DiscordChat.conf"));
+		permissionManager = new PermissionManager(this, new File(dcDir, "permissions.json"));
 		commandManager = new CommandManager(this);
 		formatter = new MessageFormatter(this);
 
 		commandManager.register(new CommandHelp(this));
 		commandManager.register(new CommandCommands(this));
+		commandManager.register(new CommandRoleID(this));
+		commandManager.register(new CommandReload(this));
 		commandManager.register(new CommandOnline(this));
 		commandManager.register(new CommandTPS(this));
 		commandManager.register(new CommandExecute(this));
@@ -82,7 +95,6 @@ public class DiscordChat implements IDiscordChat {
 	@Override
 	public void start() {
 		if (enabled) {
-			permissionManager.load();
 
 			Thread thread = new Thread(() -> {
 				while (true) {

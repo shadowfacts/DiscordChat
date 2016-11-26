@@ -30,9 +30,8 @@ public class OneSevenTenMod {
 
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) throws IOException {
-		discordChat = new DiscordChat(minecraftAdapter);
+		discordChat = new DiscordChat(new File(event.getModConfigurationDirectory(), "shadowfacts/DiscordChat/"), minecraftAdapter);
 		config = discordChat.getConfig();
-		config.init(new File(event.getModConfigurationDirectory(), "shadowfacts/DiscordChat.conf"));
 		discordChat.connect();
 
 		MinecraftForge.EVENT_BUS.register(new ForgeEventHandler());

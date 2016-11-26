@@ -1,6 +1,6 @@
 package net.shadowfacts.discordchat.core.command.impl.minecraft;
 
-import net.dv8tion.jda.core.entities.MessageChannel;
+import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.shadowfacts.discordchat.api.IDiscordChat;
 import net.shadowfacts.discordchat.api.IMinecraftAdapter;
@@ -27,7 +27,7 @@ public class CommandUnstick implements ICommand {
 	}
 
 	@Override
-	public void execute(String[] args, User sender, MessageChannel channel) throws CommandException {
+	public void execute(String[] args, User sender, TextChannel channel) throws CommandException {
 		if (args.length < 1) throw new InvalidUsageException(this);
 		String error = minecraftAdapter.teleportPlayerToSpawn(args[0]);
 		if (error == null) { // success

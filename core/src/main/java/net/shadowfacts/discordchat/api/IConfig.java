@@ -1,17 +1,13 @@
 package net.shadowfacts.discordchat.api;
 
-import net.shadowfacts.discordchat.api.permission.Permission;
-
-import java.io.File;
 import java.io.IOException;
-import java.util.Map;
 
 /**
  * @author shadowfacts
  */
 public interface IConfig {
 
-	void init(File file) throws IOException;
+	void load() throws IOException;
 
 	void save() throws IOException;
 
@@ -22,10 +18,6 @@ public interface IConfig {
 	String getChannel();
 
 	String getCommandPrefix();
-
-	Map<String, Permission> getPermissions();
-
-	void setPermissions(Map<String, Permission> permissions);
 
 	boolean sendDeathMessages();
 

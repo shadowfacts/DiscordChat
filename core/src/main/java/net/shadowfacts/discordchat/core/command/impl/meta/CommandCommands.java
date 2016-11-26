@@ -1,6 +1,6 @@
 package net.shadowfacts.discordchat.core.command.impl.meta;
 
-import net.dv8tion.jda.core.entities.MessageChannel;
+import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.shadowfacts.discordchat.api.IDiscordChat;
 import net.shadowfacts.discordchat.api.command.ICommand;
@@ -32,12 +32,12 @@ public class CommandCommands implements ICommand {
 	}
 
 	@Override
-	public void execute(String[] args, User author, MessageChannel channel) throws CommandException {
+	public void execute(String[] args, User author, TextChannel channel) throws CommandException {
 		discordChat.sendMessage("Commands (you have permission for **bolded** ones): ", channel);
 		discordChat.sendMessage(String.join(", ", commandManager.getCommands().stream()
 				.map(cmd -> {
 					Permission min = cmd.getMinimumPermission();
-					if (permissionManager.has(author, min)) {
+					if (permissionManager.has(author, channel.getGuild(), min)) {
 						return "**" + cmd.getName() + "**";
 					} else {
 						return cmd.getName();

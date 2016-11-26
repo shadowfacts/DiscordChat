@@ -1,7 +1,7 @@
 package net.shadowfacts.discordchat.core.command.impl.permissions;
 
-import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.entities.MessageChannel;
+import net.dv8tion.jda.core.entities.Role;
+import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.shadowfacts.discordchat.api.IDiscordChat;
 import net.shadowfacts.discordchat.api.ILogger;
@@ -12,18 +12,20 @@ import net.shadowfacts.discordchat.api.permission.Permission;
 import net.shadowfacts.discordchat.core.command.exception.InvalidUsageException;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author shadowfacts
  */
 public class CommandSetPermission implements ICommand {
 
-	private JDA jda;
+	private IDiscordChat discordChat;
 	private ILogger logger;
 	private IPermissionManager permissionManager;
 
 	public CommandSetPermission(IDiscordChat discordChat) {
-		jda = discordChat.getJDA();
+		this.discordChat = discordChat;
 		logger = discordChat.getLogger();
 		permissionManager = discordChat.getPermissionManager();
 	}
@@ -39,16 +41,24 @@ public class CommandSetPermission implements ICommand {
 	}
 
 	@Override
-	public void execute(String[] args, User sender, MessageChannel channel) throws CommandException {
-		if (args.length != 2) {
+	public void execute(String[] args, User sender, TextChannel channel) throws CommandException {
+		if (args.length < 2) {
 			throw new InvalidUsageException(this);
 		}
-		User user = jda.getUserById(args[0].substring(2, args[0].length() - 1));
-		Permission permission = Permission.valueOf(args[1].toUpperCase());
-		permissionManager.set(user, permission);
+
+		Permission permission = Permission.valueOf(args[args.length - 1].toUpperCase());
+		String role = String.join(" ", Arrays.copyOfRange(args, 0, args.length - 1));
+		List<Role> roles = channel.getGuild().getRolesByName(role, true);
+		if (roles.isEmpty()) {
+			discordChat.sendMessage("No such role: " + role, channel);
+			return;
+		}
+
+		permissionManager.set(roles.get(0), permission);
 
 		try {
 			permissionManager.save();
+			discordChat.sendMessage("Permissions updated");
 		} catch (IOException e) {
 			logger.error(e, "Unable to save permissions");
 		}
@@ -61,7 +71,7 @@ public class CommandSetPermission implements ICommand {
 
 	@Override
 	public String getUsage() {
-		return "<user> <permission>";
+		return "<role> <permission>";
 	}
 
 }

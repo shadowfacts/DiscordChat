@@ -18,5 +18,6 @@ dependencies {
     compile group: "com.vdurmont", name: "emoji-java", version: emoji_version
     compile group: "org.apache.logging.log4j", name: "log4j-api", version: log4j_version
     compile group: "com.typesafe", name: "config", version: config_version
+    compile group: "com.google.code.gson", name: "gson", version: gson_version
     compile group: "net.shadowfacts", name: "ShadowLib", version: shadowlib_version
 }

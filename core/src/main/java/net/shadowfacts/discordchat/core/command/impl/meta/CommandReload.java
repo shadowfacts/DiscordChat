@@ -1,43 +1,54 @@
-package net.shadowfacts.discordchat.core.command.impl.permissions;
+package net.shadowfacts.discordchat.core.command.impl.meta;
 
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
+import net.shadowfacts.discordchat.api.IConfig;
 import net.shadowfacts.discordchat.api.IDiscordChat;
 import net.shadowfacts.discordchat.api.command.ICommand;
 import net.shadowfacts.discordchat.api.command.exception.CommandException;
 import net.shadowfacts.discordchat.api.permission.IPermissionManager;
 
+import java.io.IOException;
+
 /**
  * @author shadowfacts
  */
-public class CommandPermission implements ICommand {
+public class CommandReload implements ICommand {
 
 	private IDiscordChat discordChat;
+	private IConfig config;
 	private IPermissionManager permissionManager;
 
-	public CommandPermission(IDiscordChat discordChat) {
+	public CommandReload(IDiscordChat discordChat) {
 		this.discordChat = discordChat;
+		config = discordChat.getConfig();
 		permissionManager = discordChat.getPermissionManager();
 	}
 
 	@Override
 	public String getName() {
-		return "permission";
+		return "reload";
 	}
 
 	@Override
 	public void execute(String[] args, User sender, TextChannel channel) throws CommandException {
-		discordChat.sendMessage("Permission level for " + sender.getName() + ": " + permissionManager.get(sender, channel.getGuild()), channel);
+		try {
+			config.load();
+			permissionManager.load();
+			discordChat.sendMessage("Configuration and permissions reloaded", channel);
+		} catch (IOException e) {
+			throw new CommandException(e);
+		}
 	}
 
 	@Override
 	public String getDescription() {
-		return "Retrieves the caller's permission";
+		return "Reloads configuration and permissions";
 	}
 
 	@Override
 	public String getUsage() {
-		return "[user]";
+		return "";
 	}
 
 }

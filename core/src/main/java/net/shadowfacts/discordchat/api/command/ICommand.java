@@ -1,6 +1,6 @@
 package net.shadowfacts.discordchat.api.command;
 
-import net.dv8tion.jda.core.entities.MessageChannel;
+import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.shadowfacts.discordchat.api.command.exception.CommandException;
 import net.shadowfacts.discordchat.api.permission.Permission;
@@ -19,13 +19,13 @@ public interface ICommand {
 		return Permission.GLOBAL;
 	}
 
-	void execute(String[] args, User sender, MessageChannel channel) throws CommandException;
+	void execute(String[] args, User sender, TextChannel channel) throws CommandException;
 
 	String getDescription();
 
 	String getUsage();
 
-	default List<String> handleHelp(User sender, MessageChannel channel) {
+	default List<String> handleHelp(User sender, TextChannel channel) {
 		List<String> list = new ArrayList<>();
 		list.add(getName() + ": " + getDescription());
 		list.add("Usage: " + getName() + " " + getUsage());

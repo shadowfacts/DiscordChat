@@ -1,5 +1,6 @@
 package net.shadowfacts.discordchat.core.command;
 
+import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.shadowfacts.discordchat.api.IDiscordChat;
@@ -50,7 +51,7 @@ public class CommandManager implements ICommandManager {
 		try {
 			if (exists(bits[0])) {
 				ICommand command = get(bits[0]);
-				checkPermission(command, sender);
+				checkPermission(command, sender, channel.getGuild());
 				command.execute(Arrays.copyOfRange(bits, 1, bits.length), sender, channel);
 			} else {
 				throw new CommandException("Unknown command: " + bits[0]);
@@ -65,9 +66,9 @@ public class CommandManager implements ICommandManager {
 		return commands.values();
 	}
 
-	private void checkPermission(ICommand command, User user) throws InvalidPermissionException {
+	private void checkPermission(ICommand command, User user, Guild guild) throws InvalidPermissionException {
 		Permission min = command.getMinimumPermission();
-		Permission actual = discordChat.getPermissionManager().get(user);
+		Permission actual = discordChat.getPermissionManager().get(user, guild);
 		if (!actual.has(min)) {
 			throw new InvalidPermissionException(min, actual, command.getName() + " command");
 		}

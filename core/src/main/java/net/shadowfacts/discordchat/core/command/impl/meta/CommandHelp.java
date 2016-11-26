@@ -1,6 +1,6 @@
 package net.shadowfacts.discordchat.core.command.impl.meta;
 
-import net.dv8tion.jda.core.entities.MessageChannel;
+import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.shadowfacts.discordchat.api.IDiscordChat;
 import net.shadowfacts.discordchat.api.command.ICommand;
@@ -27,7 +27,7 @@ public class CommandHelp implements ICommand {
 	}
 
 	@Override
-	public void execute(String[] args, User author, MessageChannel channel) throws CommandException {
+	public void execute(String[] args, User author, TextChannel channel) throws CommandException {
 		if (args.length < 1) {
 			throw new InvalidUsageException(this);
 		}

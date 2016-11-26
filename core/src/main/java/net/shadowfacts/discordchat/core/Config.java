@@ -3,36 +3,27 @@ package net.shadowfacts.discordchat.core;
 import com.typesafe.config.ConfigFactory;
 import com.typesafe.config.ConfigObject;
 import com.typesafe.config.ConfigRenderOptions;
-import com.typesafe.config.ConfigValueFactory;
 import net.shadowfacts.discordchat.api.IConfig;
-import net.shadowfacts.discordchat.api.IDiscordChat;
-import net.shadowfacts.discordchat.api.ILogger;
-import net.shadowfacts.discordchat.api.permission.Permission;
 import net.shadowfacts.shadowlib.util.IOUtils;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author shadowfacts
  */
 public class Config implements IConfig {
 
-	private ILogger logger;
-
 	private File file;
-	private com.typesafe.config.Config config = ConfigFactory.load("assets/discordchat/default.conf");
+	private com.typesafe.config.Config config;
 
-	public Config(IDiscordChat discordChat) {
-		logger = discordChat.getLogger();
+	public Config(File file) throws IOException {
+		this.file = file;
+		load();
 	}
 
 	@Override
-	public void init(File file) throws IOException {
-		this.file = file;
-
-		config = ConfigFactory.parseFile(file).withFallback(config);
+	public void load() throws IOException {
+		config = ConfigFactory.parseFile(file).withFallback(ConfigFactory.load("assets/discordchat/default.conf"));
 		save();
 	}
 
@@ -73,32 +64,6 @@ public class Config implements IConfig {
 	@Override
 	public String getCommandPrefix() {
 		return config.getString("discordchat.commands.prefix");
-	}
-
-	@Override
-	public Map<String, Permission> getPermissions() {
-		com.typesafe.config.Config config = this.config.getConfig("discordchat.permissions");
-		Map<String, Permission> map = new HashMap<>();
-		config.entrySet().stream().map(Map.Entry::getKey).forEach(key -> {
-			Permission value;
-			try {
-				value = Permission.valueOf(config.getString(key));
-			} catch (IllegalArgumentException e) {
-				logger.warn(e, "Invalid permission '" + config.getString(key) + "' for user '" + key + "'");
-				return;
-			}
-			map.put(key, value);
-		});
-		return map;
-	}
-
-	@Override
-	public void setPermissions(Map<String, Permission> permissions) {
-		Map<String, String> map = new HashMap<>();
-		permissions.forEach((key, value) -> {
-			map.put(key, value.name());
-		});
-		config = config.withValue("discordchat.permissions", ConfigValueFactory.fromAnyRef(map));
 	}
 
 	@Override
