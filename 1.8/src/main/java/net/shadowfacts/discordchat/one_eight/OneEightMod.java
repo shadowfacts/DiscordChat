@@ -5,6 +5,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
+import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
 import net.shadowfacts.discordchat.api.IConfig;
 import net.shadowfacts.discordchat.api.IDiscordChat;
 import net.shadowfacts.discordchat.api.IMinecraftAdapter;
@@ -41,6 +42,12 @@ public class OneEightMod {
 	@Mod.EventHandler
 	public void serverStarted(FMLServerStartedEvent event) {
 		discordChat.start();
+		discordChat.sendMessage("Server is online");
+	}
+
+	@Mod.EventHandler
+	public void serverStopped(FMLServerStoppedEvent event) {
+		discordChat.sendMessage("Server is offline");
 	}
 
 }

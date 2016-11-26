@@ -4,6 +4,7 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartedEvent;
+import cpw.mods.fml.common.event.FMLServerStoppedEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.shadowfacts.discordchat.api.IConfig;
 import net.shadowfacts.discordchat.api.IDiscordChat;
@@ -41,6 +42,12 @@ public class OneSevenTenMod {
 	@Mod.EventHandler
 	public void serverStarted(FMLServerStartedEvent event) {
 		discordChat.start();
+		discordChat.sendMessage("Server is online");
+	}
+
+	@Mod.EventHandler
+	public void serverStopped(FMLServerStoppedEvent event) {
+		discordChat.sendMessage("Server is offline");
 	}
 
 }
