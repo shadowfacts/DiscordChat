@@ -11,6 +11,7 @@ import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.storage.IPlayerFileData;
 import net.minecraftforge.common.DimensionManager;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.FakePlayerFactory;
 import net.shadowfacts.discordchat.api.IMinecraftAdapter;
@@ -25,7 +26,7 @@ public class OneSevenTenAdapter implements IMinecraftAdapter {
 
 	@Override
 	public void sendMessage(String message) {
-		MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText(message));
+		MinecraftServer.getServer().getConfigurationManager().sendChatMsg(ForgeHooks.newChatWithLinks(message));
 	}
 
 	@Override

@@ -11,6 +11,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.storage.IPlayerFileData;
 import net.minecraftforge.common.DimensionManager;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.FakePlayerFactory;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -26,7 +27,7 @@ public class OneEightAdapter implements IMinecraftAdapter {
 
 	@Override
 	public void sendMessage(String message) {
-		MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText(message));
+		MinecraftServer.getServer().getConfigurationManager().sendChatMsg(ForgeHooks.newChatWithLinks(message));
 	}
 
 	@Override
