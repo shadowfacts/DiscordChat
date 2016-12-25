@@ -22,6 +22,8 @@ targetCompatibility = JavaVersion.VERSION_1_8
 
 version = mc_version + "-" + mod_version
 
+archivesBaseName = "DiscordChat"
+
 minecraft {
 	version = mc_version + "-" + forge_version
 	runDir = "run"
