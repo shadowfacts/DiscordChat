@@ -30,6 +30,8 @@ public class OneSevenTenMod {
 
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) throws IOException {
+		System.setProperty("org.apache.commons.logging.LogFactory", "net.shadowfacts.discordchat.repack.org.apache.commons.logging.impl.LogFactoryImpl");
+		System.setProperty("org.apache.commons.logging.Log", "net.shadowfacts.discordchat.repack.org.apache.commons.logging.impl.SimpleLog");
 		discordChat = new DiscordChat(new File(event.getModConfigurationDirectory(), "shadowfacts/DiscordChat/"), minecraftAdapter);
 		config = discordChat.getConfig();
 		discordChat.connect();

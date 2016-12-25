@@ -45,6 +45,16 @@ processResources {
 	}
 }
 
+repositories {
+	maven {
+		name "shadowfacts"
+		url "http://mvn.rx14.co.uk/shadowfacts/"
+	}
+	flatDir {
+		dirs "../core/libs"
+	}
+}
+
 dependencies {
 	compile project(":core")
 }
@@ -67,8 +77,17 @@ shadowJar {
 	
 	relocate "org.apache.http", "net.shadowfacts.discordchat.repack.org.apache.http"
 	relocate "org.apache.commons.logging", "net.shadowfacts.discordchat.repack.org.apache.commons.logging"
+	relocate "org.apache.commons.collections4", "net.shadowfacts.discordchat.repack.org.apache.commons.collections4"
+
+	relocate "com.vdurmont.emoji", "net.shadowfacts.discordchat.repack.com.vdurmont.emoji"
 
 	dependencies {
 		include(project(":core"))
+		include(dependency("JDA:JDA:3.0.BETA_DEV:withDependencies"))
+		include(dependency("com.vdurmont:emoji-java:3.1.3"))
+		include(dependency("net.shadowfacts:ShadowLib:1.8.1"))
 	}
 }
+
+reobf { shadowJar { mappingType = "SEARGE" } }
+tasks.reobfShadowJar.mustRunAfter shadowJar
