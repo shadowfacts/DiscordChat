@@ -2,6 +2,7 @@ package net.shadowfacts.discordchat.core.command.impl.meta;
 
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
+import net.shadowfacts.discordchat.api.IConfig;
 import net.shadowfacts.discordchat.api.IDiscordChat;
 import net.shadowfacts.discordchat.api.command.ICommand;
 import net.shadowfacts.discordchat.api.command.ICommandManager;
@@ -17,11 +18,13 @@ import java.util.stream.Collectors;
 public class CommandCommands implements ICommand {
 
 	private IDiscordChat discordChat;
+	private IConfig config;
 	private ICommandManager commandManager;
 	private IPermissionManager permissionManager;
 
 	public CommandCommands(IDiscordChat discordChat) {
 		this.discordChat = discordChat;
+		this.config = discordChat.getConfig();
 		this.commandManager = discordChat.getCommandManager();
 		this.permissionManager = discordChat.getPermissionManager();
 	}
@@ -29,6 +32,11 @@ public class CommandCommands implements ICommand {
 	@Override
 	public String getName() {
 		return "commands";
+	}
+
+	@Override
+	public Permission getMinimumPermission() {
+		return config.getMinimumPermission(getName());
 	}
 
 	@Override

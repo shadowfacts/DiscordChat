@@ -15,9 +15,7 @@ public interface ICommand {
 
 	String getName();
 
-	default Permission getMinimumPermission() {
-		return Permission.GLOBAL;
-	}
+	Permission getMinimumPermission();
 
 	void execute(String[] args, User sender, TextChannel channel) throws CommandException;
 

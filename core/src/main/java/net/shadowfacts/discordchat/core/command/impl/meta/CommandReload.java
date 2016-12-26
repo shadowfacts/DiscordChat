@@ -7,6 +7,7 @@ import net.shadowfacts.discordchat.api.IDiscordChat;
 import net.shadowfacts.discordchat.api.command.ICommand;
 import net.shadowfacts.discordchat.api.command.exception.CommandException;
 import net.shadowfacts.discordchat.api.permission.IPermissionManager;
+import net.shadowfacts.discordchat.api.permission.Permission;
 
 import java.io.IOException;
 
@@ -28,6 +29,11 @@ public class CommandReload implements ICommand {
 	@Override
 	public String getName() {
 		return "reload";
+	}
+
+	@Override
+	public Permission getMinimumPermission() {
+		return config.getMinimumPermission(getName());
 	}
 
 	@Override

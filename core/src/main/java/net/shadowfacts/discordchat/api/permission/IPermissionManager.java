@@ -4,7 +4,6 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.User;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 

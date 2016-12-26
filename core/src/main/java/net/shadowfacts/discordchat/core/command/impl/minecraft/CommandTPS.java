@@ -2,10 +2,12 @@ package net.shadowfacts.discordchat.core.command.impl.minecraft;
 
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
+import net.shadowfacts.discordchat.api.IConfig;
 import net.shadowfacts.discordchat.api.IDiscordChat;
 import net.shadowfacts.discordchat.api.IMinecraftAdapter;
 import net.shadowfacts.discordchat.api.command.ICommand;
 import net.shadowfacts.discordchat.api.command.exception.CommandException;
+import net.shadowfacts.discordchat.api.permission.Permission;
 
 /**
  * @author shadowfacts
@@ -13,16 +15,23 @@ import net.shadowfacts.discordchat.api.command.exception.CommandException;
 public class CommandTPS implements ICommand {
 
 	private IDiscordChat discordChat;
+	private IConfig config;
 	private IMinecraftAdapter minecraftAdapter;
 
 	public CommandTPS(IDiscordChat discordChat) {
 		this.discordChat = discordChat;
+		this.config = discordChat.getConfig();
 		minecraftAdapter = discordChat.getMinecraftAdapter();
 	}
 
 	@Override
 	public String getName() {
 		return "tps";
+	}
+
+	@Override
+	public Permission getMinimumPermission() {
+		return config.getMinimumPermission(getName());
 	}
 
 	@Override

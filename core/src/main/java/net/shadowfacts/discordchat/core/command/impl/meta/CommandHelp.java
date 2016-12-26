@@ -2,10 +2,12 @@ package net.shadowfacts.discordchat.core.command.impl.meta;
 
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
+import net.shadowfacts.discordchat.api.IConfig;
 import net.shadowfacts.discordchat.api.IDiscordChat;
 import net.shadowfacts.discordchat.api.command.ICommand;
 import net.shadowfacts.discordchat.api.command.ICommandManager;
 import net.shadowfacts.discordchat.api.command.exception.CommandException;
+import net.shadowfacts.discordchat.api.permission.Permission;
 import net.shadowfacts.discordchat.core.command.exception.InvalidUsageException;
 
 /**
@@ -14,16 +16,23 @@ import net.shadowfacts.discordchat.core.command.exception.InvalidUsageException;
 public class CommandHelp implements ICommand {
 
 	private IDiscordChat discordChat;
+	private IConfig config;
 	private ICommandManager commandManager;
 
 	public CommandHelp(IDiscordChat discordChat) {
 		this.discordChat = discordChat;
+		this.config = discordChat.getConfig();
 		this.commandManager = discordChat.getCommandManager();
 	}
 
 	@Override
 	public String getName() {
 		return "help";
+	}
+
+	@Override
+	public Permission getMinimumPermission() {
+		return config.getMinimumPermission(getName());
 	}
 
 	@Override

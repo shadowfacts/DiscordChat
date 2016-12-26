@@ -1,5 +1,7 @@
 package net.shadowfacts.discordchat.api;
 
+import net.shadowfacts.discordchat.api.permission.Permission;
+
 import java.io.IOException;
 
 /**
@@ -18,6 +20,8 @@ public interface IConfig {
 	String getChannel();
 
 	String getCommandPrefix();
+
+	Permission getMinimumPermission(String command);
 
 	boolean sendDeathMessages();
 

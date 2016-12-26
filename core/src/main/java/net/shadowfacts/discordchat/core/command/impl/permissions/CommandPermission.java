@@ -2,10 +2,12 @@ package net.shadowfacts.discordchat.core.command.impl.permissions;
 
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
+import net.shadowfacts.discordchat.api.IConfig;
 import net.shadowfacts.discordchat.api.IDiscordChat;
 import net.shadowfacts.discordchat.api.command.ICommand;
 import net.shadowfacts.discordchat.api.command.exception.CommandException;
 import net.shadowfacts.discordchat.api.permission.IPermissionManager;
+import net.shadowfacts.discordchat.api.permission.Permission;
 
 /**
  * @author shadowfacts
@@ -13,16 +15,23 @@ import net.shadowfacts.discordchat.api.permission.IPermissionManager;
 public class CommandPermission implements ICommand {
 
 	private IDiscordChat discordChat;
+	private IConfig config;
 	private IPermissionManager permissionManager;
 
 	public CommandPermission(IDiscordChat discordChat) {
 		this.discordChat = discordChat;
+		this.config = discordChat.getConfig();
 		permissionManager = discordChat.getPermissionManager();
 	}
 
 	@Override
 	public String getName() {
 		return "permission";
+	}
+
+	@Override
+	public Permission getMinimumPermission() {
+		return config.getMinimumPermission(getName());
 	}
 
 	@Override

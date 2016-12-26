@@ -3,6 +3,7 @@ package net.shadowfacts.discordchat.core.command.impl.permissions;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
+import net.shadowfacts.discordchat.api.IConfig;
 import net.shadowfacts.discordchat.api.IDiscordChat;
 import net.shadowfacts.discordchat.api.ILogger;
 import net.shadowfacts.discordchat.api.command.ICommand;
@@ -22,11 +23,13 @@ public class CommandSetPermission implements ICommand {
 
 	private IDiscordChat discordChat;
 	private ILogger logger;
+	private IConfig config;
 	private IPermissionManager permissionManager;
 
 	public CommandSetPermission(IDiscordChat discordChat) {
 		this.discordChat = discordChat;
 		logger = discordChat.getLogger();
+		config = discordChat.getConfig();
 		permissionManager = discordChat.getPermissionManager();
 	}
 
@@ -37,7 +40,7 @@ public class CommandSetPermission implements ICommand {
 
 	@Override
 	public Permission getMinimumPermission() {
-		return Permission.ADMIN;
+		return config.getMinimumPermission(getName());
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package net.shadowfacts.discordchat.core.command.impl.minecraft;
 
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
+import net.shadowfacts.discordchat.api.IConfig;
 import net.shadowfacts.discordchat.api.IDiscordChat;
 import net.shadowfacts.discordchat.api.IMinecraftAdapter;
 import net.shadowfacts.discordchat.api.command.ICommand;
@@ -14,9 +15,11 @@ import net.shadowfacts.discordchat.core.command.exception.InvalidUsageException;
  */
 public class CommandExecute implements ICommand {
 
+	private IConfig config;
 	private IMinecraftAdapter minecraftAdapter;
 
 	public CommandExecute(IDiscordChat discordChat) {
+		config = discordChat.getConfig();
 		minecraftAdapter = discordChat.getMinecraftAdapter();
 	}
 
@@ -27,7 +30,7 @@ public class CommandExecute implements ICommand {
 
 	@Override
 	public Permission getMinimumPermission() {
-		return Permission.ADMIN;
+		return config.getMinimumPermission(getName());
 	}
 
 	@Override

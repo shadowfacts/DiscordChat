@@ -4,6 +4,7 @@ import com.typesafe.config.ConfigFactory;
 import com.typesafe.config.ConfigObject;
 import com.typesafe.config.ConfigRenderOptions;
 import net.shadowfacts.discordchat.api.IConfig;
+import net.shadowfacts.discordchat.api.permission.Permission;
 import net.shadowfacts.shadowlib.util.IOUtils;
 
 import java.io.*;
@@ -64,6 +65,11 @@ public class Config implements IConfig {
 	@Override
 	public String getCommandPrefix() {
 		return config.getString("discordchat.commands.prefix");
+	}
+
+	@Override
+	public Permission getMinimumPermission(String command) {
+		return Permission.valueOf(config.getString("discordchat.commands.permission." + command).toUpperCase());
 	}
 
 	@Override
