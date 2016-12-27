@@ -86,8 +86,7 @@ public class DiscordChat implements IDiscordChat {
 						.addListener(new Listener(this))
 						.buildBlocking();
 			} catch (Exception e) {
-				logger.warn(e, "Unable to connect to discord");
-				enabled = false;
+				throw new RuntimeException(e);
 			}
 		}, "DiscordChat-initializer").start();
 	}
