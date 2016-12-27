@@ -30,6 +30,7 @@ public class Listener extends ListenerAdapter {
 	public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
 		if (event.getAuthor().equals(event.getJDA().getSelfUser())) return;
 		if (!event.getGuild().getId().equals(config.getServerID())) return;
+		if (!event.getChannel().getName().equals(config.getChannel())) return;
 
 		String raw = event.getMessage().getRawContent();
 		if (raw.startsWith(config.getCommandPrefix())) {
