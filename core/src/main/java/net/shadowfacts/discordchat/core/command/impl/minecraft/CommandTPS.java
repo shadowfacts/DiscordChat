@@ -39,7 +39,7 @@ public class CommandTPS implements ICommand {
 		if (args.length == 0) {
 			for (int dim : minecraftAdapter.getAllDimensions()) {
 				double tickTime = minecraftAdapter.getTickTime(dim);
-				double tps = Math.min(tickTime / 1000, 20);
+				double tps = Math.min(1000 / tickTime, 20);
 				discordChat.sendMessage(String.format("Dimension %d: Tick time: %.3fms TPS: %.0f", dim, tickTime, tps), channel);
 			}
 		} else {
