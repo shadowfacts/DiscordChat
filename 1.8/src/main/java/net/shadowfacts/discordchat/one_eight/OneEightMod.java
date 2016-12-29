@@ -5,6 +5,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
 import net.shadowfacts.discordchat.api.IConfig;
 import net.shadowfacts.discordchat.api.IDiscordChat;
@@ -36,6 +37,11 @@ public class OneEightMod {
 
 		MinecraftForge.EVENT_BUS.register(new ForgeEventHandler());
 		FMLCommonHandler.instance().bus().register(new FMLEventHandler());
+	}
+
+	@Mod.EventHandler
+	public void serverStarting(FMLServerStartingEvent event) {
+		event.registerServerCommand(new CommandDC(discordChat));
 	}
 
 	@Mod.EventHandler

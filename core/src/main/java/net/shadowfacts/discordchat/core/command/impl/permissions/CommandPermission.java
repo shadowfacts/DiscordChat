@@ -46,7 +46,7 @@ public class CommandPermission implements ICommand {
 
 	@Override
 	public String getUsage() {
-		return "[user]";
+		return "";
 	}
 
 }
