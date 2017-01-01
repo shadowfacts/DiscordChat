@@ -5,7 +5,6 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
-import net.dv8tion.jda.core.hooks.IEventManager;
 import net.dv8tion.jda.core.requests.RestAction;
 import net.shadowfacts.discordchat.api.*;
 import net.shadowfacts.discordchat.api.command.ICommandManager;
@@ -26,7 +25,6 @@ import net.shadowfacts.discordchat.core.util.QueuedMessage;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.stream.Collectors;
@@ -122,7 +120,6 @@ public class DiscordChat implements IDiscordChat {
 
 	@Override
 	public void stop() {
-		while (sendQueue.peek() != null) {}
 		jda.shutdown();
 	}
 
@@ -186,6 +183,7 @@ public class DiscordChat implements IDiscordChat {
 	@Override
 	public void sendMessage(String message) {
 		if (channel == null) {
+			while (jda == null) {}
 			List<TextChannel> channels = jda.getTextChannelsByName(config.getChannel(), false);
 			if (channels.size() < 1) {
 				throw new RuntimeException("No such channel: " + config.getChannel());
