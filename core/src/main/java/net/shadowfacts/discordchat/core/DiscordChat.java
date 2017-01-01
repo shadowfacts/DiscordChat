@@ -42,7 +42,7 @@ public class DiscordChat implements IDiscordChat {
 	private CommandManager commandManager;
 	private MessageFormatter formatter;
 
-	private boolean enabled = true;
+	private boolean running = true;
 
 	private JDA jda;
 
@@ -91,10 +91,12 @@ public class DiscordChat implements IDiscordChat {
 
 	@Override
 	public void start() {
-		if (enabled) {
+		if (running) {
 
 			Thread thread = new Thread(() -> {
 				while (true) {
+					if (!running) break;
+
 					if (jda != null && sendQueue.peek() != null) {
 						try {
 							RestAction<Message> result = sendQueue.peek().send();
@@ -120,6 +122,7 @@ public class DiscordChat implements IDiscordChat {
 
 	@Override
 	public void stop() {
+		running = false;
 		jda.shutdown();
 	}
 
@@ -163,7 +166,7 @@ public class DiscordChat implements IDiscordChat {
 		if (channel == null) {
 			throw new NullPointerException("channel cannot be null");
 		}
-		if (!enabled) return;
+		if (!running) return;
 		if (message == null || message.isEmpty()) return;
 
 
