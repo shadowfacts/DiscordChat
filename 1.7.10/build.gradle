@@ -48,7 +48,6 @@ minecraft {
 	srgExtra "PK: tomp2p/opuswrapper net/shadowfacts/discordchat/repack/tomp2p/opuswrapper"
 
 	srgExtra "PK: org/apache/http net/shadowfacts/discordchat/repack/org/apache/http"
-	srgExtra "PK: org/apache/commons/logging net/shadowfacts/discordchat/repack/org/apache/commons/logging"
 }
 
 processResources {
