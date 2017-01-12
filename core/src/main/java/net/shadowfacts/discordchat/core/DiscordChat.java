@@ -1,5 +1,6 @@
 package net.shadowfacts.discordchat.core;
 
+import com.mashape.unirest.http.exceptions.UnirestException;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
@@ -131,7 +132,7 @@ public class DiscordChat implements IDiscordChat {
 					ex.printStackTrace();
 				}
 			} catch (ErrorResponseException e) {
-				logger.error(e, "Error sending message to Discord: " + e.getErrorResponse().getCode() + "(" + e.getErrorResponse().getMeaning() + ")");
+				logger.error(e, "Error sending message to Discord: " + e.getErrorResponse().getCode() + " (" + e.getErrorResponse().getMeaning() + ")");
 			}
 		}
 	}
