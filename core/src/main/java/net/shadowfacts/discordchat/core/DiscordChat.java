@@ -24,6 +24,7 @@ import net.shadowfacts.discordchat.core.command.impl.permissions.CommandSetPermi
 import net.shadowfacts.discordchat.core.permission.PermissionManager;
 import net.shadowfacts.discordchat.core.util.QueuedMessage;
 
+import javax.security.auth.login.LoginException;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -84,6 +85,8 @@ public class DiscordChat implements IDiscordChat {
 						.setToken(config.getToken())
 						.addListener(new Listener(this))
 						.buildBlocking();
+			} catch (LoginException | IllegalArgumentException e) {
+				throw new RuntimeException("Invalid Discord token. Please verify your token in the DiscordChat config file.", e);
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
