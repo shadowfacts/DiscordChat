@@ -1,0 +1,95 @@
+buildscript {
+	repositories {
+		jcenter()
+		maven {
+			name "forge"
+			url "http://files.minecraftforge.net/maven/"
+		}
+	}
+	dependencies {
+		classpath "net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT"
+	}
+}
+
+plugins {
+	id "com.github.johnrengelman.shadow" version "1.2.3"
+}
+
+apply plugin: "net.minecraftforge.gradle.forge"
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+version = mc_version + "-" + mod_version
+
+archivesBaseName = "DiscordChat"
+
+minecraft {
+	version = mc_version + "-" + forge_version
+	runDir = "run"
+
+	mappings = mcp_mappings
+
+	replaceIn "OneElevenTwoMod.java"
+	replace "@VERSION@", mod_version
+}
+
+processResources {
+	inputs.property "version", project.version
+	inputs.property "mcversion", project.minecraft.version
+
+	from (sourceSets.main.resources.srcDirs) {
+		include "mcmod.info"
+		expand "version": project.version, "mcversion": project.minecraft.version
+	}
+	from (sourceSets.main.resources.srcDirs) {
+		exclude "mcmod.info"
+	}
+}
+
+repositories {
+	maven {
+		name "shadowfacts"
+		url "http://mvn.rx14.co.uk/shadowfacts/"
+	}
+	flatDir {
+		dirs "../core/libs"
+	}
+}
+
+dependencies {
+	compile project(":core")
+}
+
+shadowJar {
+	classifier = ""
+	relocate "com.mashape.unirest", "net.shadowfacts.discordchat.repack.com.mashape.unirest"
+	relocate "com.neovisionaries.ws.client", "net.shadowfacts.discordchat.repack.com.neovisionaries.ws.client"
+	relocate "com.sun.jna", "net.shadowfacts.discordchat.repack.com.sun.jna"
+	relocate "javax.sound", "net.shadowfacts.discordchat.repack.javax.sound"
+	relocate "javazoom", "net.shadowfacts.discordchat.repack.javazoom"
+	relocate "net.dv8tion.jda", "net.shadowfacts.discordchat.repack.net.dv8tion.jda"
+	relocate "net.sourceforge.jaad", "net.shadowfacts.discordchat.repack.net.sourceforge.jaad"
+	relocate "org.apache.commons.codec", "net.shadowfacts.discordchat.repack.org.apache.commons.codec"
+	relocate "org.apache.commons.lang3", "net.shadowfacts.discordchat.repack.org.apache.commons.lang3"
+	relocate "org.json", "net.shadowfacts.discordchat.repack.org.json"
+	relocate "org.kc7bfi.jflac", "net.shadowfacts.discordchat.repack.orgkc7bfi.jflac"
+	relocate "org.tritonus", "net.shadowfacts.discordchat.repack.org.tritonus"
+	relocate "tomp2p.opuswrapper", "net.shadowfacts.discordchat.repack.tomp2p.opuswrapper"
+	
+	relocate "org.apache.http", "net.shadowfacts.discordchat.repack.org.apache.http"
+	relocate "org.apache.commons.logging", "net.shadowfacts.discordchat.repack.org.apache.commons.logging"
+	relocate "org.apache.commons.collections4", "net.shadowfacts.discordchat.repack.org.apache.commons.collections4"
+
+	relocate "com.vdurmont.emoji", "net.shadowfacts.discordchat.repack.com.vdurmont.emoji"
+
+	dependencies {
+		include(project(":core"))
+		include(dependency("JDA:JDA:3.0.BETA_DEV:withDependencies"))
+		include(dependency("com.vdurmont:emoji-java:3.1.3"))
+		include(dependency("net.shadowfacts:ShadowLib:1.8.1"))
+	}
+}
+
+reobf { shadowJar { mappingType = "SEARGE" } }
+tasks.reobfShadowJar.mustRunAfter shadowJar
