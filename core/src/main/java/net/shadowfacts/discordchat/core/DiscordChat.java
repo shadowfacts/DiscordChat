@@ -93,30 +93,40 @@ public class DiscordChat implements IDiscordChat {
 	public void start() {
 		if (running) {
 
-			Thread thread = new Thread(() -> {
-				while (true) {
-					if (!running) break;
-
-					if (jda != null && sendQueue.peek() != null) {
-						try {
-							RestAction<Message> result = sendQueue.peek().send();
-							result.block();
-							sendQueue.remove();
-						} catch (RateLimitedException e) {
-							logger.debug("Message was rate limited, will try again in " + e.getRetryAfter());
-							try {
-								Thread.sleep(e.getRetryAfter());
-							} catch (InterruptedException ex) {
-								ex.printStackTrace();
-							}
-						}
-					}
-				}
-			}, "DiscordChat-send-queue");
+			Thread thread = new Thread(this::sendQueueThread, "DiscordChat-send-queue");
 			thread.setUncaughtExceptionHandler((thrd, t) -> {
 				logger.error(t, "Uncaught exception in DiscordChat-send-queue thread");
 			});
 			thread.start();
+		}
+	}
+	
+	private void sendQueueThread() {
+		try {
+			while(jda == null) Thread.sleep(50); // Don't hog the CPU
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		QueuedMessage candidate = null;
+		while (running) {
+			try {
+				if (candidate == null)
+					candidate = sendQueue.take();
+				
+				RestAction<Message> result = candidate.send();
+				result.block();
+				candidate = null; // Upon a succesful result, reset the candidate
+			} catch (InterruptedException e) {
+				e.printStackTrace(); // Since we're not explicitly invoking Thread interrupt, this should never occur.
+			} catch (RateLimitedException e) {
+				logger.debug("Message was rate limited, will try again in " + e.getRetryAfter());
+				try {
+					Thread.sleep(e.getRetryAfter());
+				} catch (InterruptedException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 	}
 
