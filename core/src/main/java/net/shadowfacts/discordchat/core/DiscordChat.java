@@ -91,6 +91,15 @@ public class DiscordChat implements IDiscordChat {
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
+
+			Guild guild = jda.getGuildById(config.getServerID());
+			if (guild == null) {
+				throw new RuntimeException("Invalid server ID");
+			}
+			List<TextChannel> channels = guild.getTextChannelsByName(config.getChannel(), true);
+			if (channels.isEmpty()) {
+				throw new RuntimeException("Invalid channel ID");
+			}
 		}, "DiscordChat-initializer").start();
 	}
 
