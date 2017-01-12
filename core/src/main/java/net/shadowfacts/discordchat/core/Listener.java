@@ -37,7 +37,7 @@ public class Listener extends ListenerAdapter {
 			commandManager.execute(raw.substring(config.getCommandPrefix().length()), event.getAuthor(), event.getChannel());
 		} else {
 			String channel = event.getChannel().getName();
-			String author = event.getAuthor().getName();
+			String author = event.getAuthor().getName().replaceAll("\\.", "_");
 			String message = EmojiParser.parseToAliases(event.getMessage().getContent());
 			minecraftAdapter.sendMessage(formatter.fromDiscord(channel, author, message));
 			event.getMessage().getAttachments().forEach(it -> {
