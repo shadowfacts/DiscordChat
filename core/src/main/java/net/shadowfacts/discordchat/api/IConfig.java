@@ -3,6 +3,7 @@ package net.shadowfacts.discordchat.api;
 import net.shadowfacts.discordchat.api.permission.Permission;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * @author shadowfacts
@@ -17,7 +18,7 @@ public interface IConfig {
 
 	String getServerID();
 
-	String getChannel();
+	List<String> getChannels();
 
 	String getCommandPrefix();
 

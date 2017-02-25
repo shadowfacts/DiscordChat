@@ -3,11 +3,14 @@ package net.shadowfacts.discordchat.core;
 import com.typesafe.config.ConfigFactory;
 import com.typesafe.config.ConfigObject;
 import com.typesafe.config.ConfigRenderOptions;
+import com.typesafe.config.ConfigValueFactory;
 import net.shadowfacts.discordchat.api.IConfig;
 import net.shadowfacts.discordchat.api.permission.Permission;
 import net.shadowfacts.shadowlib.util.IOUtils;
 
 import java.io.*;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author shadowfacts
@@ -25,6 +28,14 @@ public class Config implements IConfig {
 	@Override
 	public void load() throws IOException {
 		config = ConfigFactory.parseFile(file).withFallback(ConfigFactory.load("assets/discordchat/default.conf"));
+
+		// Migration handler
+		if (config.hasPath("discordchat.discord.channel")) {
+			String channel = config.getString("discordchat.discord.channel");
+			config = config.withoutPath("discordchat.discord.channel");
+			config = config.withValue("discordchat.discord.channels", ConfigValueFactory.fromAnyRef(Collections.singletonList(channel)));
+		}
+
 		save();
 	}
 
@@ -58,8 +69,8 @@ public class Config implements IConfig {
 	}
 
 	@Override
-	public String getChannel() {
-		return config.getString("discordchat.discord.channel");
+	public List<String> getChannels() {
+		return config.getStringList("discordchat.discord.channels");
 	}
 
 	@Override

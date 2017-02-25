@@ -1,6 +1,5 @@
 package net.shadowfacts.discordchat.core;
 
-import com.mashape.unirest.http.exceptions.UnirestException;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
@@ -28,6 +27,7 @@ import net.shadowfacts.discordchat.core.util.QueuedMessage;
 import javax.security.auth.login.LoginException;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.stream.Collectors;
@@ -50,7 +50,7 @@ public class DiscordChat implements IDiscordChat {
 	private JDA jda;
 
 	private final LinkedBlockingQueue<QueuedMessage> sendQueue = new LinkedBlockingQueue<>();
-	private TextChannel channel;
+	private List<TextChannel> channels;
 
 	public DiscordChat(File dcDir, IMinecraftAdapter minecraftAdapter) throws IOException {
 		this.minecraftAdapter = minecraftAdapter;
@@ -96,9 +96,11 @@ public class DiscordChat implements IDiscordChat {
 			if (guild == null) {
 				throw new RuntimeException("Invalid server ID");
 			}
-			List<TextChannel> channels = guild.getTextChannelsByName(config.getChannel(), true);
-			if (channels.isEmpty()) {
-				throw new RuntimeException("Invalid channel ID");
+			for (String channel : config.getChannels()) {
+				List<TextChannel> channels = guild.getTextChannelsByName(channel, true);
+				if (channels.isEmpty()) {
+					throw new RuntimeException("Invalid channel ID: " + channel);
+				}
 			}
 		}, "DiscordChat-initializer").start();
 	}
@@ -127,7 +129,7 @@ public class DiscordChat implements IDiscordChat {
 			try {
 				if (candidate == null)
 					candidate = sendQueue.take();
-				
+
 				RestAction<Message> result = candidate.send();
 				result.block();
 				candidate = null; // Upon a succesful result, reset the candidate
@@ -188,9 +190,9 @@ public class DiscordChat implements IDiscordChat {
 	}
 
 	@Override
-	public void sendMessage(String message, MessageChannel channel) {
-		if (channel == null) {
-			throw new NullPointerException("channel cannot be null");
+	public void sendMessage(String message, List<? extends MessageChannel> channels) {
+		if (channels.isEmpty()) {
+			throw new NullPointerException("channels cannot be empty");
 		}
 		if (!running) return;
 		if (message == null || message.isEmpty()) return;
@@ -206,21 +208,26 @@ public class DiscordChat implements IDiscordChat {
 			}
 		}
 
-		sendQueue.add(new QueuedMessage(message, channel));
+		for (MessageChannel channel : channels) {
+			sendQueue.add(new QueuedMessage(message, channel));
+		}
 	}
 
 	@Override
 	public void sendMessage(String message) {
-		if (channel == null) {
+		if (channels == null) {
 			while (jda == null) {}
-			List<TextChannel> channels = jda.getTextChannelsByName(config.getChannel(), false);
-			if (channels.size() < 1) {
-				throw new RuntimeException("No such channel: " + config.getChannel());
-			} else {
-				channel = channels.get(0);
+			this.channels = new ArrayList<>();
+			for (String channel : config.getChannels()) {
+				List<TextChannel> channels = jda.getTextChannelsByName(channel, false);
+				if (channels.size() < 1) {
+					throw new RuntimeException("No such channel: " + channel);
+				} else {
+					this.channels.addAll(channels);
+				}
 			}
 		}
-		sendMessage(message, channel);
+		sendMessage(message, channels);
 	}
 
 }
