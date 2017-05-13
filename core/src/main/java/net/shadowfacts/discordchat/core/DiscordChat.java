@@ -127,6 +127,12 @@ public class DiscordChat implements IDiscordChat {
 		
 		QueuedMessage candidate = null;
 		while (running) {
+			if (jda.getStatus() == JDA.Status.SHUTTING_DOWN || jda.getStatus() == JDA.Status.SHUTDOWN) {
+				sendQueue.clear();
+				running = false;
+				break;
+			}
+
 			try {
 				if (candidate == null)
 					candidate = sendQueue.take();
