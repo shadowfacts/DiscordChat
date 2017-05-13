@@ -45,7 +45,7 @@ public class DiscordChat implements IDiscordChat {
 	private CommandManager commandManager;
 	private MessageFormatter formatter;
 
-	private boolean running = true;
+	private boolean running;
 
 	private JDA jda;
 
@@ -91,6 +91,7 @@ public class DiscordChat implements IDiscordChat {
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
+			running = true;
 
 			Guild guild = jda.getGuildById(config.getServerID());
 			if (guild == null) {
@@ -215,6 +216,8 @@ public class DiscordChat implements IDiscordChat {
 
 	@Override
 	public void sendMessage(String message) {
+		if (!running) return;
+
 		if (channels == null) {
 			while (jda == null) {}
 			this.channels = new ArrayList<>();
