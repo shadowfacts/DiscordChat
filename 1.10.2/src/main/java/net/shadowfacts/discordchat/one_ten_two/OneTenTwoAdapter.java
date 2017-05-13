@@ -28,7 +28,10 @@ public class OneTenTwoAdapter implements IMinecraftAdapter {
 
 	@Override
 	public void sendMessage(String message) {
-		FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().sendChatMsg(ForgeHooks.newChatWithLinks(message));
+		MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
+		if (server != null) {
+			server.getPlayerList().sendChatMsg(ForgeHooks.newChatWithLinks(message));
+		}
 	}
 
 	@Override

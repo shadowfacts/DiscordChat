@@ -27,7 +27,10 @@ public class OneEightAdapter implements IMinecraftAdapter {
 
 	@Override
 	public void sendMessage(String message) {
-		MinecraftServer.getServer().getConfigurationManager().sendChatMsg(ForgeHooks.newChatWithLinks(message));
+		MinecraftServer server = MinecraftServer.getServer();
+		if (server != null) {
+			server.getConfigurationManager().sendChatMsg(ForgeHooks.newChatWithLinks(message));
+		}
 	}
 
 	@Override
