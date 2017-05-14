@@ -112,4 +112,9 @@ public class OneElevenAdapter implements IMinecraftAdapter {
 		return null;
 	}
 
+	@Override
+	public long getWorldTime(int dimension) {
+		return FMLCommonHandler.instance().getMinecraftServerInstance().worldServerForDimension(dimension).getWorldTime();
+	}
+
 }

@@ -19,4 +19,6 @@ public interface IMinecraftAdapter {
 
 	String teleportPlayerToSpawn(String username);
 
+	long getWorldTime(int dimension);
+
 }

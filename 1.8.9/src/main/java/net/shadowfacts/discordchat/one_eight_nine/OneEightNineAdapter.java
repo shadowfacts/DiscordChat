@@ -112,4 +112,9 @@ public class OneEightNineAdapter implements IMinecraftAdapter {
 		return null;
 	}
 
+	@Override
+	public long getWorldTime(int dimension) {
+		return MinecraftServer.getServer().worldServerForDimension(dimension).getWorldTime();
+	}
+
 }

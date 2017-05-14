@@ -15,10 +15,7 @@ import net.shadowfacts.discordchat.core.command.impl.meta.CommandCommands;
 import net.shadowfacts.discordchat.core.command.impl.meta.CommandHelp;
 import net.shadowfacts.discordchat.core.command.impl.meta.CommandReload;
 import net.shadowfacts.discordchat.core.command.impl.meta.CommandRoleID;
-import net.shadowfacts.discordchat.core.command.impl.minecraft.CommandExecute;
-import net.shadowfacts.discordchat.core.command.impl.minecraft.CommandOnline;
-import net.shadowfacts.discordchat.core.command.impl.minecraft.CommandTPS;
-import net.shadowfacts.discordchat.core.command.impl.minecraft.CommandUnstick;
+import net.shadowfacts.discordchat.core.command.impl.minecraft.*;
 import net.shadowfacts.discordchat.core.command.impl.permissions.CommandPermission;
 import net.shadowfacts.discordchat.core.command.impl.permissions.CommandSetPermission;
 import net.shadowfacts.discordchat.core.permission.PermissionManager;
@@ -74,6 +71,7 @@ public class DiscordChat implements IDiscordChat {
 		commandManager.register(new CommandTPS(this));
 		commandManager.register(new CommandExecute(this));
 		commandManager.register(new CommandUnstick(this));
+		commandManager.register(new CommandTime(this));
 		commandManager.register(new CommandPermission(this));
 		commandManager.register(new CommandSetPermission(this));
 	}
