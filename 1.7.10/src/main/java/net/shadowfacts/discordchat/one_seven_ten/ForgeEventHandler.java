@@ -17,7 +17,10 @@ public class ForgeEventHandler {
 
 	@SubscribeEvent
 	public void onServerChat(ServerChatEvent event) {
-		OneSevenTenMod.discordChat.sendMessage(OneSevenTenMod.discordChat.getFormatter().fromMC(event.player.getDisplayName(), event.message));
+		String message = OneSevenTenMod.discordChat.filterMCMessage(event.message);
+		if (message != null) {
+			OneSevenTenMod.discordChat.sendMessage(OneSevenTenMod.discordChat.getFormatter().fromMC(event.player.getDisplayName(), message));
+		}
 	}
 
 	@SubscribeEvent

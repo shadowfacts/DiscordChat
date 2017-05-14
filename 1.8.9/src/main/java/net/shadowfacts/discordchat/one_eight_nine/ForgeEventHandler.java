@@ -18,7 +18,10 @@ public class ForgeEventHandler {
 
 	@SubscribeEvent
 	public void onServerChat(ServerChatEvent event) {
-		OneEightNineMod.discordChat.sendMessage(OneEightNineMod.discordChat.getFormatter().fromMC(event.player.getName(), event.message));
+		String message = OneEightNineMod.discordChat.filterMCMessage(event.message);
+		if (message != null) {
+			OneEightNineMod.discordChat.sendMessage(OneEightNineMod.discordChat.getFormatter().fromMC(event.player.getName(), message));
+		}
 	}
 
 	@SubscribeEvent

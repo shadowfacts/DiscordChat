@@ -225,7 +225,11 @@ public class DiscordChat implements IDiscordChat {
 		if (!running) return;
 
 		if (channels == null) {
-			while (jda == null) {}
+			try {
+				while (jda == null) Thread.sleep(50);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			this.channels = new ArrayList<>();
 			for (String channel : config.getChannels()) {
 				List<TextChannel> channels = jda.getTextChannelsByName(channel, false);
@@ -237,6 +241,35 @@ public class DiscordChat implements IDiscordChat {
 			}
 		}
 		sendMessage(message, channels);
+	}
+
+	@Override
+	public String filterMCMessage(String message) {
+		switch (config.getMCMessageFilterMode()) {
+			case PREFIX:
+				if (!message.startsWith(config.getMCMessageFilter())) {
+					return null;
+				} else {
+					if (config.stripFilterPart()) {
+						return message.substring(config.getMCMessageFilter().length(), message.length());
+					} else {
+						return message;
+					}
+				}
+			case SUFFIX:
+				if (!message.endsWith(config.getMCMessageFilter())) {
+					return null;
+				} else {
+					if (config.stripFilterPart()) {
+						return message.substring(0, message.length() - config.getMCMessageFilter().length());
+					} else {
+						return message;
+					}
+				}
+			default:
+			case NONE:
+				return message;
+		}
 	}
 
 }

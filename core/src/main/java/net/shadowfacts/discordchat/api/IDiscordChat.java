@@ -41,4 +41,6 @@ public interface IDiscordChat {
 
 	void sendMessage(String message);
 
+	String filterMCMessage(String message);
+
 }

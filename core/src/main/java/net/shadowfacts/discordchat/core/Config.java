@@ -84,6 +84,21 @@ public class Config implements IConfig {
 	}
 
 	@Override
+	public FilterMode getMCMessageFilterMode() {
+		return FilterMode.valueOf(config.getString("discordchat.filter.mode").toUpperCase());
+	}
+
+	@Override
+	public String getMCMessageFilter() {
+		return config.getString("discordchat.filter.filter");
+	}
+
+	@Override
+	public boolean stripFilterPart() {
+		return config.getBoolean("discordchat.filter.stripFilter");
+	}
+
+	@Override
 	public boolean sendDeathMessages() {
 		return config.getBoolean("discordchat.relay.deaths");
 	}

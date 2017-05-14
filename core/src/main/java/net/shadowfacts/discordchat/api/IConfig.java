@@ -24,6 +24,12 @@ public interface IConfig {
 
 	Permission getMinimumPermission(String command);
 
+	FilterMode getMCMessageFilterMode();
+
+	String getMCMessageFilter();
+
+	boolean stripFilterPart();
+
 	boolean sendDeathMessages();
 
 	boolean sendAchievementMessages();
@@ -41,5 +47,11 @@ public interface IConfig {
 	String getJoinFormat();
 
 	String getLeaveFormat();
+
+	enum FilterMode {
+		NONE,
+		PREFIX,
+		SUFFIX
+	}
 
 }
