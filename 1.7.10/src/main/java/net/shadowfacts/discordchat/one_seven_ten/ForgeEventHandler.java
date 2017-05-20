@@ -17,7 +17,9 @@ public class ForgeEventHandler {
 
 	@SubscribeEvent
 	public void onServerChat(ServerChatEvent event) {
+		if (!(event.entityLiving instanceof FakePlayer)) {
 		OneSevenTenMod.discordChat.sendMessage(OneSevenTenMod.discordChat.getFormatter().fromMC(event.player.getDisplayName(), event.message));
+		}
 	}
 
 	@SubscribeEvent
