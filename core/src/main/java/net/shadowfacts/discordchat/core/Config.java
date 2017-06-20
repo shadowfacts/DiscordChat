@@ -115,7 +115,7 @@ public class Config implements IConfig {
 
 	@Override
 	public boolean sendServerOnlineOfflineMessages() {
-		return config.getBoolean("discordchat.relay.server.onlineoffline");
+		return config.getBoolean("discordchat.relay.onlineoffline");
 	}
 
 	@Override
