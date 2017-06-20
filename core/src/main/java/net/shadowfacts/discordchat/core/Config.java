@@ -114,6 +114,11 @@ public class Config implements IConfig {
 	}
 
 	@Override
+	public boolean sendServerOnlineOfflineMessages() {
+		return config.getBoolean("discordchat.relay.server.onlineoffline");
+	}
+
+	@Override
 	public String getFromMCFormat() {
 		return config.getString("discordchat.format.fromMC");
 	}

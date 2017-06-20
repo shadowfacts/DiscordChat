@@ -36,6 +36,8 @@ public interface IConfig {
 
 	boolean sendJoinLeaveMessages();
 
+	boolean sendServerOnlineOfflineMessages();
+
 	String getFromMCFormat();
 
 	String getFromDiscordFormat();

@@ -47,12 +47,12 @@ public class OneSevenTenMod {
 	@Mod.EventHandler
 	public void serverStarted(FMLServerStartedEvent event) {
 		discordChat.start();
-		discordChat.sendMessage("Server is online");
+		if (config.sendServerOnlineOfflineMessages()) discordChat.sendMessage("Server is online");
 	}
 
 	@Mod.EventHandler
 	public void serverStopped(FMLServerStoppedEvent event) {
-		discordChat.sendMessage("Server is offline");
+		if (config.sendServerOnlineOfflineMessages()) discordChat.sendMessage("Server is offline");
 		discordChat.stop();
 	}
 
