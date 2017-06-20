@@ -34,6 +34,13 @@ public class OneElevenAdapter implements IMinecraftAdapter {
 	}
 
 	@Override
+	public void sendMessageToPlayer(String message, String player) {
+		MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
+		EntityPlayer mcPlayer = server.getPlayerList().getPlayerByUsername(player);
+		mcPlayer.sendMessage(ForgeHooks.newChatWithLinks(message));
+	}
+
+	@Override
 	public int[] getAllDimensions() {
 		Integer[] boxed = DimensionManager.getIDs();
 		int[] unboxed = new int[boxed.length];

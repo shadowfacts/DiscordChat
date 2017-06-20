@@ -72,6 +72,7 @@ public class DiscordChat implements IDiscordChat {
 		commandManager.register(new CommandExecute(this));
 		commandManager.register(new CommandUnstick(this));
 		commandManager.register(new CommandTime(this));
+		commandManager.register(new CommandTell(this));
 		commandManager.register(new CommandPermission(this));
 		commandManager.register(new CommandSetPermission(this));
 	}

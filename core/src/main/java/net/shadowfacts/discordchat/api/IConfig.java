@@ -40,6 +40,10 @@ public interface IConfig {
 
 	String getFromDiscordFormat();
 
+	String getFromMCPrivateFormat();
+
+	String getFromDiscordPrivateFormat();
+
 	String getDeathFormat();
 
 	String getAchievementFormat();

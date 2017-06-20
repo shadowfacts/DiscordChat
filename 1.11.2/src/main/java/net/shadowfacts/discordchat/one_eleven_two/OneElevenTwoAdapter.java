@@ -1,4 +1,4 @@
-package net.shadowfacts.discordchat.one_eleven;
+package net.shadowfacts.discordchat.one_eleven_two;
 
 import com.mojang.authlib.GameProfile;
 import net.minecraft.entity.player.EntityPlayer;
@@ -7,7 +7,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.storage.IPlayerFileData;
 import net.minecraftforge.common.DimensionManager;
@@ -31,6 +30,13 @@ public class OneElevenTwoAdapter implements IMinecraftAdapter {
 		if (server != null) {
 			server.getPlayerList().sendMessage(ForgeHooks.newChatWithLinks(message));
 		}
+	}
+
+	@Override
+	public void sendMessageToPlayer(String message, String player) {
+		MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
+		EntityPlayer mcPlayer = server.getPlayerList().getPlayerByUsername(player);
+		mcPlayer.sendMessage(ForgeHooks.newChatWithLinks(message));
 	}
 
 	@Override

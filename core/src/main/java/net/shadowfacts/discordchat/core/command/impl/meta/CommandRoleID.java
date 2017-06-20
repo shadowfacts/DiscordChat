@@ -1,7 +1,7 @@
 package net.shadowfacts.discordchat.core.command.impl.meta;
 
+import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.Role;
-import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.shadowfacts.discordchat.api.IConfig;
 import net.shadowfacts.discordchat.api.IDiscordChat;
@@ -35,11 +35,11 @@ public class CommandRoleID implements ICommand {
 	}
 
 	@Override
-	public void execute(String[] args, User sender, TextChannel channel) throws CommandException {
+	public void execute(String[] args, User sender, MessageChannel channel) throws CommandException {
 		String role = String.join(" ", args);
-		List<Role> roles = channel.getGuild().getRolesByName(role, true);
+		List<Role> roles = discordChat.getJDA().getGuildById(config.getServerID()).getRolesByName(role, true);
 		if (roles.isEmpty()) {
-			discordChat.sendMessage("No such role: " + role);
+			discordChat.sendMessage("No such role: " + role, channel);
 		} else {
 			discordChat.sendMessage("ID for role '" + roles.get(0).getName() + "' is " + roles.get(0).getId(), channel);
 		}

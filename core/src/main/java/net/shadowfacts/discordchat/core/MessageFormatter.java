@@ -31,6 +31,20 @@ public class MessageFormatter implements IMessageFormatter {
 	}
 
 	@Override
+	public String fromMCPrivate(String sender, String message) {
+		return config.getFromMCPrivateFormat()
+				.replace("$1", sender)
+				.replace("$2", message);
+	}
+
+	@Override
+	public String fromDiscordPrivate(String sender, String message) {
+		return config.getFromDiscordPrivateFormat()
+				.replace("$1", sender)
+				.replace("$2", message);
+	}
+
+	@Override
 	public String death(String player, String message) {
 		return config.getDeathFormat()
 				.replace("$1", player)

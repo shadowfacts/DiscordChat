@@ -1,7 +1,9 @@
 package net.shadowfacts.discordchat.api;
 
 import net.dv8tion.jda.core.JDA;
+import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageChannel;
+import net.dv8tion.jda.core.entities.PrivateChannel;
 import net.shadowfacts.discordchat.api.command.ICommandManager;
 import net.shadowfacts.discordchat.api.permission.IPermissionManager;
 
@@ -32,6 +34,17 @@ public interface IDiscordChat {
 	void start();
 
 	void stop();
+
+	default boolean sendPrivateMessage(String sender, String message, String user) {
+		List<Member> members = getJDA().getGuildById(getConfig().getServerID()).getMembersByEffectiveName(user, true);
+		if (!members.isEmpty()) {
+			PrivateChannel channel = members.get(0).getUser().getPrivateChannel();
+			sendMessage(getFormatter().fromMCPrivate(sender, message), channel);
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	default void sendMessage(String message, MessageChannel channel) {
 		sendMessage(message, Collections.singletonList(channel));

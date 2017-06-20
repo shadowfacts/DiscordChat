@@ -1,6 +1,6 @@
 package net.shadowfacts.discordchat.core.command.impl.meta;
 
-import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.shadowfacts.discordchat.api.IConfig;
 import net.shadowfacts.discordchat.api.IDiscordChat;
@@ -37,7 +37,7 @@ public class CommandReload implements ICommand {
 	}
 
 	@Override
-	public void execute(String[] args, User sender, TextChannel channel) throws CommandException {
+	public void execute(String[] args, User sender, MessageChannel channel) throws CommandException {
 		try {
 			config.load();
 			permissionManager.load();

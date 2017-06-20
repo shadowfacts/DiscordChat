@@ -1,8 +1,9 @@
 package net.shadowfacts.discordchat.core.command;
 
 import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.User;
+import net.shadowfacts.discordchat.api.IConfig;
 import net.shadowfacts.discordchat.api.IDiscordChat;
 import net.shadowfacts.discordchat.api.command.ICommand;
 import net.shadowfacts.discordchat.api.command.ICommandManager;
@@ -18,11 +19,13 @@ import java.util.*;
 public class CommandManager implements ICommandManager {
 
 	private IDiscordChat discordChat;
+	private IConfig config;
 
 	private Map<String, ICommand> commands = new HashMap<>();
 
 	public CommandManager(IDiscordChat discordChat) {
 		this.discordChat = discordChat;
+		config = discordChat.getConfig();
 	}
 
 	@Override
@@ -46,12 +49,12 @@ public class CommandManager implements ICommandManager {
 	}
 
 	@Override
-	public void execute(String message, User sender, TextChannel channel) {
+	public void execute(String message, User sender, MessageChannel channel) {
 		String[] bits = message.split(" ");
 		try {
 			if (exists(bits[0])) {
 				ICommand command = get(bits[0]);
-				checkPermission(command, sender, channel.getGuild());
+				checkPermission(command, sender, discordChat.getJDA().getGuildById(config.getServerID()));
 				command.execute(Arrays.copyOfRange(bits, 1, bits.length), sender, channel);
 			} else {
 				throw new CommandException("Unknown command: " + bits[0]);

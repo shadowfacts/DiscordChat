@@ -1,6 +1,6 @@
 package net.shadowfacts.discordchat.core.command.impl.permissions;
 
-import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.shadowfacts.discordchat.api.IConfig;
 import net.shadowfacts.discordchat.api.IDiscordChat;
@@ -35,8 +35,8 @@ public class CommandPermission implements ICommand {
 	}
 
 	@Override
-	public void execute(String[] args, User sender, TextChannel channel) throws CommandException {
-		discordChat.sendMessage("Permission level for " + sender.getName() + ": " + permissionManager.get(sender, channel.getGuild()), channel);
+	public void execute(String[] args, User sender, MessageChannel channel) throws CommandException {
+		discordChat.sendMessage("Permission level for " + sender.getName() + ": " + permissionManager.get(sender, discordChat.getJDA().getGuildById(config.getServerID())), channel);
 	}
 
 	@Override

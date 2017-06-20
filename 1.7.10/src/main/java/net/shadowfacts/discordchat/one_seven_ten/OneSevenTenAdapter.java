@@ -33,6 +33,13 @@ public class OneSevenTenAdapter implements IMinecraftAdapter {
 	}
 
 	@Override
+	public void sendMessageToPlayer(String message, String player) {
+		MinecraftServer server = MinecraftServer.getServer();
+		EntityPlayer mcPlayer = server.getConfigurationManager().getPlayerByUsername(player);
+		mcPlayer.addChatMessage(ForgeHooks.newChatWithLinks(message));
+	}
+
+	@Override
 	public int[] getAllDimensions() {
 		Integer[] boxed = DimensionManager.getIDs();
 		int[] unboxed = new int[boxed.length];

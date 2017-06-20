@@ -4,31 +4,31 @@ import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.shadowfacts.discordchat.api.IConfig;
 import net.shadowfacts.discordchat.api.IDiscordChat;
+import net.shadowfacts.discordchat.api.IMessageFormatter;
 import net.shadowfacts.discordchat.api.IMinecraftAdapter;
 import net.shadowfacts.discordchat.api.command.ICommand;
 import net.shadowfacts.discordchat.api.command.exception.CommandException;
 import net.shadowfacts.discordchat.api.permission.Permission;
-
-import java.util.Set;
+import net.shadowfacts.discordchat.core.command.exception.InvalidUsageException;
 
 /**
  * @author shadowfacts
  */
-public class CommandOnline implements ICommand {
+public class CommandTell implements ICommand {
 
-	private IDiscordChat discordChat;
 	private IConfig config;
+	private IMessageFormatter formatter;
 	private IMinecraftAdapter minecraftAdapter;
 
-	public CommandOnline(IDiscordChat discordChat) {
-		this.discordChat = discordChat;
-		this.config = discordChat.getConfig();
-		this.minecraftAdapter = discordChat.getMinecraftAdapter();
+	public CommandTell(IDiscordChat discordChat) {
+		config = discordChat.getConfig();
+		formatter = discordChat.getFormatter();
+		minecraftAdapter = discordChat.getMinecraftAdapter();
 	}
 
 	@Override
 	public String getName() {
-		return "online";
+		return "tell";
 	}
 
 	@Override
@@ -38,20 +38,24 @@ public class CommandOnline implements ICommand {
 
 	@Override
 	public void execute(String[] args, User sender, MessageChannel channel) throws CommandException {
-		Set<String> players = minecraftAdapter.getOnlinePlayers();
-		int count = players.size();
-		String s = count == 1 ? "player" : "players";
-		discordChat.sendMessage(count + " " + s + " online: " + String.join(", ", players), channel);
+		if (args.length < 2) throw new InvalidUsageException(this);
+		String player = args[0];
+		String message = "";
+		for (int i = 1; i < args.length; i++) {
+			message += args[i];
+			if (i != args.length - 1) message += " ";
+		}
+		minecraftAdapter.sendMessageToPlayer(formatter.fromDiscordPrivate(sender.getName(), message), player);
 	}
 
 	@Override
 	public String getDescription() {
-		return "Lists all online players";
+		return "Sends a private message to a player in MC";
 	}
 
 	@Override
 	public String getUsage() {
-		return "";
+		return "<player> <message>";
 	}
 
 }

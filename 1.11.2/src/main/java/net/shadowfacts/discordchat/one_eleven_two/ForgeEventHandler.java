@@ -1,4 +1,4 @@
-package net.shadowfacts.discordchat.one_eleven;
+package net.shadowfacts.discordchat.one_eleven_two;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;

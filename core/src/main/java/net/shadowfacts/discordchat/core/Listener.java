@@ -2,6 +2,7 @@ package net.shadowfacts.discordchat.core;
 
 import com.vdurmont.emoji.EmojiParser;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.core.events.message.priv.PrivateMessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import net.shadowfacts.discordchat.api.IConfig;
 import net.shadowfacts.discordchat.api.IDiscordChat;
@@ -24,6 +25,14 @@ public class Listener extends ListenerAdapter {
 		commandManager = discordChat.getCommandManager();
 		formatter = discordChat.getFormatter();
 		minecraftAdapter = discordChat.getMinecraftAdapter();
+	}
+
+	@Override
+	public void onPrivateMessageReceived(PrivateMessageReceivedEvent event) {
+		String raw = event.getMessage().getRawContent();
+		if (raw.startsWith(config.getCommandPrefix())) {
+			commandManager.execute(raw.substring(config.getCommandPrefix().length()), event.getAuthor(), event.getChannel());
+		}
 	}
 
 	@Override

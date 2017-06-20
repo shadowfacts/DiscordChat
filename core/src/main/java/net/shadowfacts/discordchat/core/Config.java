@@ -124,6 +124,16 @@ public class Config implements IConfig {
 	}
 
 	@Override
+	public String getFromMCPrivateFormat() {
+		return config.getString("discordchat.format.fromMCPrivate");
+	}
+
+	@Override
+	public String getFromDiscordPrivateFormat() {
+		return config.getString("discordchat.format.fromDiscordPrivate");
+	}
+
+	@Override
 	public String getDeathFormat() {
 		return config.getString("discordchat.format.death");
 	}
