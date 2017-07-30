@@ -89,7 +89,7 @@ public class DiscordChat implements IDiscordChat {
 			try {
 				jda = new JDABuilder(AccountType.BOT)
 						.setToken(config.getToken())
-						.addListener(new Listener(this))
+						.addEventListener(new Listener(this))
 						.buildBlocking();
 			} catch (LoginException | IllegalArgumentException e) {
 				throw new RuntimeException("Invalid Discord token. Please verify your token in the DiscordChat config file.", e);
@@ -143,7 +143,7 @@ public class DiscordChat implements IDiscordChat {
 					candidate = sendQueue.take();
 
 				RestAction<Message> result = candidate.send();
-				result.block();
+				result.complete(true);
 				candidate = null; // Upon a successful result, reset the candidate
 			} catch (InterruptedException e) {
 				e.printStackTrace(); // Since we're not explicitly invoking Thread interrupt, this should never occur.

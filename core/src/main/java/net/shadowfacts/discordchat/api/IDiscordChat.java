@@ -38,8 +38,9 @@ public interface IDiscordChat {
 	default boolean sendPrivateMessage(String sender, String message, String user) {
 		List<Member> members = getJDA().getGuildById(getConfig().getServerID()).getMembersByEffectiveName(user, true);
 		if (!members.isEmpty()) {
-			PrivateChannel channel = members.get(0).getUser().getPrivateChannel();
-			sendMessage(getFormatter().fromMCPrivate(sender, message), channel);
+			members.get(0).getUser().openPrivateChannel().queue(channel -> {
+				sendMessage(getFormatter().fromMCPrivate(sender, message), channel);
+			});
 			return true;
 		} else {
 			return false;
