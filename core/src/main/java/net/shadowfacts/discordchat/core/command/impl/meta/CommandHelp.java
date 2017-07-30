@@ -10,6 +10,8 @@ import net.shadowfacts.discordchat.api.command.exception.CommandException;
 import net.shadowfacts.discordchat.api.permission.Permission;
 import net.shadowfacts.discordchat.core.command.exception.InvalidUsageException;
 
+import java.util.List;
+
 /**
  * @author shadowfacts
  */
@@ -41,10 +43,9 @@ public class CommandHelp implements ICommand {
 			throw new InvalidUsageException(this);
 		}
 		if (commandManager.exists(args[0])) {
-			commandManager.get(args[0]).handleHelp(author, channel)
-					.forEach(msg -> {
-						discordChat.sendMessage(msg, channel);
-					});
+			List<String> lines = commandManager.get(args[0]).handleHelp(author, channel);
+			String msg = String.join("\n", lines);
+			discordChat.sendMessage(msg, channel);
 		} else {
 			throw new CommandException("No such command: " + args[0]);
 		}

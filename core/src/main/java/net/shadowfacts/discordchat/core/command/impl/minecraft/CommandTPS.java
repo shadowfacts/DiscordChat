@@ -8,6 +8,10 @@ import net.shadowfacts.discordchat.api.IMinecraftAdapter;
 import net.shadowfacts.discordchat.api.command.ICommand;
 import net.shadowfacts.discordchat.api.command.exception.CommandException;
 import net.shadowfacts.discordchat.api.permission.Permission;
+import net.shadowfacts.discordchat.core.DiscordChat;
+
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
  * @author shadowfacts
@@ -37,11 +41,13 @@ public class CommandTPS implements ICommand {
 	@Override
 	public void execute(String[] args, User sender, MessageChannel channel) throws CommandException {
 		if (args.length == 0) {
+			StringBuilder message = new StringBuilder();
 			for (int dim : minecraftAdapter.getAllDimensions()) {
 				double tickTime = minecraftAdapter.getTickTime(dim);
 				double tps = Math.min(1000 / tickTime, 20);
-				discordChat.sendMessage(String.format("Dimension %d: Tick time: %.3fms TPS: %.0f", dim, tickTime, tps), channel);
+				message.append(String.format("Dimension %d: Tick time: %.3fms TPS: %.0f\n", dim, tickTime, tps));
 			}
+			discordChat.sendMessage(message.toString(), channel);
 		} else {
 			int dim;
 			try {

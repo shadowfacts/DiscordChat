@@ -10,6 +10,7 @@ import net.shadowfacts.discordchat.api.permission.IPermissionManager;
 import net.shadowfacts.discordchat.api.command.exception.CommandException;
 import net.shadowfacts.discordchat.api.permission.Permission;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -42,7 +43,7 @@ public class CommandCommands implements ICommand {
 	@Override
 	public void execute(String[] args, User author, MessageChannel channel) throws CommandException {
 		discordChat.sendMessage("Commands (you have permission for **bolded** ones): ", channel);
-		discordChat.sendMessage(String.join(", ", commandManager.getCommands().stream()
+		List<String> commands = commandManager.getCommands().stream()
 				.map(cmd -> {
 					Permission min = cmd.getMinimumPermission();
 					if (permissionManager.has(author, discordChat.getJDA().getGuildById(config.getServerID()), min)) {
@@ -51,7 +52,9 @@ public class CommandCommands implements ICommand {
 						return cmd.getName();
 					}
 				})
-				.collect(Collectors.toList())), channel);
+				.collect(Collectors.toList());
+		String msg = String.join(", ", commands);
+		discordChat.sendMessage(msg, channel);
 	}
 
 	@Override

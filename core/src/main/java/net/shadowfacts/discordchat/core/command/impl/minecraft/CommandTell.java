@@ -40,11 +40,7 @@ public class CommandTell implements ICommand {
 	public void execute(String[] args, User sender, MessageChannel channel) throws CommandException {
 		if (args.length < 2) throw new InvalidUsageException(this);
 		String player = args[0];
-		String message = "";
-		for (int i = 1; i < args.length; i++) {
-			message += args[i];
-			if (i != args.length - 1) message += " ";
-		}
+		String message = String.join(" ", args);
 		minecraftAdapter.sendMessageToPlayer(formatter.fromDiscordPrivate(sender.getName(), message), player);
 	}
 
