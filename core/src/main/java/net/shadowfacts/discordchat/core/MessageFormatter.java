@@ -23,11 +23,12 @@ public class MessageFormatter implements IMessageFormatter {
 	}
 
 	@Override
-	public String fromDiscord(String channel, String sender, String message) {
+	public String fromDiscord(String channel, String senderColor, String sender, String message) {
 		return config.getFromDiscordFormat()
 				.replace("$1", channel)
 				.replace("$2", sender)
-				.replace("$3", message);
+				.replace("$3", message)
+				.replace("$4", senderColor);
 	}
 
 	@Override

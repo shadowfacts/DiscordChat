@@ -9,6 +9,9 @@ import net.shadowfacts.discordchat.api.IDiscordChat;
 import net.shadowfacts.discordchat.api.IMessageFormatter;
 import net.shadowfacts.discordchat.api.IMinecraftAdapter;
 import net.shadowfacts.discordchat.api.command.ICommandManager;
+import net.shadowfacts.discordchat.core.util.NearestMCColor;
+
+import java.awt.*;
 
 /**
  * @author shadowfacts
@@ -46,9 +49,10 @@ public class Listener extends ListenerAdapter {
 			commandManager.execute(raw.substring(config.getCommandPrefix().length()), event.getAuthor(), event.getChannel());
 		} else {
 			String channel = event.getChannel().getName();
+			String color = NearestMCColor.get(event.getMember().getColor().getRGB());
 			String author = event.getMember().getEffectiveName().replaceAll("\\.", "_");
 			String message = EmojiParser.parseToAliases(event.getMessage().getContent());
-			minecraftAdapter.sendMessage(formatter.fromDiscord(channel, author, message));
+			minecraftAdapter.sendMessage(formatter.fromDiscord(channel, color, author, message));
 			event.getMessage().getAttachments().forEach(it -> {
 				minecraftAdapter.sendMessage("Attachment: " + it.getUrl());
 			});

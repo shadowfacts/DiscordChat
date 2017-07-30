@@ -7,7 +7,7 @@ public interface IMessageFormatter {
 
 	String fromMC(String sender, String message);
 
-	String fromDiscord(String channel, String sender, String message);
+	String fromDiscord(String channel, String senderColor, String sender, String message);
 
 	String fromMCPrivate(String sender, String message);
 
