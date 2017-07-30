@@ -53,7 +53,7 @@ public class CommandSetPermission implements ICommand {
 		String role = String.join(" ", Arrays.copyOfRange(args, 0, args.length - 1));
 		List<Role> roles = discordChat.getJDA().getGuildById(config.getServerID()).getRolesByName(role, true);
 		if (roles.isEmpty()) {
-			discordChat.sendMessage("No such role: " + role, channel);
+			sendResponse("No such role: " + role, channel, discordChat);
 			return;
 		}
 
@@ -61,7 +61,7 @@ public class CommandSetPermission implements ICommand {
 
 		try {
 			permissionManager.save();
-			discordChat.sendMessage("Permissions updated");
+			sendResponse("Permissions updated", channel, discordChat);
 		} catch (IOException e) {
 			logger.error(e, "Unable to save permissions");
 		}

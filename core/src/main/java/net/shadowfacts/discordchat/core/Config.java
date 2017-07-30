@@ -158,4 +158,9 @@ public class Config implements IConfig {
 		return config.getString("discordchat.format.leave");
 	}
 
+	@Override
+	public String getCommandFormat() {
+		return config.getString("discordchat.format.command");
+	}
+
 }

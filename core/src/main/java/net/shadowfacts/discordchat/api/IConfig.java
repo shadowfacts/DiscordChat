@@ -54,6 +54,8 @@ public interface IConfig {
 
 	String getLeaveFormat();
 
+	String getCommandFormat();
+
 	enum FilterMode {
 		NONE,
 		PREFIX,

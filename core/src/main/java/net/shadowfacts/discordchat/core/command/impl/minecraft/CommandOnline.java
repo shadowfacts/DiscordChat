@@ -41,7 +41,7 @@ public class CommandOnline implements ICommand {
 		Set<String> players = minecraftAdapter.getOnlinePlayers();
 		int count = players.size();
 		String s = count == 1 ? "player" : "players";
-		discordChat.sendMessage(count + " " + s + " online: " + String.join(", ", players), channel);
+		sendResponse(count + " " + s + " online: " + String.join(", ", players), channel, discordChat);
 	}
 
 	@Override

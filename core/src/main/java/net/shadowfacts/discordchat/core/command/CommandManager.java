@@ -60,7 +60,7 @@ public class CommandManager implements ICommandManager {
 				throw new CommandException("Unknown command: " + bits[0]);
 			}
 		} catch (CommandException e) {
-			channel.sendMessage("Error executing command: " + e.getLocalizedMessage());
+			discordChat.sendMessage(discordChat.getFormatter().command("Error executing command: " + e.getLocalizedMessage()), channel);
 		}
 	}
 

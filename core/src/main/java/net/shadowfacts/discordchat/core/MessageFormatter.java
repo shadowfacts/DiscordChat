@@ -70,4 +70,9 @@ public class MessageFormatter implements IMessageFormatter {
 				.replace("$1", player);
 	}
 
+	@Override
+	public String command(String message) {
+		return config.getCommandFormat()
+				.replace("$1", message);
+	}
 }

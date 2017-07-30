@@ -45,7 +45,7 @@ public class CommandHelp implements ICommand {
 		if (commandManager.exists(args[0])) {
 			List<String> lines = commandManager.get(args[0]).handleHelp(author, channel);
 			String msg = String.join("\n", lines);
-			discordChat.sendMessage(msg, channel);
+			sendResponse(msg, channel, discordChat);
 		} else {
 			throw new CommandException("No such command: " + args[0]);
 		}

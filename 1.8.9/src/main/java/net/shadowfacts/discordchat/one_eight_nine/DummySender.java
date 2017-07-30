@@ -29,7 +29,7 @@ public class DummySender implements ICommandSender {
 
 	@Override
 	public void addChatMessage(IChatComponent component) {
-		OneEightNineMod.discordChat.sendMessage(component.getUnformattedText());
+		OneEightNineMod.discordChat.sendMessage(OneEightNineMod.discordChat.getFormatter().command(component.getUnformattedText()));
 	}
 
 	@Override

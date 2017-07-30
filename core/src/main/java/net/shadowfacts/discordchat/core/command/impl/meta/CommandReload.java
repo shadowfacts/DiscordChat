@@ -41,7 +41,7 @@ public class CommandReload implements ICommand {
 		try {
 			config.load();
 			permissionManager.load();
-			discordChat.sendMessage("Configuration and permissions reloaded", channel);
+			sendResponse("Configuration and permissions reloaded", channel, discordChat);
 		} catch (IOException e) {
 			throw new CommandException(e);
 		}

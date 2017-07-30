@@ -138,7 +138,7 @@ public class DiscordChat implements IDiscordChat {
 
 				RestAction<Message> result = candidate.send();
 				result.block();
-				candidate = null; // Upon a succesful result, reset the candidate
+				candidate = null; // Upon a successful result, reset the candidate
 			} catch (InterruptedException e) {
 				e.printStackTrace(); // Since we're not explicitly invoking Thread interrupt, this should never occur.
 			} catch (RateLimitedException e) {

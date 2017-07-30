@@ -32,7 +32,7 @@ public class DummySender implements ICommandSender {
 
 	@Override
 	public void sendMessage(ITextComponent component) {
-		OneTwelveMod.discordChat.sendMessage(component.getUnformattedText());
+		OneTwelveMod.discordChat.sendMessage(OneTwelveMod.discordChat.getFormatter().command(component.getUnformattedText()));
 	}
 
 	@Override

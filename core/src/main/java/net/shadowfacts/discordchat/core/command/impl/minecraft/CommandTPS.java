@@ -47,7 +47,7 @@ public class CommandTPS implements ICommand {
 				double tps = Math.min(1000 / tickTime, 20);
 				message.append(String.format("Dimension %d: Tick time: %.3fms TPS: %.0f\n", dim, tickTime, tps));
 			}
-			discordChat.sendMessage(message.toString(), channel);
+			sendResponse(message.toString(), channel, discordChat);
 		} else {
 			int dim;
 			try {
@@ -57,7 +57,7 @@ public class CommandTPS implements ICommand {
 			}
 			double tickTime = minecraftAdapter.getTickTime(dim);
 			double tps = Math.min(tickTime / 1000, 20);
-			discordChat.sendMessage(String.format("Dimension %d: Tick time: %.3fms TPS: %.0f", dim, tickTime, tps), channel);
+			sendResponse(String.format("Dimension %d: Tick time: %.3fms TPS: %.0f", dim, tickTime, tps), channel, discordChat);
 		}
 	}
 

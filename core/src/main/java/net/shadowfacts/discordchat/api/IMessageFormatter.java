@@ -21,4 +21,6 @@ public interface IMessageFormatter {
 
 	String leave(String player);
 
+	String command(String message);
+
 }
