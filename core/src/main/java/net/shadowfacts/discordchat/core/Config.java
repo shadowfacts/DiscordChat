@@ -9,6 +9,7 @@ import net.shadowfacts.discordchat.api.permission.Permission;
 import net.shadowfacts.shadowlib.util.IOUtils;
 
 import java.io.*;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -60,17 +61,49 @@ public class Config implements IConfig {
 
 	@Override
 	public String getToken() {
-		return config.getString("discordchat.discord.token");
+		String conf = config.getString("discordchat.discord.token");
+		if (conf.isEmpty()) {
+			String prop = System.getProperty("discordchat.token");
+			if (prop == null) {
+				return System.getenv("DISCORDCHAT_TOKEN");
+			} else {
+				return prop;
+			}
+		} else {
+			return conf;
+		}
 	}
 
 	@Override
 	public String getServerID() {
-		return config.getString("discordchat.discord.server");
+		String conf = config.getString("discordchat.discord.server");
+		if (conf.isEmpty()) {
+			String prop = System.getProperty("discordchat.server");
+			if (prop == null) {
+				return System.getenv("DISCORDCHAT_SERVER");
+			} else {
+				return prop;
+			}
+		} else {
+			return conf;
+		}
 	}
 
 	@Override
 	public List<String> getChannels() {
-		return config.getStringList("discordchat.discord.channels");
+		List<String> conf = config.getStringList("discordchat.discord.channels");
+		if (conf.isEmpty() || conf.get(0).isEmpty()) {
+			String prop = System.getProperty("discordchat.channels");
+			String channels;
+			if (prop == null) {
+				channels = System.getenv("DISCORDCHAT_CHANNELS");
+			} else {
+				channels = prop;
+			}
+			return Arrays.asList(channels.split(","));
+		} else {
+			return conf;
+		}
 	}
 
 	@Override
