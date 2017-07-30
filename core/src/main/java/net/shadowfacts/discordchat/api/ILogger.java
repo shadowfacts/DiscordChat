@@ -13,6 +13,8 @@ public interface ILogger {
 
 	void warn(Throwable t, String msg, Object... args);
 
+	void bigWarning(String msg);
+
 	void error(String msg, Object... args);
 
 	void error(Throwable t, String msg, Object... args);

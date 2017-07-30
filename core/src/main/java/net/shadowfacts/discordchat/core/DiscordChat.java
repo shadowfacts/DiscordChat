@@ -79,6 +79,12 @@ public class DiscordChat implements IDiscordChat {
 
 	@Override
 	public void connect() {
+		String token = config.getToken();
+		if (token == null || token.isEmpty()) {
+			logger.bigWarning("No token provided, DiscordChat automatically disabled.");
+			return;
+		}
+
 		new Thread(() -> {
 			try {
 				jda = new JDABuilder(AccountType.BOT)
