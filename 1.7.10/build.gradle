@@ -71,7 +71,7 @@ configurations {
 repositories {
 	maven {
 		name "shadowfacts"
-		url "http://mvn.rx14.co.uk/shadowfacts/"
+		url "http://maven.shadowfacts.net/"
 	}
 	flatDir {
 		dirs "../core/libs"
