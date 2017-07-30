@@ -235,9 +235,10 @@ public class DiscordChat implements IDiscordChat {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			this.channels = new ArrayList<>();
+			Guild guild = jda.getGuildById(config.getServerID());
+			channels = new ArrayList<>();
 			for (String channel : config.getChannels()) {
-				List<TextChannel> channels = jda.getTextChannelsByName(channel, false);
+				List<TextChannel> channels = guild.getTextChannelsByName(channel, false);
 				if (channels.size() < 1) {
 					throw new RuntimeException("No such channel: " + channel);
 				} else {
