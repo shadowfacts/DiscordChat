@@ -9,6 +9,7 @@ import net.shadowfacts.discordchat.api.permission.Permission;
 import net.shadowfacts.shadowlib.util.IOUtils;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -51,7 +52,7 @@ public class Config implements IConfig {
 
 		ConfigObject toRender = config.root().withOnlyKey("discordchat");
 		String s = toRender.render(ConfigRenderOptions.defaults().setOriginComments(false).setJson(false));
-		InputStream in = new ByteArrayInputStream(s.getBytes());
+		InputStream in = new ByteArrayInputStream(s.getBytes(Charset.forName("UTF-8")));
 		OutputStream out = new FileOutputStream(file);
 		IOUtils.copy(in, out);
 		in.close();
