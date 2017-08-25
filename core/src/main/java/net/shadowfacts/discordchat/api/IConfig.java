@@ -38,6 +38,8 @@ public interface IConfig {
 
 	boolean sendServerOnlineOfflineMessages();
 
+	String getDefaultColor();
+
 	String getFromMCFormat();
 
 	String getFromDiscordFormat();
