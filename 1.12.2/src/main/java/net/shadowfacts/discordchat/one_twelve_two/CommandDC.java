@@ -1,4 +1,4 @@
-package net.shadowfacts.discordchat.one_twelve;
+package net.shadowfacts.discordchat.one_twelve_two;
 
 import com.google.common.collect.ImmutableList;
 import net.dv8tion.jda.core.entities.Role;

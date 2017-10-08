@@ -1,4 +1,4 @@
-package net.shadowfacts.discordchat.one_twelve;
+package net.shadowfacts.discordchat.one_twelve_two;
 
 import net.minecraft.command.CommandResultStats;
 import net.minecraft.command.ICommandSender;
@@ -32,7 +32,7 @@ public class DummySender implements ICommandSender {
 
 	@Override
 	public void sendMessage(ITextComponent component) {
-		OneTwelveMod.discordChat.sendMessage(OneTwelveMod.discordChat.getFormatter().command(component.getUnformattedText()));
+		OneTwelveTwoMod.discordChat.sendMessage(OneTwelveTwoMod.discordChat.getFormatter().command(component.getUnformattedText()));
 	}
 
 	@Override

@@ -30,7 +30,7 @@ minecraft {
 
 	mappings = mcp_mappings
 
-	replaceIn "OneTwelveMod.java"
+	replaceIn "OneTwelveTwoMod.java"
 	replace "@VERSION@", mod_version
 }
 

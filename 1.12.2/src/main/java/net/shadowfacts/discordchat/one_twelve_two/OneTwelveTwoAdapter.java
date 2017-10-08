@@ -1,4 +1,4 @@
-package net.shadowfacts.discordchat.one_twelve;
+package net.shadowfacts.discordchat.one_twelve_two;
 
 import com.mojang.authlib.GameProfile;
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 /**
  * @author shadowfacts
  */
-public class OneTwelveAdapter implements IMinecraftAdapter {
+public class OneTwelveTwoAdapter implements IMinecraftAdapter {
 
 	@Override
 	public void sendMessage(String message) {

@@ -1,4 +1,4 @@
-package net.shadowfacts.discordchat.one_twelve;
+package net.shadowfacts.discordchat.one_twelve_two;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.world.Teleporter;

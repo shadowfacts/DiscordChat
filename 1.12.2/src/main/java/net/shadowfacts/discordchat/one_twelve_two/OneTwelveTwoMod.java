@@ -1,4 +1,4 @@
-package net.shadowfacts.discordchat.one_twelve;
+package net.shadowfacts.discordchat.one_twelve_two;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -17,14 +17,14 @@ import java.io.IOException;
 /**
  * @author shadowfacts
  */
-@Mod(modid = OneTwelveMod.MOD_ID, name = OneTwelveMod.NAME, version = OneTwelveMod.VERSION, acceptableRemoteVersions = "*")
-public class OneTwelveMod {
+@Mod(modid = OneTwelveTwoMod.MOD_ID, name = OneTwelveTwoMod.NAME, version = OneTwelveTwoMod.VERSION, acceptableRemoteVersions = "*")
+public class OneTwelveTwoMod {
 
 	public static final String MOD_ID = "discordchat";
 	public static final String NAME = "Discord Chat";
 	public static final String VERSION = "@VERSION@";
 
-	public static IMinecraftAdapter minecraftAdapter = new OneTwelveAdapter();
+	public static IMinecraftAdapter minecraftAdapter = new OneTwelveTwoAdapter();
 	public static IConfig config;
 	public static IDiscordChat discordChat;
 
