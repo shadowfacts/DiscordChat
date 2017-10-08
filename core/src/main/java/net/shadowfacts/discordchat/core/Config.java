@@ -29,7 +29,7 @@ public class Config implements IConfig {
 
 	@Override
 	public void load() throws IOException {
-		config = ConfigFactory.parseFile(file).withFallback(ConfigFactory.load("assets/discordchat/default.conf"));
+		config = ConfigFactory.load().withFallback(ConfigFactory.parseFile(file)).withFallback(ConfigFactory.load("assets/discordchat/default.conf"));
 
 		// Migration handler
 		if (config.hasPath("discordchat.discord.channel")) {
@@ -62,49 +62,17 @@ public class Config implements IConfig {
 
 	@Override
 	public String getToken() {
-		String conf = config.getString("discordchat.discord.token");
-		if (conf.isEmpty()) {
-			String prop = System.getProperty("discordchat.token");
-			if (prop == null) {
-				return System.getenv("DISCORDCHAT_TOKEN");
-			} else {
-				return prop;
-			}
-		} else {
-			return conf;
-		}
+		return config.getString("discordchat.discord.token");
 	}
 
 	@Override
 	public String getServerID() {
-		String conf = config.getString("discordchat.discord.server");
-		if (conf.isEmpty()) {
-			String prop = System.getProperty("discordchat.server");
-			if (prop == null) {
-				return System.getenv("DISCORDCHAT_SERVER");
-			} else {
-				return prop;
-			}
-		} else {
-			return conf;
-		}
+		return config.getString("discordchat.discord.server");
 	}
 
 	@Override
 	public List<String> getChannels() {
-		List<String> conf = config.getStringList("discordchat.discord.channels");
-		if (conf.isEmpty() || conf.get(0).isEmpty()) {
-			String prop = System.getProperty("discordchat.channels");
-			String channels;
-			if (prop == null) {
-				channels = System.getenv("DISCORDCHAT_CHANNELS");
-			} else {
-				channels = prop;
-			}
-			return Arrays.asList(channels.split(","));
-		} else {
-			return conf;
-		}
+		return config.getStringList("discordchat.discord.channels");
 	}
 
 	@Override
