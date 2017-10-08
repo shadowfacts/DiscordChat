@@ -27,7 +27,7 @@ public class DummySender implements ICommandSender {
 
 	@Override
 	public void addChatMessage(IChatComponent component) {
-		OneSevenTenMod.discordChat.sendMessage(OneSevenTenMod.discordChat.getFormatter().command(component.getUnformattedText()));
+		OneSevenTenMod.discordChat.sendMessage(OneSevenTenMod.discordChat.getFormatter().command("```" + component.getUnformattedText() + "```"));
 	}
 
 	@Override
