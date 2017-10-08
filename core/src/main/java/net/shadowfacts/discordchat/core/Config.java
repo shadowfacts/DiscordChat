@@ -153,6 +153,11 @@ public class Config implements IConfig {
 	}
 
 	@Override
+	public String getDefaultColor() {
+		return config.getString("discordchat.format.defaultColor");
+	}
+
+	@Override
 	public String getFromMCFormat() {
 		return config.getString("discordchat.format.fromMC");
 	}

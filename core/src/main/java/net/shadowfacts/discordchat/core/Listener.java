@@ -49,7 +49,7 @@ public class Listener extends ListenerAdapter {
 			commandManager.execute(raw.substring(config.getCommandPrefix().length()), event.getAuthor(), event.getChannel());
 		} else {
 			String channel = event.getChannel().getName();
-			String color = NearestMCColor.get(event.getMember().getColor().getRGB());
+			String color = event.getMember().getColor() == null ? config.getDefaultColor() : NearestMCColor.get(event.getMember().getColor().getRGB());
 			String author = event.getMember().getEffectiveName().replaceAll("\\.", "_");
 			String message = EmojiParser.parseToAliases(event.getMessage().getContent());
 			minecraftAdapter.sendMessage(formatter.fromDiscord(channel, color, author, message));
