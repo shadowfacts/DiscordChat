@@ -1,9 +1,6 @@
 package net.shadowfacts.discordchat.core;
 
-import com.typesafe.config.ConfigFactory;
-import com.typesafe.config.ConfigObject;
-import com.typesafe.config.ConfigRenderOptions;
-import com.typesafe.config.ConfigValueFactory;
+import com.typesafe.config.*;
 import net.shadowfacts.discordchat.api.IConfig;
 import net.shadowfacts.discordchat.api.permission.Permission;
 import net.shadowfacts.shadowlib.util.IOUtils;
@@ -66,13 +63,17 @@ public class Config implements IConfig {
 	}
 
 	@Override
-	public String getServerID() {
-		return config.getString("discordchat.discord.server");
+	public Long getServerID() {
+		return config.getLong("discordchat.discord.server");
 	}
 
 	@Override
-	public List<String> getChannels() {
-		return config.getStringList("discordchat.discord.channels");
+	public List<Long> getChannelIDs() {
+		try {
+			return config.getLongList("discordchat.discord.channels");
+		} catch (ConfigException.WrongType e) {
+			throw new RuntimeException("Unable to get channel IDs, update the config to use numeric channel IDs.", e);
+		}
 	}
 
 	@Override

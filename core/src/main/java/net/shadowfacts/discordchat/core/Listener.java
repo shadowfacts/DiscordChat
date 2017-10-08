@@ -41,8 +41,8 @@ public class Listener extends ListenerAdapter {
 	@Override
 	public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
 		if (event.getAuthor().equals(event.getJDA().getSelfUser())) return;
-		if (!event.getGuild().getId().equals(config.getServerID())) return;
-		if (!config.getChannels().contains(event.getChannel().getName())) return;
+		if (event.getGuild().getIdLong() != config.getServerID()) return;
+		if (!config.getChannelIDs().contains(event.getChannel().getIdLong())) return;
 
 		String raw = event.getMessage().getRawContent();
 		if (raw.startsWith(config.getCommandPrefix())) {

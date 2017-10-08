@@ -16,9 +16,9 @@ public interface IConfig {
 
 	String getToken();
 
-	String getServerID();
+	Long getServerID();
 
-	List<String> getChannels();
+	List<Long> getChannelIDs();
 
 	String getCommandPrefix();
 

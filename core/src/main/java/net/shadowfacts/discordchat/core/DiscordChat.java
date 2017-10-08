@@ -102,10 +102,13 @@ public class DiscordChat implements IDiscordChat {
 			if (guild == null) {
 				throw new RuntimeException("Invalid server ID");
 			}
-			for (String channel : config.getChannels()) {
-				List<TextChannel> channels = guild.getTextChannelsByName(channel, true);
-				if (channels.isEmpty()) {
-					throw new RuntimeException("Invalid channel ID: " + channel);
+			if (config.getChannelIDs().isEmpty()) {
+				throw new RuntimeException("No channel IDs");
+			} else {
+				for (long channelID : config.getChannelIDs()) {
+					if (guild.getTextChannelById(channelID) == null) {
+						throw new RuntimeException("Invalid channel ID: " + channelID);
+					}
 				}
 			}
 		}, "DiscordChat-initializer").start();
@@ -237,13 +240,8 @@ public class DiscordChat implements IDiscordChat {
 			}
 			Guild guild = jda.getGuildById(config.getServerID());
 			channels = new ArrayList<>();
-			for (String channel : config.getChannels()) {
-				List<TextChannel> channels = guild.getTextChannelsByName(channel, false);
-				if (channels.size() < 1) {
-					throw new RuntimeException("No such channel: " + channel);
-				} else {
-					this.channels.addAll(channels);
-				}
+			for (long channelID : config.getChannelIDs()) {
+				channels.add(guild.getTextChannelById(channelID));
 			}
 		}
 		sendMessage(message, channels);
