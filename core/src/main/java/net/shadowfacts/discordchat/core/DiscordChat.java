@@ -159,6 +159,8 @@ public class DiscordChat implements IDiscordChat {
 				}
 			} catch (ErrorResponseException e) {
 				logger.error(e, "Error sending message to Discord: " + e.getErrorResponse().getCode() + " (" + e.getErrorResponse().getMeaning() + ")");
+			} catch (InsufficientPermissionException e) {
+				logger.error(e, "Error sending message to Discord: " + e.getMessage());
 			}
 		}
 	}
